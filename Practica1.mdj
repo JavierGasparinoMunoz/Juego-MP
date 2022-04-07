@@ -7625,6 +7625,144 @@
 							"propertyLabel": {
 								"$ref": "AAAAAAGABQ0WrSe7DGw="
 							}
+						},
+						{
+							"_type": "UMLTextView",
+							"_id": "AAAAAAGABStrxqtcG2Q=",
+							"_parent": {
+								"$ref": "AAAAAAFF+qBtyKM79qY="
+							},
+							"font": "Arial;13;0",
+							"left": 824,
+							"top": 472,
+							"width": 112,
+							"height": 56
+						},
+						{
+							"_type": "UMLTextView",
+							"_id": "AAAAAAGABTA6X6wHPM4=",
+							"_parent": {
+								"$ref": "AAAAAAFF+qBtyKM79qY="
+							},
+							"font": "Arial;13;0",
+							"left": 1296,
+							"top": 968,
+							"width": 80,
+							"height": 116,
+							"text": "operador no juega, distinguir clase jugador, y tener usuario abstracta"
+						},
+						{
+							"_type": "UMLTextView",
+							"_id": "AAAAAAGABTFBWKxfxes=",
+							"_parent": {
+								"$ref": "AAAAAAFF+qBtyKM79qY="
+							},
+							"font": "Arial;13;0",
+							"left": 168,
+							"top": 1104,
+							"width": 96,
+							"height": 64,
+							"text": "clase solo de hablar con el usuario"
+						},
+						{
+							"_type": "UMLTextView",
+							"_id": "AAAAAAGABTL+Gay3YkY=",
+							"_parent": {
+								"$ref": "AAAAAAFF+qBtyKM79qY="
+							},
+							"font": "Arial;13;0",
+							"left": 312,
+							"top": 1136,
+							"width": 77.9326171875,
+							"height": 51,
+							"text": "patrón observador, factory"
+						},
+						{
+							"_type": "UMLTextView",
+							"_id": "AAAAAAGABTTzy6+vJr0=",
+							"_parent": {
+								"$ref": "AAAAAAFF+qBtyKM79qY="
+							},
+							"font": "Arial;13;0",
+							"left": 600,
+							"top": 1200,
+							"width": 208,
+							"height": 25,
+							"text": "clase desafio por separado"
+						},
+						{
+							"_type": "UMLTextView",
+							"_id": "AAAAAAGABTa+hbAHhW8=",
+							"_parent": {
+								"$ref": "AAAAAAFF+qBtyKM79qY="
+							},
+							"font": "Arial;13;0",
+							"left": 832,
+							"top": 1168,
+							"width": 77.1962890625,
+							"height": 194,
+							"text": "combatir sería mejor un método, también podriamos usar una clase log/registro de combate, con informacion por ronda"
+						},
+						{
+							"_type": "UMLTextView",
+							"_id": "AAAAAAGABTf3P7Bf/d8=",
+							"_parent": {
+								"$ref": "AAAAAAFF+qBtyKM79qY="
+							},
+							"font": "Arial;13;0",
+							"left": 864,
+							"top": 1176,
+							"width": 60,
+							"height": 15
+						},
+						{
+							"_type": "UMLTextView",
+							"_id": "AAAAAAGABTf7ALCMBzc=",
+							"_parent": {
+								"$ref": "AAAAAAFF+qBtyKM79qY="
+							},
+							"font": "Arial;13;0",
+							"left": 856,
+							"top": 1192,
+							"width": 60,
+							"height": 15
+						},
+						{
+							"_type": "UMLTextView",
+							"_id": "AAAAAAGABTf+7rC5ack=",
+							"_parent": {
+								"$ref": "AAAAAAFF+qBtyKM79qY="
+							},
+							"font": "Arial;13;0",
+							"left": 792,
+							"top": 1160,
+							"width": 60,
+							"height": 15
+						},
+						{
+							"_type": "UMLTextView",
+							"_id": "AAAAAAGABTgB57DmMEM=",
+							"_parent": {
+								"$ref": "AAAAAAFF+qBtyKM79qY="
+							},
+							"font": "Arial;13;0",
+							"left": 848,
+							"top": 1216,
+							"width": 60,
+							"height": 15
+						},
+						{
+							"_type": "UMLTextView",
+							"_id": "AAAAAAGABTmigbJ5Xp8=",
+							"_parent": {
+								"$ref": "AAAAAAFF+qBtyKM79qY="
+							},
+							"font": "Arial;13;0",
+							"left": 200,
+							"top": 1248,
+							"width": 128,
+							"height": 38,
+							"text": "observer para notificaciones"
 						}
 					]
 				},
