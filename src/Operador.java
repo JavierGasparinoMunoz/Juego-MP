@@ -1,2 +1,3 @@
-public class Operador {
+public class Operador extends Usuario{
+
 }
