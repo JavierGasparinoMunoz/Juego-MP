@@ -1,0 +1,2 @@
+public class Arma {
+}
