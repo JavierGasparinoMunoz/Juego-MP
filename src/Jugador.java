@@ -1,30 +1,7 @@
-public class Operador extends Usuario{
+public class Jugador extends Usuario{
 
-    public void editarPersonaje(){
-    }
-
-    public void añadirFortalezas(){
-    }
-
-    public void añadirDebilidades(){
-    }
-
-    public void añadirEsbirros(){
-    }
-
-    public void validarDesafios(){
-    }
-
-    public void gestionarModificadores(){
-    }
-
-    public void banearUsuario(String u){
-    }
-
-    public void desbanearUsuario(String u){
-    }
-
-    public void comprobarDesafio(){
+    public Jugador(String nombre, String nick, String password, String numReistro) {
+        super(nombre, nick, password, numReistro);
     }
 
     @Override
