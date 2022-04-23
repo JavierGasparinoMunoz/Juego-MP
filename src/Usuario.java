@@ -1,6 +1,7 @@
 import java.io.Serializable;
+import java.util.Scanner;
 
-public abstract class Usuario implements Serializable {
+public class Usuario implements Serializable {
     private String nombre;
     private String nick;
     private String password;
@@ -9,11 +10,18 @@ public abstract class Usuario implements Serializable {
     public Usuario(){
     }
 
-    public Usuario(String nombre, String nick, String password, String numReistro) {
+    public Usuario(String nombre, String nick, String password) {
         this.nombre = nombre;
         this.nick = nick;
         this.password = password;
-        this.numReistro = numReistro;
+    }
+
+    public void registro(){
+        try (Scanner sc = new Scanner(System.in)){
+            System.out.println("Introduce tu nombre");
+            nombre = sc.nextLine();
+
+        }
     }
 
     public String getNombre() {
