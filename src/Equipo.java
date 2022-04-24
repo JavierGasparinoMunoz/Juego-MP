@@ -1,6 +1,6 @@
 public class Equipo {
     private int modAtaque, modDefensa;
-
+    private String nombre;
     public Equipo(){
     }
 
