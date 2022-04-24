@@ -1,6 +1,7 @@
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Sistema implements Serializable {
     Scanner sc = new Scanner(System.in);
@@ -113,6 +114,40 @@ public class Sistema implements Serializable {
     public void iniciarSesion(){
     }
 
+    public HashSet<Arma> inicializarArmas(){
+        //armas ofensivas
+        Arma espadaPequeña = new Arma(2, 0, 1, "Espada pequeña");
+        Arma espadon = new Arma(3, 1, 2, "Espadón");
+        Arma guadanya = new Arma(3, 0, 2, "Guadaña");
+        Arma palo = new Arma(1, 0, 2, "¡Un Palo!");
+        Arma cuchillo = new Arma(1, 0, 1, "¡Un Palo!");
+        Arma guantesMagicos = new Arma(3, 1, 2, "Guantes Mágicos");
+        Arma varitaMagica = new Arma(2, 1, 2, "Varita Mágica");
+        Arma varitaNoTanMagica = new Arma(1,0,2, "Varita No Tan Mágica");
+        Arma ocarina = new Arma(1, 1, 2, "Ocarina");
+        Arma bumeran = new Arma(2, 0, 1, "Bumerán");
+        Arma bfs = new Arma(5, 1, 1, "B.F.Sword");
+        Arma bajoAutoestima = new Arma(0, 0, 0, "Bajo Autoestima");
 
+        //armas defensivas
+        Arma escudoPequeño = new Arma(0, 2 , 1, "Escudo Pequeño");
+        Arma escudoGrande = new Arma(0, 3, 1, "Escudo Grande");
+        Arma hologramaFormacionTortuga = new Arma(0, 1, 1, "Holograma Formación Tortuga, (solamente intimida.)");
+
+        HashSet<Arma> conjuntoArmas = new HashSet<Arma>(Arrays.asList(espadaPequeña, espadon, guadanya, palo, cuchillo, guantesMagicos, varitaMagica, varitaNoTanMagica, ocarina, bumeran, bfs, bajoAutoestima, escudoPequeño, escudoGrande, hologramaFormacionTortuga));
+        return conjuntoArmas;
+
+    }
+
+    public HashSet<Armadura> inicializarArmaduras(){
+        //armadura
+        Armadura camisetaPrimark = new Armadura(0, 0, "Camiseta Primark");
+        Armadura armaduraBasica = new Armadura(1,3, "Armadura Básica");
+        Armadura armaduraTortuga = new Armadura(0,4, "Armadura Tortuga");
+        Armadura armaduraDentada = new Armadura(2,2, "Armadura Dentada");
+
+        HashSet<Armadura> conjuntoArmaduras = new HashSet<Armadura>(Arrays.asList(camisetaPrimark, armaduraBasica, armaduraTortuga, armaduraDentada));
+        return conjuntoArmaduras;
+    }
 
 }

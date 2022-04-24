@@ -1,5 +1,5 @@
 public class Armadura extends Equipo{
-    public Armadura(int modAtaque, int modDefensea, String nombre){
+    public Armadura(int modAtaque, int modDefensa, String nombre){
         this.modDefensa = modDefensa;
         this.modAtaque = modAtaque;
         this.nombre = nombre;
