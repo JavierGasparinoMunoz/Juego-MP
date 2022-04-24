@@ -1,12 +1,7 @@
-public class Equipo {
-    private int modAtaque, modDefensa;
-    private String nombre;
+public abstract class Equipo {
+    protected int modAtaque, modDefensa;
+    protected String nombre;
     public Equipo(){
-    }
-
-    public Equipo(int modAtaque, int modDefensa) {
-        this.modAtaque = modAtaque;
-        this.modDefensa = modDefensa;
     }
 
     public int getModAtaque() {
