@@ -1,7 +1,5 @@
-import java.io.Serializable;
+import java.io.*;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Sistema implements Serializable {
     Scanner sc = new Scanner(System.in);
@@ -10,7 +8,19 @@ public class Sistema implements Serializable {
     private ArrayList<Usuario>  listaUsuarios = new ArrayList<>();
     private int opcion;
 
-    public Sistema(){
+    public Sistema() throws IOException, ClassNotFoundException {
+        String ruta = "Juego-Mp/archivos/usuarios.dat";
+        File ficheroUsuarios = new File(ruta);
+        if(ficheroUsuarios.canRead() == false){
+            try {
+                ficheroUsuarios.createNewFile();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        else{
+            deserializableSistema(listaUsuarios);
+        }
         menuInicio();
     }
 
@@ -149,5 +159,19 @@ public class Sistema implements Serializable {
         HashSet<Armadura> conjuntoArmaduras = new HashSet<Armadura>(Arrays.asList(camisetaPrimark, armaduraBasica, armaduraTortuga, armaduraDentada));
         return conjuntoArmaduras;
     }
-
+    public void serializableSistema(Usuario usuario) throws FileNotFoundException, IOException{
+        String rutaArchivo ="Juego-MP/ficheros/usuarios.dat";
+        File f1 = new File(rutaArchivo);
+        ObjectOutputStream datosSalida = new ObjectOutputStream (new FileOutputStream(f1));
+        datosSalida.writeObject(usuario);
+    }
+    //método encargado de obtener la información introducida por cliente/clientes anteriores.
+    public void deserializableSistema (ArrayList<Usuario> listaUsuarios) throws FileNotFoundException, IOException, ClassNotFoundException {
+        while (true) {
+            String rutaArchivo = "Juego-MP/ficheros/usuarios.dat";
+            ObjectInputStream datosEntrada = new ObjectInputStream(new FileInputStream(rutaArchivo));
+            Usuario dato = (Usuario) datosEntrada.readObject();
+            listaUsuarios.add(dato);
+        }
+    }
 }
