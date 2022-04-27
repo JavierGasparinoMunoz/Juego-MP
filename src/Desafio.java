@@ -6,13 +6,13 @@ import java.util.Set;
 
 public class Desafio {
     int ronda;
-    ArrayList<String> personajes= new ArrayList<String>();
+    ArrayList<Personaje> personajes= new ArrayList<Personaje>();
 
     public void inicializarModificadores(Operador operador){
-        auxInicializarModificadores(personajes.get(0).getlistaFortalezas(), personajes.get(1).getlistaFortalezasActivas());
-        auxInicializarModificadores(personajes.get(0).getlistaDebilidades(), personajes.get(0).getlistaDebilidadesActivas());
-        auxInicializarModificadores(personajes.get(1).getlistaFortalezas(), personajes.get(1).getlistaFortalezasActivas());
-        auxInicializarModificadores(personajes.get(1).getlistaDebilidades(), personajes.get(1).getlistaDebilidadesActivas());
+        auxInicializarModificadores(personajes.get(0).getListaFortalezas(), personajes.get(1).getListaFortalezasActivas());
+        auxInicializarModificadores(personajes.get(0).getListaDebilidades(), personajes.get(0).getListaDebilidadesActivas());
+        auxInicializarModificadores(personajes.get(1).getListaFortalezas(), personajes.get(1).getListaFortalezasActivas());
+        auxInicializarModificadores(personajes.get(1).getListaDebilidades(), personajes.get(1).getListaDebilidadesActivas());
     }
     private void auxInicializarModificadores(ArrayList<Modificador> listaMod, ArrayList<Modificador> listaModInicializada){
         //debería poder recibir cualquier usuario y luego comprobar si es operador? Cómo se haría?
@@ -54,11 +54,7 @@ public class Desafio {
         this.ronda = ronda;
     }
 
-    public ArrayList<String> getPersonajes() {
-        return personajes;
-    }
-
-    public void setPersonajes(ArrayList<String> personajes) {
+    public void setPersonajes(ArrayList<Personaje> personajes) {
         this.personajes = personajes;
     }
 }
