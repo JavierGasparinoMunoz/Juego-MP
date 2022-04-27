@@ -1,25 +1,26 @@
 import java.io.*;
+import java.sql.SQLOutput;
 import java.util.*;
 
 public class Sistema implements Serializable {
     Scanner sc = new Scanner(System.in);
     private Notificacion notificacion;
-    private Usuario usuario;
+    private Usuario usuario = new Usuario();
     private ArrayList<Usuario>  listaUsuarios = new ArrayList<>();
     private int opcion;
 
     public Sistema() throws IOException, ClassNotFoundException {
-        String ruta = "Juego-Mp/archivos/usuarios.dat";
+        String ruta = "C:/Users/misju/IdeaProjects/Juego-MP/archivos/usuarios.bin";
         File ficheroUsuarios = new File(ruta);
-        if(ficheroUsuarios.canRead() == false){
+        if( !ficheroUsuarios.exists()){
             try {
                 ficheroUsuarios.createNewFile();
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                System.err.println(e.getMessage());
             }
         }
         else{
-            deserializableSistema(listaUsuarios);
+            deserializableSistema();
         }
         menuInicio();
     }
@@ -48,24 +49,32 @@ public class Sistema implements Serializable {
             System.out.println("Introduce el nombre");
             String nombre = sc.nextLine();
             usuario.setNombre(nombre);
-
-            System.out.println("Introduce el nick");
-            String nick = sc.nextLine();
-            usuario.setNick(nick);
+            String nick;
+            do {
+                System.out.println("Introduce el nick");
+                nick = sc.nextLine();
+                usuario.setNick(nick);
+            }while(encontrarNick(nick));
 
             System.out.println("Introduce la contraseña");
             String contraseña = sc.nextLine();
             usuario.setPassword(contraseña);
 
             crearUsuario();
+            menuPrincipal();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
-    public void crearUsuario(){
+    public void crearUsuario() throws IOException {
         usuario = new Usuario(usuario.getNombre(), usuario.getNick(), usuario.getPassword());
         listaUsuarios.add(usuario);
+        serializableSistema();
     }
-
+    public void menuPrincipal(){
+        System.out.println("Esto es el menu principal");
+    }
     public void darseDeBaja(){
     }
 
@@ -122,6 +131,21 @@ public class Sistema implements Serializable {
     }
 
     public void iniciarSesion(){
+        try(Scanner sc = new Scanner(System.in)){
+            System.out.println("Nombre de usuario");
+            String nick = sc.nextLine();
+            System.out.println("Contraseña");
+            String contraseña = sc.nextLine();
+            if (comprobarSesion(nick, contraseña)){
+                menuPrincipal();
+            }
+            else{
+                System.out.println("Inicio de sesión erroneo vuelva a intentarlo");
+                System.out.println();
+                iniciarSesion();
+            }
+        }
+
     }
 
     public HashSet<Arma> inicializarArmas(){
@@ -159,21 +183,19 @@ public class Sistema implements Serializable {
         HashSet<Armadura> conjuntoArmaduras = new HashSet<Armadura>(Arrays.asList(camisetaPrimark, armaduraBasica, armaduraTortuga, armaduraDentada));
         return conjuntoArmaduras;
     }
-    public void serializableSistema(Usuario usuario) throws FileNotFoundException, IOException{
-        String rutaArchivo ="Juego-MP/ficheros/usuarios.dat";
+    public void serializableSistema() throws FileNotFoundException, IOException{
+        String rutaArchivo ="C:/Users/misju/IdeaProjects/Juego-MP/archivos/usuarios.bin";
         File f1 = new File(rutaArchivo);
         ObjectOutputStream datosSalida = new ObjectOutputStream (new FileOutputStream(f1));
-        datosSalida.writeObject(usuario);
+        datosSalida.writeObject(listaUsuarios);
     }
     //método encargado de obtener la información introducida por cliente/clientes anteriores.
-    public void deserializableSistema (ArrayList<Usuario> listaUsuarios) throws FileNotFoundException, IOException, ClassNotFoundException {
-        while (true) {
-            String rutaArchivo = "Juego-MP/ficheros/usuarios.dat";
-            ObjectInputStream datosEntrada = new ObjectInputStream(new FileInputStream(rutaArchivo));
-            Usuario dato = (Usuario) datosEntrada.readObject();
-            listaUsuarios.add(dato);
+    public void deserializableSistema () throws FileNotFoundException, IOException, ClassNotFoundException {
+        String rutaArchivo = "C:/Users/misju/IdeaProjects/Juego-MP/archivos/usuarios.bin";
+        ObjectInputStream datosEntrada = new ObjectInputStream(new FileInputStream(rutaArchivo));
+        listaUsuarios = (ArrayList<Usuario>) datosEntrada.readObject();
         }
-    }
+
 
     public Usuario getUsuario() {
         return usuario;
@@ -189,5 +211,23 @@ public class Sistema implements Serializable {
 
     public void setListaUsuarios(ArrayList<Usuario> listaUsuarios) {
         this.listaUsuarios = listaUsuarios;
+    }
+    public Boolean comprobarSesion(String nick, String contraseña){
+        int i = 0;
+        boolean registrado = false;
+        while(i < listaUsuarios.size() && !registrado) {
+            registrado = listaUsuarios.get(i).getNick().equals(nick) && listaUsuarios.get(i).getPassword().equals(contraseña);
+            i = i + 1;
+        }
+        return registrado;
+    }
+    public Boolean encontrarNick(String nick){
+        int i = 0;
+        boolean encontrado = false;
+        while(i < listaUsuarios.size() && !encontrado) {
+            encontrado = listaUsuarios.get(i).getNick().equals(nick);
+            i = i + 1;
+        }
+        return encontrado;
     }
 }
