@@ -25,6 +25,11 @@ public class Licantropo extends Personaje{
 
     @Override
     public int calcularAtaque() {
+        return 0;
+    }
+
+    /*@Override
+    public int calcularAtaque() {
         int Ataque;
         Ataque = getAtaque() + getHabilidadEspecial().getValorAtaque();
         if (getHabilidadEspecial().getRabiaMinima() < puntosRabia) {
@@ -53,7 +58,7 @@ public class Licantropo extends Personaje{
 
         return Ataque;
 
-    }
+    }*/
     @Override
     public int calcularDefensa() {
         int Defensa;

@@ -1,7 +1,7 @@
 public class Jugador extends Usuario{
 
-    public Jugador(String nombre, String nick, String password) {
-        super(nombre, nick, password);
+    public Jugador(String nombre, String nick, String password, Personaje personaje) {
+        super(nombre, nick, password, personaje);
     }
 
     @Override

@@ -1,3 +1,3 @@
-public interface Creator {
-    Personaje crearPersonaje();
+public abstract class Creator {
+    public abstract Personaje crearPersonaje();
 }

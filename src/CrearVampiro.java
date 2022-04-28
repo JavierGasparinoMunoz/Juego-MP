@@ -1,4 +1,4 @@
-public class CrearVampiro implements Creator{
+public class CrearVampiro extends Creator{
 
     @Override
     public Personaje crearPersonaje() {

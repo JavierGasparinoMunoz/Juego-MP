@@ -6,22 +6,16 @@ public class Usuario implements Serializable {
     private String nick;
     private String password;
     private String numReistro;
+    private Personaje personaje;
 
     public Usuario(){
     }
 
-    public Usuario(String nombre, String nick, String password) {
+    public Usuario(String nombre, String nick, String password, Personaje personaje) {
         this.nombre = nombre;
         this.nick = nick;
         this.password = password;
-    }
-
-    public void registro(){
-        try (Scanner sc = new Scanner(System.in)){
-            System.out.println("Introduce tu nombre");
-            nombre = sc.nextLine();
-
-        }
+        this.personaje = personaje;
     }
 
     public String getNombre() {
@@ -54,5 +48,13 @@ public class Usuario implements Serializable {
 
     public void setNumReistro(String numReistro) {
         this.numReistro = numReistro;
+    }
+
+    public Personaje getPersonaje() {
+        return personaje;
+    }
+
+    public void setPersonaje(Personaje personaje) {
+        this.personaje = personaje;
     }
 }

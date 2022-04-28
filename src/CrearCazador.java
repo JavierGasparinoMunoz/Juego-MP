@@ -1,4 +1,4 @@
-public class CrearCazador implements Creator{
+public class CrearCazador extends Creator{
     @Override
     public Personaje crearPersonaje() {
         Cazador c = new Cazador();

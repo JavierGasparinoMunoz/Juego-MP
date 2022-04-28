@@ -1,5 +1,4 @@
 import java.io.*;
-import java.sql.SQLOutput;
 import java.util.*;
 
 public class Sistema implements Serializable {
@@ -7,10 +6,11 @@ public class Sistema implements Serializable {
     private Notificacion notificacion;
     private Usuario usuario = new Usuario();
     private ArrayList<Usuario>  listaUsuarios = new ArrayList<>();
-    private int opcion;
+    private int opcionMI,opcionRol,opcionMP1,opcionMP2;
+    private Personaje p;
 
     public Sistema() throws IOException, ClassNotFoundException {
-        String ruta = "C:/Users/misju/IdeaProjects/Juego-MP/archivos/usuarios.bin";
+        String ruta = "../Juego-MPVF/src/usuarios.bin";
         File ficheroUsuarios = new File(ruta);
         if( !ficheroUsuarios.exists()){
             try {
@@ -32,9 +32,10 @@ public class Sistema implements Serializable {
         System.out.println("       Seleccione una opción      ");
         System.out.println("1 - Registrarse                   ");
         System.out.println("2 - Iniciar sesion                ");
-        opcion = sc.nextInt();
+        System.out.println("----------------------------------");
+        opcionMI = sc.nextInt();
 
-        switch (opcion){
+        switch (opcionMI){
             case 1:
                 registrarCuenta();
                 break;
@@ -63,18 +64,80 @@ public class Sistema implements Serializable {
             crearUsuario();
             menuPrincipal();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.err.println(e.getMessage());
         }
     }
 
     public void crearUsuario() throws IOException {
-        usuario = new Usuario(usuario.getNombre(), usuario.getNick(), usuario.getPassword());
+        usuario = new Usuario(usuario.getNombre(), usuario.getNick(), usuario.getPassword(), usuario.getPersonaje());
         listaUsuarios.add(usuario);
         serializableSistema();
     }
-    public void menuPrincipal(){
-        System.out.println("Esto es el menu principal");
+
+    private void menuPrincipal(){
+        System.out.println("-----------------------------------------------------");
+        System.out.println("Bienvenido al menu principal " + usuario.getNick());
+        System.out.println("Elige una de las siguientes opciones");
+        System.out.println("1. Registrar un personaje / Gestion avanzada de personaje");
+        System.out.println("2. Darse de baja");
+        System.out.println("3. Salir");
+        System.out.println("-----------------------------------------------------");
+        opcionMP1 = sc.nextInt();
+        switch (opcionMP1){
+            case 1:
+                if (p==null){
+                    registrarPersonaje();
+                } else {
+                    System.out.println("-----------------------------------------------------");
+                    System.out.println("Bienvenido al menu avanzado para personajes " + usuario.getNick());
+                    System.out.println("Elige una de las siguientes opciones");
+                    System.out.println("1. Elegir armas");
+                    System.out.println("2. Elegir armaduras");
+                    System.out.println("3. Consultar oro apostado en partidas anteriores");
+                    System.out.println("4. Desafiar un usuario");
+                    System.out.println("5. Consultar ranking global");
+                    System.out.println("6. Darse de baja");
+                    System.out.println("7. Salir");
+                    System.out.println("-----------------------------------------------------");
+                    opcionMP2 = sc.nextInt();
+                    switch (opcionMP2){
+                        case 1:
+                            elegirArmas();
+                            break;
+                        case 2:
+                            elegirArmaduras();
+                            break;
+                        case 3:
+                            consultarOroPartidasAnteriores(p);
+                            break;
+                        case 4:
+                            System.out.println("Introduce el nickname del usuario que quieres desafiar");
+                            String nickDes = sc.nextLine();
+                            if (encontrarNick(nickDes)){
+                                System.out.println("Introduce el oro que quieres apostar");
+                                int oroApostado = sc.nextInt();
+                                desafiarUsuario(nickDes,oroApostado);
+                            }
+                            break;
+                        case 5:
+                            consultarRankingGlobal();
+                            break;
+                        case 6:
+                            darseDeBaja();
+                            break;
+                        case 7:
+                            break;
+                    }
+                }
+                break;
+            case 2:
+                darseDeBaja();
+                break;
+            case 3:
+                break;
+        }
     }
+
     public void darseDeBaja(){
     }
 
@@ -88,25 +151,42 @@ public class Sistema implements Serializable {
         Creator c = new Creator() {
             @Override
             public Personaje crearPersonaje() {
-                Personaje p = new Personaje() {
-                    @Override
-                    public void habilidadEspecial() {
-
-                    }
-
-                    @Override
-                    public void añadirEsbirro() {
-
-                    }
-
-                    @Override
-                    public void eliminarEsbirro() {
-
-                    }
-                };
+                p = usuario.getPersonaje();
+                System.out.println("Elige un rol");
+                System.out.println("1. Cazador");
+                System.out.println("2. Vampiro");
+                System.out.println("3. Licantropo");
+                opcionRol = sc.nextInt();
+                switch (opcionRol) {
+                    case 1:
+                        CrearCazador cazador = new CrearCazador();
+                        p = cazador.crearPersonaje();
+                        break;
+                    case 2:
+                        CrearVampiro vampiro = new CrearVampiro();
+                        p =  vampiro.crearPersonaje();
+                        break;
+                    case 3:
+                        CrearLicantropo licantropo = new CrearLicantropo();
+                        p =  licantropo.crearPersonaje();
+                        break;
+                }
+                usuario.setPersonaje(p);
                 return p;
             }
         };
+        elegirArmadurasDefecto();
+        elegirArmasDefecto();
+        elegirOroApostadoDefecto();
+    }
+
+    private void elegirOroApostadoDefecto() {
+    }
+
+    private void elegirArmasDefecto() {
+    }
+
+    private void elegirArmadurasDefecto() {
     }
 
     public void elegirArmas(){
@@ -137,6 +217,8 @@ public class Sistema implements Serializable {
             System.out.println("Contraseña");
             String contraseña = sc.nextLine();
             if (comprobarSesion(nick, contraseña)){
+                usuario.setNick(nick);
+                usuario.setPassword(contraseña);
                 menuPrincipal();
             }
             else{
@@ -145,7 +227,6 @@ public class Sistema implements Serializable {
                 iniciarSesion();
             }
         }
-
     }
 
     public HashSet<Arma> inicializarArmas(){
@@ -170,7 +251,6 @@ public class Sistema implements Serializable {
 
         HashSet<Arma> conjuntoArmas = new HashSet<Arma>(Arrays.asList(espadaPequeña, espadon, guadanya, palo, cuchillo, guantesMagicos, varitaMagica, varitaNoTanMagica, ocarina, bumeran, bfs, bajoAutoestima, escudoPequeño, escudoGrande, hologramaFormacionTortuga));
         return conjuntoArmas;
-
     }
 
     public HashSet<Armadura> inicializarArmaduras(){
@@ -184,18 +264,17 @@ public class Sistema implements Serializable {
         return conjuntoArmaduras;
     }
     public void serializableSistema() throws FileNotFoundException, IOException{
-        String rutaArchivo ="C:/Users/misju/IdeaProjects/Juego-MP/archivos/usuarios.bin";
+        String rutaArchivo ="../Juego-MPVF/src/usuarios.bin";
         File f1 = new File(rutaArchivo);
         ObjectOutputStream datosSalida = new ObjectOutputStream (new FileOutputStream(f1));
         datosSalida.writeObject(listaUsuarios);
     }
     //método encargado de obtener la información introducida por cliente/clientes anteriores.
     public void deserializableSistema () throws FileNotFoundException, IOException, ClassNotFoundException {
-        String rutaArchivo = "C:/Users/misju/IdeaProjects/Juego-MP/archivos/usuarios.bin";
+        String rutaArchivo = "../Juego-MPVF/src/usuarios.bin";
         ObjectInputStream datosEntrada = new ObjectInputStream(new FileInputStream(rutaArchivo));
         listaUsuarios = (ArrayList<Usuario>) datosEntrada.readObject();
-        }
-
+    }
 
     public Usuario getUsuario() {
         return usuario;
@@ -212,7 +291,8 @@ public class Sistema implements Serializable {
     public void setListaUsuarios(ArrayList<Usuario> listaUsuarios) {
         this.listaUsuarios = listaUsuarios;
     }
-    public Boolean comprobarSesion(String nick, String contraseña){
+
+    private Boolean comprobarSesion(String nick, String contraseña){
         int i = 0;
         boolean registrado = false;
         while(i < listaUsuarios.size() && !registrado) {
@@ -221,7 +301,8 @@ public class Sistema implements Serializable {
         }
         return registrado;
     }
-    public Boolean encontrarNick(String nick){
+
+    private Boolean encontrarNick(String nick){
         int i = 0;
         boolean encontrado = false;
         while(i < listaUsuarios.size() && !encontrado) {
@@ -230,4 +311,6 @@ public class Sistema implements Serializable {
         }
         return encontrado;
     }
+
 }
+
