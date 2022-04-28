@@ -10,7 +10,7 @@ public class Sistema implements Serializable {
     private Personaje p;
 
     public Sistema() throws IOException, ClassNotFoundException {
-        String ruta = "../Juego-MPVF/src/usuarios.bin";
+        String ruta = "./usuarios.bin";
         File ficheroUsuarios = new File(ruta);
         if( !ficheroUsuarios.exists()){
             try {
@@ -85,7 +85,7 @@ public class Sistema implements Serializable {
         opcionMP1 = sc.nextInt();
         switch (opcionMP1){
             case 1:
-                if (p==null){
+                if (usuario.getPersonaje()==null){
                     registrarPersonaje();
                 } else {
                     System.out.println("-----------------------------------------------------");
@@ -175,6 +175,7 @@ public class Sistema implements Serializable {
                 return p;
             }
         };
+        c.crearPersonaje();
         elegirArmadurasDefecto();
         elegirArmasDefecto();
         elegirOroApostadoDefecto();
@@ -264,14 +265,14 @@ public class Sistema implements Serializable {
         return conjuntoArmaduras;
     }
     public void serializableSistema() throws FileNotFoundException, IOException{
-        String rutaArchivo ="../Juego-MPVF/src/usuarios.bin";
+        String rutaArchivo ="./usuarios.bin";
         File f1 = new File(rutaArchivo);
         ObjectOutputStream datosSalida = new ObjectOutputStream (new FileOutputStream(f1));
         datosSalida.writeObject(listaUsuarios);
     }
     //método encargado de obtener la información introducida por cliente/clientes anteriores.
     public void deserializableSistema () throws FileNotFoundException, IOException, ClassNotFoundException {
-        String rutaArchivo = "../Juego-MPVF/src/usuarios.bin";
+        String rutaArchivo = "./usuarios.bin";
         ObjectInputStream datosEntrada = new ObjectInputStream(new FileInputStream(rutaArchivo));
         listaUsuarios = (ArrayList<Usuario>) datosEntrada.readObject();
     }
