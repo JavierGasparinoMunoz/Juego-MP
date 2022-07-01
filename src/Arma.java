@@ -1,6 +1,5 @@
 public class Arma extends Equipo{
     private int numManos;
-    //Los modificadores van entre 0 y 5
     public Arma(int modAtaque, int modDefensa, int numManos, String nombre) {
         this.numManos = numManos;
         this.modDefensa = modDefensa;

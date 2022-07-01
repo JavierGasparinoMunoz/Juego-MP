@@ -1,9 +1,10 @@
 public class Jugador extends Usuario{
-
+    private Personaje personaje;
+    private String numRegistro;
     public Jugador(String nombre, String nick, String password, Personaje personaje) {
-        super(nombre, nick, password, personaje);
+        super(nombre, nick, password);
     }
-
+    //SI USUARIO ES ABSTRACTA HAY QUE VOLVER A PONER LOS GETTERS Y SETTERS
     @Override
     public String getNombre() {
         return super.getNombre();
@@ -34,13 +35,15 @@ public class Jugador extends Usuario{
         super.setPassword(password);
     }
 
-    @Override
-    public String getNumReistro() {
-        return super.getNumReistro();
+    public Personaje getPersonaje() { return personaje; }
+
+    public void setPersonaje(Personaje personaje) { this.personaje = personaje; }
+
+    public String getNumRegistro() {
+        return getNumRegistro();
     }
 
-    @Override
-    public void setNumReistro(String numReistro) {
-        super.setNumReistro(numReistro);
+    public void setNumRegistro(String numRegistro) {
+        setNumRegistro(numRegistro);
     }
 }

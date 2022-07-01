@@ -3,9 +3,11 @@ import java.util.*;
 
 public class Sistema implements Serializable {
     Scanner sc = new Scanner(System.in);
-    private Notificacion notificacion;
-    private Usuario usuario = new Usuario();
+    private Usuario usuario;  //private Usuario usuario = new Usuario();
     private ArrayList<Usuario>  listaUsuarios = new ArrayList<>();
+    private ArrayList<Oferta>  listaOfertas = new ArrayList<>();
+    private ArrayList<Notificacion>  listaNotificaciones = new ArrayList<>();
+
     private int opcionMI,opcionRol,opcionMP1,opcionMP2;
     private Personaje p;
 
@@ -20,7 +22,7 @@ public class Sistema implements Serializable {
             }
         }
         else{
-            deserializableSistema();
+            deserializarSistema();
         }
         menuInicio();
     }
@@ -71,7 +73,7 @@ public class Sistema implements Serializable {
     public void crearUsuario() throws IOException {
         usuario = new Usuario(usuario.getNombre(), usuario.getNick(), usuario.getPassword(), usuario.getPersonaje());
         listaUsuarios.add(usuario);
-        serializableSistema();
+        serializarSistema();
     }
 
     private void menuPrincipal(){
@@ -181,14 +183,6 @@ public class Sistema implements Serializable {
         elegirOroApostadoDefecto();
     }
 
-    private void elegirOroApostadoDefecto() {
-    }
-
-    private void elegirArmasDefecto() {
-    }
-
-    private void elegirArmadurasDefecto() {
-    }
 
     public void elegirArmas(){
     }
@@ -197,18 +191,6 @@ public class Sistema implements Serializable {
     }
 
     public void desafiarUsuario(String nick, int oro){
-    }
-
-    public void aceptarDesafio(){
-    }
-
-    public void rechazarDesafio(){
-    }
-
-    public void consultarOroPartidasAnteriores(Personaje personaje){
-    }
-
-    public void consultarRankingGlobal(){
     }
 
     public void iniciarSesion(){
@@ -230,7 +212,7 @@ public class Sistema implements Serializable {
         }
     }
 
-    public HashSet<Arma> inicializarArmas(){
+    /*public HashSet<Arma> inicializarArmas(){
         //armas ofensivas
         Arma espadaPequeña = new Arma(2, 0, 1, "Espada pequeña");
         Arma espadon = new Arma(3, 1, 2, "Espadón");
@@ -263,19 +245,22 @@ public class Sistema implements Serializable {
 
         HashSet<Armadura> conjuntoArmaduras = new HashSet<Armadura>(Arrays.asList(camisetaPrimark, armaduraBasica, armaduraTortuga, armaduraDentada));
         return conjuntoArmaduras;
-    }
-    public void serializableSistema() throws FileNotFoundException, IOException{
+    }*/
+
+    public void serializarSistema() throws FileNotFoundException, IOException{
         String rutaArchivo ="./usuarios.bin";
         File f1 = new File(rutaArchivo);
         ObjectOutputStream datosSalida = new ObjectOutputStream (new FileOutputStream(f1));
         datosSalida.writeObject(listaUsuarios);
     }
     //método encargado de obtener la información introducida por cliente/clientes anteriores.
-    public void deserializableSistema () throws FileNotFoundException, IOException, ClassNotFoundException {
+    public void deserializarSistema() throws FileNotFoundException, IOException, ClassNotFoundException {
         String rutaArchivo = "./usuarios.bin";
         ObjectInputStream datosEntrada = new ObjectInputStream(new FileInputStream(rutaArchivo));
         listaUsuarios = (ArrayList<Usuario>) datosEntrada.readObject();
     }
+
+
 
     public Usuario getUsuario() {
         return usuario;
@@ -303,7 +288,7 @@ public class Sistema implements Serializable {
         return registrado;
     }
 
-    private Boolean encontrarNick(String nick){
+    /*private Boolean encontrarNick(String nick){ //Creo que sobra, no se para qué está
         int i = 0;
         boolean encontrado = false;
         while(i < listaUsuarios.size() && !encontrado) {
@@ -311,7 +296,7 @@ public class Sistema implements Serializable {
             i = i + 1;
         }
         return encontrado;
-    }
+    }*/
 
 }
 

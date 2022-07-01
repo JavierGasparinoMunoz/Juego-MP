@@ -16,80 +16,11 @@ public class Vampiro extends Personaje{
     }
 
     @Override
-    public void habilidadEspecial() {
-    }
-
-    @Override
     public void añadirEsbirro() {
     }
 
     @Override
     public void eliminarEsbirro() {
-    }
-
-    @Override
-    public int calcularAtaque() {
-        int Ataque;
-        Ataque = getAtaque() + getHabilidadEspecial().getValorAtaque();
-
-        if (getPuntosSangre() > 4) {
-            Random r = new Random();
-            int ranNum = r.nextInt(2) + 1;
-            puntosSangre -= ranNum;
-            Ataque += 2;
-        }
-
-        HashSet<Arma> setArmas = getArmasActivas();
-        HashSet<Armadura> setArmadura = getArmadurasActivas();
-        ArrayList<Modificador> listDebilidades = getListaDebilidadesActivas();
-        ArrayList<Modificador> listFortalezas = getListaFortalezasActivas();
-
-        for(Arma a : setArmas){
-            Ataque += a.getModAtaque();
-        }
-
-        for(Armadura b : setArmadura){
-            Ataque += b.getModAtaque();
-        }
-
-        for(Modificador m : listDebilidades){
-            Ataque += m.getValor();
-        }
-
-        for(Modificador n : listFortalezas){
-            Ataque += n.getValor();
-        }
-
-        return Ataque;
-
-    }
-    @Override
-    public int calcularDefensa() {
-        int Defensa;
-        Defensa = getDefensa() + getHabilidadEspecial().getValorDesfensa();
-
-        HashSet<Arma> setArmas = getArmasActivas();
-        HashSet<Armadura> setArmadura = getArmadurasActivas();
-        ArrayList<Modificador> listDebilidades = getListaDebilidadesActivas();
-        ArrayList<Modificador> listFortalezas = getListaFortalezasActivas();
-
-        for (Arma a : setArmas) {
-            Defensa += a.getModDefensa();
-        }
-
-        for (Armadura b : setArmadura) {
-            Defensa += b.getModDefensa();
-        }
-
-        for(Modificador m : listDebilidades){
-            Defensa += m.getValor();
-        }
-
-        for(Modificador n : listFortalezas){
-            Defensa += n.getValor();
-        }
-
-        return Defensa;
     }
 
     public int getPuntosSangre() {

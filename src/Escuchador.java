@@ -1,8 +1,8 @@
-import java.io.File;
+import java.util.ArrayList;
 
 public abstract class Escuchador{
 
-    public void actualizar(File archivo){
+    public void actualizar(ArrayList<Oferta> listaOfertas){
     }
 
 }

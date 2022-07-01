@@ -1,6 +1,10 @@
+import java.util.ArrayList;
+
 public abstract class Equipo {
     protected int modAtaque, modDefensa;
-    protected String nombre;
+    protected String nombre, categoria; //no se si puede no ser protected
+    protected ArrayList<String> listaMateriales = new ArrayList<>();
+
     public Equipo(){
     }
 

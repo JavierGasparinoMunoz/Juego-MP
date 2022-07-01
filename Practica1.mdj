@@ -10474,7 +10474,7 @@
 											"top": 935,
 											"width": 206,
 											"height": 13,
-											"text": "CombatLog"
+											"text": "VentaLog"
 										},
 										{
 											"_type": "LabelView",
@@ -13997,7 +13997,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "CombatLog",
+					"name": "VentaLog",
 					"ownedElements": [
 						{
 							"_type": "UMLAssociation",
