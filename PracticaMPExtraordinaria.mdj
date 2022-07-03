@@ -1792,6 +1792,7 @@
 											"model": {
 												"$ref": "AAAAAAGBxGGCHp74OI8="
 											},
+											"visible": false,
 											"font": "Arial;13;0",
 											"left": 1165,
 											"top": 787,
@@ -1805,7 +1806,7 @@
 									"left": 1160,
 									"top": 737,
 									"width": 141.17431640625,
-									"height": 68
+									"height": 53
 								},
 								{
 									"_type": "UMLOperationCompartmentView",
@@ -1818,7 +1819,7 @@
 									},
 									"font": "Arial;13;0",
 									"left": 1160,
-									"top": 805,
+									"top": 790,
 									"width": 141.17431640625,
 									"height": 10
 								},
@@ -5284,7 +5285,7 @@
 											"top": 1193,
 											"width": 273.83154296875,
 											"height": 13,
-											"text": "+banearUsuario(String)",
+											"text": "+banearUsuario()",
 											"horizontalAlignment": 0
 										},
 										{
@@ -5301,7 +5302,7 @@
 											"top": 1208,
 											"width": 273.83154296875,
 											"height": 13,
-											"text": "+desbanearUsuario(String)",
+											"text": "+desbanearUsuario()",
 											"horizontalAlignment": 0
 										},
 										{
@@ -13327,18 +13328,7 @@
 							"_parent": {
 								"$ref": "AAAAAAF/0AXlGq8CBTY="
 							},
-							"name": "banearUsuario",
-							"parameters": [
-								{
-									"_type": "UMLParameter",
-									"_id": "AAAAAAGBuSmRGl+aL/s=",
-									"_parent": {
-										"$ref": "AAAAAAGBuSl4wF5PR3c="
-									},
-									"name": "String",
-									"type": ""
-								}
-							]
+							"name": "banearUsuario"
 						},
 						{
 							"_type": "UMLOperation",
@@ -13346,18 +13336,7 @@
 							"_parent": {
 								"$ref": "AAAAAAF/0AXlGq8CBTY="
 							},
-							"name": "desbanearUsuario",
-							"parameters": [
-								{
-									"_type": "UMLParameter",
-									"_id": "AAAAAAGBuSmu12FTWJA=",
-									"_parent": {
-										"$ref": "AAAAAAGBuSmRcWAIbiQ="
-									},
-									"name": "String",
-									"type": ""
-								}
-							]
+							"name": "desbanearUsuario"
 						},
 						{
 							"_type": "UMLOperation",
