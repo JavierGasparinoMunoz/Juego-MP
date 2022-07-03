@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Notificacion {
     private ArrayList<Usuario> escuchadores;
-    private String filtro; //falta aquí alguna manera de cómo organizar todos los tipos de filtros
+    private ArrayList<String> filtro;
 
     public void notificar(String filtro, String texto){
 

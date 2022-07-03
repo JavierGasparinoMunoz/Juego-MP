@@ -5,32 +5,32 @@ public class Jugador extends Usuario{
         super(nombre, nick, password);
     }
     //SI USUARIO ES ABSTRACTA HAY QUE VOLVER A PONER LOS GETTERS Y SETTERS
-    @Override
+    //@Override
     public String getNombre() {
         return super.getNombre();
     }
 
-    @Override
+    //@Override
     public void setNombre(String nombre) {
         super.setNombre(nombre);
     }
 
-    @Override
+    //@Override
     public String getNick() {
         return super.getNick();
     }
 
-    @Override
+    //@Override
     public void setNick(String nick) {
         super.setNick(nick);
     }
 
-    @Override
+    //@Override
     public String getPassword() {
         return super.getPassword();
     }
 
-    @Override
+    //@Override
     public void setPassword(String password) {
         super.setPassword(password);
     }

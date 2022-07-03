@@ -2,7 +2,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class VentaLog implements Serializable {
+public class VentaLog {
     private Date fecha;
     private String usuarioVendedor, usuarioComprador;
     private int precio;
@@ -20,5 +20,25 @@ public class VentaLog implements Serializable {
         this.listaEsbirros = listaEsbirros;
         this.precio = precio;
     }
-
+    public void imprimirLog(){
+        System.out.print("Fecha: " + fecha);
+        System.out.println("Usuario vendedor: " + usuarioVendedor);
+        System.out.println("Usuario comprador: " + usuarioComprador);
+        System.out.println("Precio: " + precio);
+        System.out.println("Artículos vendidos: ");
+        if (!listaEquipo.isEmpty()){
+            String equipoVendido = "";
+            for (String equipo: listaEquipo ) {
+                equipoVendido.concat(equipo + " ");
+            }
+            System.out.print(equipoVendido);
+        }
+        if (!listaEsbirros.isEmpty()){
+            String esbirrosVendidos = "";
+            for (String esbirro: listaEsbirros ) {
+                esbirrosVendidos.concat(esbirro + " ");
+            }
+            System.out.print(esbirrosVendidos);
+        }
+    }
 }

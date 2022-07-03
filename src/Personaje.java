@@ -30,6 +30,30 @@ public abstract class Personaje {
         return conjuntoEsbirros;
     }
 
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setConjuntoArmas(HashSet<Arma> conjuntoArmas) {
+        this.conjuntoArmas = conjuntoArmas;
+    }
+
+    public void setArmasActivas(HashSet<Arma> armasActivas) {
+        this.armasActivas = armasActivas;
+    }
+
+    public void setConjuntoArmaduras(HashSet<Armadura> conjuntoArmaduras) {
+        this.conjuntoArmaduras = conjuntoArmaduras;
+    }
+
+    public void setConjuntoEsbirros(HashSet<Esbirro> conjuntoEsbirros) {
+        this.conjuntoEsbirros = conjuntoEsbirros;
+    }
+
+    public void setCantidadOro(int cantidadOro) {
+        this.cantidadOro = cantidadOro;
+    }
+
     public int getCantidadOro() {
         return cantidadOro;
     }
@@ -39,7 +63,10 @@ public abstract class Personaje {
     }
 
     public abstract void añadirEsbirro();
-    public abstract void eliminarEsbirro();
+
+    public void eliminarEsbirro() {
+
+    }
 
 
 }

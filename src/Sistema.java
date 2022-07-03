@@ -3,10 +3,14 @@ import java.util.*;
 
 public class Sistema implements Serializable {
     Scanner sc = new Scanner(System.in);
-    private Usuario usuario;  //private Usuario usuario = new Usuario();
-    private ArrayList<Usuario>  listaUsuarios = new ArrayList<>();
+    private Usuario usuario;
+    private ArrayList<Usuario> whiteList, blackList = new ArrayList<>();
     private ArrayList<Oferta>  listaOfertas = new ArrayList<>();
     private ArrayList<Notificacion>  listaNotificaciones = new ArrayList<>();
+    private ArrayList<VentaLog> listaLogs = new ArrayList<>();
+    private HashSet<Arma> conjuntoArmas = new HashSet<>();
+    private HashSet<Armadura> conjuntoArmaduras = new HashSet<>();
+
 
     private int opcionMI,opcionRol,opcionMP1,opcionMP2;
     private Personaje p;
@@ -48,7 +52,7 @@ public class Sistema implements Serializable {
     }
 
     private void registrarCuenta(){
-        try(Scanner sc = new Scanner(System.in)){
+        try(Scanner sc = new Scanner(System.in)){ //preguntar si se quiere registrar un Operador o Jugador antes
             System.out.println("Introduce el nombre");
             String nombre = sc.nextLine();
             usuario.setNombre(nombre);
@@ -72,7 +76,7 @@ public class Sistema implements Serializable {
 
     public void crearUsuario() throws IOException {
         usuario = new Usuario(usuario.getNombre(), usuario.getNick(), usuario.getPassword(), usuario.getPersonaje());
-        listaUsuarios.add(usuario);
+        whiteList.add(usuario);
         serializarSistema();
     }
 
@@ -184,13 +188,7 @@ public class Sistema implements Serializable {
     }
 
 
-    public void elegirArmas(){
-    }
-
-    public void elegirArmaduras(){
-    }
-
-    public void desafiarUsuario(String nick, int oro){
+    public void elegirArmasActivas(){
     }
 
     public void iniciarSesion(){
@@ -251,13 +249,13 @@ public class Sistema implements Serializable {
         String rutaArchivo ="./usuarios.bin";
         File f1 = new File(rutaArchivo);
         ObjectOutputStream datosSalida = new ObjectOutputStream (new FileOutputStream(f1));
-        datosSalida.writeObject(listaUsuarios);
+        datosSalida.writeObject(whiteList);
     }
     //método encargado de obtener la información introducida por cliente/clientes anteriores.
     public void deserializarSistema() throws FileNotFoundException, IOException, ClassNotFoundException {
         String rutaArchivo = "./usuarios.bin";
         ObjectInputStream datosEntrada = new ObjectInputStream(new FileInputStream(rutaArchivo));
-        listaUsuarios = (ArrayList<Usuario>) datosEntrada.readObject();
+        whiteList = (ArrayList<Usuario>) datosEntrada.readObject();
     }
 
 
@@ -270,24 +268,99 @@ public class Sistema implements Serializable {
         this.usuario = usuario;
     }
 
-    public ArrayList<Usuario> getListaUsuarios() {
-        return listaUsuarios;
+    public ArrayList<Usuario> getWhiteList() {
+        return whiteList;
     }
 
-    public void setListaUsuarios(ArrayList<Usuario> listaUsuarios) {
-        this.listaUsuarios = listaUsuarios;
+    public void setlistaUsuarios(ArrayList<Usuario> listaUsuarios) {
+        this.whiteList = listaUsuarios;
     }
 
     private Boolean comprobarSesion(String nick, String contraseña){
         int i = 0;
         boolean registrado = false;
-        while(i < listaUsuarios.size() && !registrado) {
-            registrado = listaUsuarios.get(i).getNick().equals(nick) && listaUsuarios.get(i).getPassword().equals(contraseña);
+        while(i < whiteList.size() && !registrado) {
+            registrado = whiteList.get(i).getNick().equals(nick) && whiteList.get(i).getPassword().equals(contraseña);
             i = i + 1;
         }
         return registrado;
     }
 
+    public void modificarOro(){
+        int cantidadOro = ((Jugador) usuario).getPersonaje().getCantidadOro();
+        System.out.println("Indica cuánto oro quieres sumarte entre 0 y 1000");
+        Scanner sc = new Scanner(System.in);
+        int oroASumar = -1;
+        while (oroASumar >= 0 && oroASumar <= 1000) {
+            oroASumar = sc.nextInt();
+            if (oroASumar < 0 && oroASumar > 1000){
+                System.out.println("Vuélvelo a intentar, introduzca un número entre 0 y 1000");
+            }
+        }
+        sc.close();
+        cantidadOro += oroASumar;
+        ((Jugador) usuario).getPersonaje().setCantidadOro(cantidadOro);
+        System.out.println("El dinero se ha sumado correctamente");
+    }
+
+    public void banearUsuario() {
+        if (!whiteList.isEmpty()) {
+            System.out.println("¿Qué usuario quieres banear?");
+            int i = 0;
+            for (Usuario user : whiteList) {
+                System.out.println(i + ") " + ((Jugador) user).getNick());
+                i += 1;
+            }
+            Scanner sc = new Scanner(System.in);
+            int opcion = -1;
+            while (opcion < 0 && opcion > i) {
+                opcion = sc.nextInt();
+            }
+            sc.close();
+            Usuario user = blackList.get(opcion);
+            whiteList.remove(user);
+            blackList.add(user);
+        }
+        else{
+            System.out.println("No hay jugadores para banear");
+        }
+    }
+
+    public void desbanearUsuario(){
+        if (!blackList.isEmpty()) {
+            System.out.println("¿Qué usuario quieres banear?");
+            int i = 0;
+            for (Usuario user : blackList) {
+                System.out.println(i + ") " + ((Jugador) user).getNick());
+                i += 1;
+            }
+            Scanner sc = new Scanner(System.in);
+            int opcion = -1;
+            while (opcion < 0 && opcion > i) {
+                opcion = sc.nextInt();
+            }
+            sc.close();
+            Usuario user = blackList.get(opcion);
+            blackList.remove(user);
+            whiteList.add(user);
+        }
+        else{
+            System.out.println("No hay jugadores baneados");
+        }
+    }
+
+    public void consultarVentas(){
+        if (!listaLogs.isEmpty()){
+            int i = 0;
+            for (VentaLog log: listaLogs) {
+                System.out.println(i + ") ");
+                log.imprimirLog();
+            }
+        }
+        else{
+            System.out.println("No tuvo lugar ninguna venta");
+        }
+    }
     /*private Boolean encontrarNick(String nick){ //Creo que sobra, no se para qué está
         int i = 0;
         boolean encontrado = false;
