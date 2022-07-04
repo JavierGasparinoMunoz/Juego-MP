@@ -1,53 +1,61 @@
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Set;
 
 public abstract class Personaje {
     private String nombre;
-    private HashSet<Arma> conjuntoArmas, armasActivas = new HashSet<Arma>();
-    private HashSet<Armadura> conjuntoArmaduras = new HashSet<Armadura>();
-    private HashSet<Esbirro> conjuntoEsbirros = new HashSet<Esbirro>();
+    private ArrayList<Arma> listaArmas = new ArrayList<>();
+    private HashSet<Arma> armasActivas = new HashSet<>();
+    private ArrayList<Armadura> listaArmaduras = new ArrayList<>();
+    private ArrayList<Esbirro> listaEsbirros = new ArrayList<>();
     private int cantidadOro;
+
+    public Personaje(String nombre, ArrayList<Arma> listaArmas, HashSet<Arma> armasActivas, ArrayList<Armadura> listaArmaduras, ArrayList<Esbirro> listaEsbirros, int cantidadOro) {
+        this.nombre = nombre;
+        this.listaArmas = listaArmas;
+        this.armasActivas = armasActivas;
+        this.listaArmaduras = listaArmaduras;
+        this.listaEsbirros = listaEsbirros;
+        this.cantidadOro = cantidadOro;
+    }
 
     public String getNombre() {
         return nombre;
     }
 
-    public HashSet<Arma> getConjuntoArmas() {
-        return conjuntoArmas;
+    public ArrayList<Arma> getListaArmas() {
+        return listaArmas;
     }
 
-    public HashSet<Arma> getArmasActivas() {
+    public void setListaArmas(ArrayList<Arma> listaArmas) {
+        this.listaArmas = listaArmas;
+    }
+
+    public HashSet<Arma>  getArmasActivas() {
         return armasActivas;
     }
 
-    public HashSet<Armadura> getConjuntoArmaduras() {
-        return conjuntoArmaduras;
+    public void setArmasActivas(HashSet<Arma>  armasActivas) {
+        this.armasActivas = armasActivas;
     }
 
+    public ArrayList<Armadura> getListaArmaduras() {
+        return listaArmaduras;
+    }
 
-    public HashSet<Esbirro> getConjuntoEsbirros() {
-        return conjuntoEsbirros;
+    public void setListaArmaduras(ArrayList<Armadura> listaArmaduras) {
+        this.listaArmaduras = listaArmaduras;
+    }
+
+    public ArrayList<Esbirro> getListaEsbirros() {
+        return listaEsbirros;
+    }
+
+    public void setListaEsbirros(ArrayList<Esbirro> listaEsbirros) {
+        this.listaEsbirros = listaEsbirros;
     }
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    public void setConjuntoArmas(HashSet<Arma> conjuntoArmas) {
-        this.conjuntoArmas = conjuntoArmas;
-    }
-
-    public void setArmasActivas(HashSet<Arma> armasActivas) {
-        this.armasActivas = armasActivas;
-    }
-
-    public void setConjuntoArmaduras(HashSet<Armadura> conjuntoArmaduras) {
-        this.conjuntoArmaduras = conjuntoArmaduras;
-    }
-
-    public void setConjuntoEsbirros(HashSet<Esbirro> conjuntoEsbirros) {
-        this.conjuntoEsbirros = conjuntoEsbirros;
     }
 
     public void setCantidadOro(int cantidadOro) {
@@ -58,13 +66,9 @@ public abstract class Personaje {
         return cantidadOro;
     }
 
-    public Personaje() {
-
-    }
-
     public abstract void añadirEsbirro();
 
-    public void eliminarEsbirro() {
+    public void eliminarEsbirro() { //HAY QUE IMPLEMENTARLO AQUI
 
     }
 

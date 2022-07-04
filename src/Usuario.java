@@ -11,7 +11,7 @@ public abstract class Usuario implements Serializable {
         this.password = password;
     }
 
-    /*public String getNombre() { CREO QUE SOBRA TODOO ESTO
+    public String getNombre() {
         return nombre;
     }
 
@@ -33,7 +33,7 @@ public abstract class Usuario implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
-    }*/
+    }
 
 
 }

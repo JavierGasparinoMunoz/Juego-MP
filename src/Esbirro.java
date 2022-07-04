@@ -1,9 +1,6 @@
-public class Esbirro {
+public abstract class Esbirro {
     private String nombre;
     private int salud;
-
-    public Esbirro(){
-    }
 
     public Esbirro(String nombre, int salud) {
         this.nombre = nombre;

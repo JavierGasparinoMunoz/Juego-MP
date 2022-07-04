@@ -1,10 +1,10 @@
+import java.util.ArrayList;
+
 public class Arma extends Equipo{
     private int numManos;
-    public Arma(int modAtaque, int modDefensa, int numManos, String nombre) {
+    public Arma(int modAtaque, int modDefensa, int numManos, String nombre, String categoria){
+        super(modAtaque, modDefensa, nombre, categoria);
         this.numManos = numManos;
-        this.modDefensa = modDefensa;
-        this.modAtaque = modAtaque;
-        this.nombre = nombre;
     }
 
     public int getNumManos() {
@@ -33,5 +33,35 @@ public class Arma extends Equipo{
     @Override
     public void setModDefensa(int modDefensa) {
         super.setModDefensa(modDefensa);
+    }
+
+    @Override
+    public String getNombre(){
+        return super.getNombre();
+    }
+
+    @Override
+    public void setNombre(String nombre) {
+        super.setNombre(nombre);
+    }
+
+    @Override
+    public ArrayList<String> getListaMateriales() {
+        return super.getListaMateriales();
+    }
+
+    @Override
+    public void setListaMateriales(ArrayList<String> listaMateriales) {
+        super.setListaMateriales(listaMateriales);
+    }
+
+    @Override
+    public String getCategoria() {
+        return super.getCategoria();
+    }
+
+    @Override
+    public void setCategoria(String categoria) {
+        super.setCategoria(categoria);
     }
 }

@@ -2,13 +2,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Demonio extends Esbirro{
-    private Set<Esbirro> conjuntoEsbirros = new HashSet<Esbirro>();
+    private HashSet<Esbirro> conjuntoEsbirros = new HashSet<Esbirro>();
     private String pacto;
 
-    public Demonio(){
-    }
-
-    public Demonio(Set<Esbirro> conjuntoEsbirros, String pacto) {
+    public Demonio(String nombre, int salud, HashSet<Esbirro> conjuntoEsbirros, String pacto) {
+        super(nombre, salud);
         this.conjuntoEsbirros = conjuntoEsbirros;
         this.pacto = pacto;
     }
@@ -17,7 +15,7 @@ public class Demonio extends Esbirro{
         return conjuntoEsbirros;
     }
 
-    public void setConjuntoEsbirros(Set<Esbirro> conjuntoEsbirros) {
+    public void setConjuntoEsbirros(HashSet<Esbirro> conjuntoEsbirros) {
         this.conjuntoEsbirros = conjuntoEsbirros;
     }
 

@@ -7,20 +7,14 @@ public class Vampiro extends Personaje{
     private int puntosSangre;
     private int edad;
 
-    public Vampiro(){
-    }
-
     public Vampiro(int puntosSangre, int edad) {
+
         this.puntosSangre = puntosSangre;
         this.edad = edad;
     }
 
     @Override
     public void añadirEsbirro() {
-    }
-
-    @Override
-    public void eliminarEsbirro() {
     }
 
     public int getPuntosSangre() {

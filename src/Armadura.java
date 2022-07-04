@@ -1,9 +1,8 @@
 public class Armadura extends Equipo{
-    public Armadura(int modAtaque, int modDefensa, String nombre){
-        this.modDefensa = modDefensa;
-        this.modAtaque = modAtaque;
-        this.nombre = nombre;
+    public Armadura(int modAtaque, int modDefensa, String nombre, String categoria){
+        super(modAtaque, modDefensa, nombre, categoria);
     }
+
     @Override
     public int getModAtaque() {
         return super.getModAtaque();
