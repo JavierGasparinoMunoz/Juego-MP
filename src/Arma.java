@@ -36,6 +36,19 @@ public class Arma extends Equipo{
     }
 
     @Override
+    public void mostrarEquipo() {
+        System.out.println("Nombre: " + getNombre());
+        System.out.println("Modificador de ataque: " + getModAtaque());
+        System.out.println("Modificador de defensa: " + getModDefensa());
+        System.out.println("Categoria: " + getCategoria());
+        System.out.println("Numero de manos: " + getCategoria());
+        for(String material: getListaMateriales()){
+            System.out.println("Materiales:");
+            System.out.println("-" + material);
+        }
+    }
+
+    @Override
     public String getNombre(){
         return super.getNombre();
     }

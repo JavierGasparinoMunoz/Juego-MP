@@ -31,6 +31,46 @@ public class Sistema implements Serializable {
         menuInicio();
     }
 
+    private void consultarOferta(){
+        int i = 1;
+        for(Oferta oferta: listaOfertas){
+            System.out.println("Oferta numero " + i);
+            oferta.mostrarOferta();
+        }
+        System.out.println("----------------------------------");
+        System.out.println("Seleccione el numero de la oferta que quiere comprar o presione 0 para salir");
+        int option = sc.nextInt();
+        if (option != 0){
+            boolean oroDisponible = comprarOferta(listaOfertas.get(option - 1));
+            if(!oroDisponible){
+                System.out.println("No hay oro disponible");
+            }
+        }
+        sc.close();
+    }
+
+    private boolean comprarOferta(Oferta oferta){
+        int cantidadOro = ((Jugador) usuario).getPersonaje().getCantidadOro();
+        if (cantidadOro < oferta.getPrecio()){
+            ((Jugador) usuario).getPersonaje().setCantidadOro(cantidadOro - oferta.getPrecio());
+            for(Equipo equipo: oferta.getListaEquipo()){
+                if (equipo instanceof Arma){
+                    Arma arma = ((Arma) equipo) ;
+                    ((Jugador) usuario).getPersonaje().addListaArmas(arma);
+                }else{
+                    Armadura armadura = ((Armadura) equipo) ;
+                    ((Jugador) usuario).getPersonaje().addListaArmaduras(armadura);
+                }
+            }
+            for(Esbirro esbirro: oferta.getListaEsbirros()){
+                ((Jugador) usuario).getPersonaje().añadirEsbirro(esbirro);
+            }
+            oferta.generarVentaLog(usuario.getNombre());
+            return true;
+        }else{
+            return false;
+        }
+    }
     private void menuInicio(){
         System.out.println("----------------------------------");
         System.out.println("   Bienvenido al Menu de Inicio   ");

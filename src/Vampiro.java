@@ -14,8 +14,7 @@ public class Vampiro extends Personaje{
     }
 
     @Override
-    public void añadirEsbirro() {
-    }
+    public void añadirEsbirro(Esbirro esbirro) {super.addListaEsbirros(esbirro); }
 
     public int getPuntosSangre() {
         return puntosSangre;

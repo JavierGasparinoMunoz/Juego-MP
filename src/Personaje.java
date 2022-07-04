@@ -26,26 +26,30 @@ public abstract class Personaje {
         return listaArmas;
     }
 
-    public void setListaArmas(ArrayList<Arma> listaArmas) {
-        this.listaArmas = listaArmas;
-    }
+    public void addListaArmas(Arma arma) {listaArmas.add(arma); }
+
 
     public HashSet<Arma>  getArmasActivas() {
         return armasActivas;
     }
 
-    public void setArmasActivas(HashSet<Arma>  armasActivas) {
-        this.armasActivas = armasActivas;
+    public void addArmasActivas(Arma arma) {
+        listaArmas.add(arma);
+    }
+
+    public void removeArmasActivas(Arma arma) {
+        listaArmas.remove(arma);
     }
 
     public ArrayList<Armadura> getListaArmaduras() {
         return listaArmaduras;
     }
 
-    public void setListaArmaduras(ArrayList<Armadura> listaArmaduras) {
-        this.listaArmaduras = listaArmaduras;
-    }
+    public void addListaArmaduras(Armadura armadura) {listaArmaduras.add(armadura); }
 
+    public void removeListaArmaduras(Armadura armadura) {
+        listaArmaduras.remove(armadura);
+    }
     public ArrayList<Esbirro> getListaEsbirros() {
         return listaEsbirros;
     }
@@ -66,11 +70,11 @@ public abstract class Personaje {
         return cantidadOro;
     }
 
-    public abstract void añadirEsbirro();
+    public abstract void añadirEsbirro(Esbirro esbirro);
 
     public void eliminarEsbirro() { //HAY QUE IMPLEMENTARLO AQUI
 
     }
 
-
+    protected void addListaEsbirros(Esbirro esbirro) {listaEsbirros.add(esbirro); }
 }

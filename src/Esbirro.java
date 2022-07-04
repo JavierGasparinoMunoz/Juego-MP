@@ -22,4 +22,6 @@ public abstract class Esbirro {
     public void setSalud(int salud) {
         this.salud = salud;
     }
+
+    public abstract void mostrarEsbirro();
 }

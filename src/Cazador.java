@@ -4,16 +4,12 @@ import java.util.HashSet;
 public class Cazador extends Personaje{
     private int puntosVoluntad;
 
-    public Cazador() {
-    }
-
     public Cazador(int puntosVoluntad) {
         this.puntosVoluntad = puntosVoluntad;
     }
 
     @Override
-    public void añadirEsbirro() {
-    }
+    public void añadirEsbirro(Esbirro esbirro) {super.addListaEsbirros(esbirro); }
 
     @Override
     public void eliminarEsbirro() {
