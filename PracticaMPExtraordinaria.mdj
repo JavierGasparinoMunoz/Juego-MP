@@ -2669,7 +2669,7 @@
 											"top": 213,
 											"width": 279.9951171875,
 											"height": 13,
-											"text": "-conjuntoArmas: Set<Arma>",
+											"text": "-listaArmas: ArrayList<Arma>",
 											"horizontalAlignment": 0
 										},
 										{
@@ -2703,7 +2703,7 @@
 											"top": 243,
 											"width": 279.9951171875,
 											"height": 13,
-											"text": "-conjuntoArmaduras: Set<Armadura>",
+											"text": "-listaArmaduras: ArrayList<Armadura>",
 											"horizontalAlignment": 0
 										},
 										{
@@ -2738,7 +2738,7 @@
 											"top": 258,
 											"width": 279.9951171875,
 											"height": 13,
-											"text": "-conjuntoEsbirros: Set<Esbirro>",
+											"text": "-listaEsbirros: ArrayList<Esbirro>",
 											"horizontalAlignment": 0
 										},
 										{
@@ -12469,9 +12469,9 @@
 							"_parent": {
 								"$ref": "AAAAAAF/z826B00fFcQ="
 							},
-							"name": "conjuntoArmas",
+							"name": "listaArmas",
 							"visibility": "private",
-							"type": "Set<Arma>"
+							"type": "ArrayList<Arma>"
 						},
 						{
 							"_type": "UMLAttribute",
@@ -12489,9 +12489,9 @@
 							"_parent": {
 								"$ref": "AAAAAAF/z826B00fFcQ="
 							},
-							"name": "conjuntoArmaduras",
+							"name": "listaArmaduras",
 							"visibility": "private",
-							"type": "Set<Armadura>"
+							"type": "ArrayList<Armadura>"
 						},
 						{
 							"_type": "UMLAttribute",
@@ -12509,9 +12509,9 @@
 							"_parent": {
 								"$ref": "AAAAAAF/z826B00fFcQ="
 							},
-							"name": "conjuntoEsbirros",
+							"name": "listaEsbirros",
 							"visibility": "private",
-							"type": "Set<Esbirro>"
+							"type": "ArrayList<Esbirro>"
 						},
 						{
 							"_type": "UMLAttribute",
