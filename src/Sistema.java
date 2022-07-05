@@ -5,73 +5,62 @@ public class Sistema implements Serializable {
     Scanner sc = new Scanner(System.in);
     private Usuario usuario;
     private ArrayList<Usuario> whiteList, blackList = new ArrayList<>();
-    private ArrayList<Oferta>  listaOfertas = new ArrayList<>();
-    private ArrayList<Notificacion>  listaNotificaciones = new ArrayList<>();
+    private ArrayList<Oferta> listaOfertas = new ArrayList<>();
+    private ArrayList<Notificacion> listaNotificaciones = new ArrayList<>();
     private ArrayList<VentaLog> listaLogs = new ArrayList<>();
     private HashSet<Arma> conjuntoArmas = new HashSet<>();
     private HashSet<Armadura> conjuntoArmaduras = new HashSet<>();
 
 
-    private int opcionMI,opcionRol,opcionMP1,opcionMP2;
+    private int opcionMI, opcionRol, opcionMP1, opcionMP2;
     private Personaje p;
 
     public Sistema() throws IOException, ClassNotFoundException {
-        String ruta = "./usuarios.bin";
-        File ficheroUsuarios = new File(ruta);
-        if( !ficheroUsuarios.exists()){
-            try {
-                ficheroUsuarios.createNewFile();
-            } catch (IOException e) {
-                System.err.println(e.getMessage());
-            }
-        }
-        else{
-            deserializarSistema();
-        }
         menuInicio();
     }
 
-    private void consultarOferta(){
+    private void consultarOferta() {
         int i = 1;
-        for(Oferta oferta: listaOfertas){
+        for (Oferta oferta : listaOfertas) {
             System.out.println("Oferta numero " + i);
             oferta.mostrarOferta();
         }
         System.out.println("----------------------------------");
         System.out.println("Seleccione el numero de la oferta que quiere comprar o presione 0 para salir");
         int option = sc.nextInt();
-        if (option != 0){
+        if (option != 0) {
             boolean oroDisponible = comprarOferta(listaOfertas.get(option - 1));
-            if(!oroDisponible){
+            if (!oroDisponible) {
                 System.out.println("No hay oro disponible");
             }
         }
         sc.close();
     }
 
-    private boolean comprarOferta(Oferta oferta){
+    private boolean comprarOferta(Oferta oferta) {
         int cantidadOro = ((Jugador) usuario).getPersonaje().getCantidadOro();
-        if (cantidadOro < oferta.getPrecio()){
+        if (cantidadOro < oferta.getPrecio()) {
             ((Jugador) usuario).getPersonaje().setCantidadOro(cantidadOro - oferta.getPrecio());
-            for(Equipo equipo: oferta.getListaEquipo()){
-                if (equipo instanceof Arma){
-                    Arma arma = ((Arma) equipo) ;
+            for (Equipo equipo : oferta.getListaEquipo()) {
+                if (equipo instanceof Arma) {
+                    Arma arma = ((Arma) equipo);
                     ((Jugador) usuario).getPersonaje().addListaArmas(arma);
-                }else{
-                    Armadura armadura = ((Armadura) equipo) ;
+                } else {
+                    Armadura armadura = ((Armadura) equipo);
                     ((Jugador) usuario).getPersonaje().addListaArmaduras(armadura);
                 }
             }
-            for(Esbirro esbirro: oferta.getListaEsbirros()){
+            for (Esbirro esbirro : oferta.getListaEsbirros()) {
                 ((Jugador) usuario).getPersonaje().añadirEsbirro(esbirro);
             }
             oferta.generarVentaLog(usuario.getNombre());
             return true;
-        }else{
+        } else {
             return false;
         }
     }
-    private void menuInicio(){
+
+    public void menuInicio() {
         System.out.println("----------------------------------");
         System.out.println("   Bienvenido al Menu de Inicio   ");
         System.out.println("----------------------------------");
@@ -81,7 +70,7 @@ public class Sistema implements Serializable {
         System.out.println("----------------------------------");
         opcionMI = sc.nextInt();
 
-        switch (opcionMI){
+        switch (opcionMI) {
             case 1:
                 registrarCuenta();
                 break;
@@ -91,22 +80,62 @@ public class Sistema implements Serializable {
         }
     }
 
-    private void registrarCuenta(){
-        try(Scanner sc = new Scanner(System.in)){ //preguntar si se quiere registrar un Operador o Jugador antes
-            System.out.println("Introduce el nombre");
-            String nombre = sc.nextLine();
-            usuario.setNombre(nombre);
-            String nick;
-            do {
-                System.out.println("Introduce el nick");
-                nick = sc.nextLine();
-                usuario.setNick(nick);
-            }while(encontrarNick(nick));
+    private void registrarCuenta() {
+        try (Scanner sc = new Scanner(System.in)) { //preguntar si se quiere registrar un Operador o Jugador antes
+            System.out.println("Como quieres registrate:");
+            System.out.println("1. Jugador");
+            System.out.println("2. Operador");
+            System.out.println("3. Volver al menú de inicio");
+            int opcion = sc.nextInt();
 
-            System.out.println("Introduce la contraseña");
-            String contraseña = sc.nextLine();
-            usuario.setPassword(contraseña);
+            switch (opcion) {
+                case 1:
+                    System.out.println("Introduce el nombre");
+                    String nombre = sc.nextLine();
+                    String nick;
+                    do {
+                        System.out.println("Introduce el nick");
+                        nick = sc.nextLine();
+                    } while (encontrarNick(nick));
 
+                    System.out.println("Introduce la contraseña");
+                    String contraseña = sc.nextLine();
+                    registrarPersonaje();
+                    Personaje personaje = p;
+                    Jugador player = new Jugador(nombre, nick, contraseña, personaje);
+                    usuario = player;
+                    break;
+                case 2:
+                    System.out.println("Introduzca el codigo secreto o introduzca 1 para cancelar");
+                    int codigo = sc.nextInt();
+                    do {
+                        System.out.println("Codigo incorrecto, vuelva intentarlo o cancele la accion");
+                        codigo = sc.nextInt();
+                    } while (codigo != 1 || codigo != 1234);
+                    switch (codigo) {
+                        case 1:
+                            registrarCuenta();
+                            break;
+                        case 1234:
+                            System.out.println("Introduce el nombre");
+                            String nombreOperador = sc.nextLine();
+                            String nickOperador;
+                            do {
+                                System.out.println("Introduce el nick");
+                                nickOperador = sc.nextLine();
+                            } while (encontrarNick(nickOperador));
+
+                            System.out.println("Introduce la contraseña");
+                            String contraseñaOperador = sc.nextLine();
+                            Operador admin = new Operador(nombreOperador, nickOperador, contraseñaOperador);
+                            usuario = admin;
+                            break;
+                    }
+                    break;
+                case 3:
+                    menuInicio();
+                    break;
+            }
             crearUsuario();
             menuPrincipal();
         } catch (IOException e) {
@@ -115,66 +144,62 @@ public class Sistema implements Serializable {
     }
 
     public void crearUsuario() throws IOException {
-        usuario = new Usuario(usuario.getNombre(), usuario.getNick(), usuario.getPassword(), usuario.getPersonaje());
         whiteList.add(usuario);
         serializarSistema();
     }
 
-    private void menuPrincipal(){
+    private void menuPrincipal() {
         System.out.println("-----------------------------------------------------");
         System.out.println("Bienvenido al menu principal " + usuario.getNick());
         System.out.println("Elige una de las siguientes opciones");
-        System.out.println("1. Registrar un personaje / Gestion avanzada de personaje");
+        System.out.println("1. Gestion avanzada de personaje");
         System.out.println("2. Darse de baja");
         System.out.println("3. Salir");
         System.out.println("-----------------------------------------------------");
         opcionMP1 = sc.nextInt();
-        switch (opcionMP1){
+        switch (opcionMP1) {
             case 1:
-                if (usuario.getPersonaje()==null){
-                    registrarPersonaje();
-                } else {
-                    System.out.println("-----------------------------------------------------");
-                    System.out.println("Bienvenido al menu avanzado para personajes " + usuario.getNick());
-                    System.out.println("Elige una de las siguientes opciones");
-                    System.out.println("1. Elegir armas");
-                    System.out.println("2. Elegir armaduras");
-                    System.out.println("3. Consultar oro apostado en partidas anteriores");
-                    System.out.println("4. Desafiar un usuario");
-                    System.out.println("5. Consultar ranking global");
-                    System.out.println("6. Darse de baja");
-                    System.out.println("7. Salir");
-                    System.out.println("-----------------------------------------------------");
-                    opcionMP2 = sc.nextInt();
-                    switch (opcionMP2){
-                        case 1:
-                            elegirArmas();
-                            break;
-                        case 2:
-                            elegirArmaduras();
-                            break;
-                        case 3:
-                            consultarOroPartidasAnteriores(p);
-                            break;
-                        case 4:
-                            System.out.println("Introduce el nickname del usuario que quieres desafiar");
-                            String nickDes = sc.nextLine();
-                            if (encontrarNick(nickDes)){
-                                System.out.println("Introduce el oro que quieres apostar");
-                                int oroApostado = sc.nextInt();
-                                desafiarUsuario(nickDes,oroApostado);
-                            }
-                            break;
-                        case 5:
-                            consultarRankingGlobal();
-                            break;
-                        case 6:
-                            darseDeBaja();
-                            break;
-                        case 7:
-                            break;
-                    }
+                System.out.println("-----------------------------------------------------");
+                System.out.println("Bienvenido al menu avanzado para personajes " + usuario.getNick());
+                System.out.println("Elige una de las siguientes opciones");
+                System.out.println("1. Elegir armas");
+                System.out.println("2. Elegir armaduras");
+                System.out.println("3. Consultar oro apostado en partidas anteriores");
+                System.out.println("4. Desafiar un usuario");
+                System.out.println("5. Consultar ranking global");
+                System.out.println("6. Darse de baja");
+                System.out.println("7. Salir");
+                System.out.println("-----------------------------------------------------");
+                opcionMP2 = sc.nextInt();
+                switch (opcionMP2) {
+                    case 1:
+                        elegirArmas();
+                        break;
+                    case 2:
+                        elegirArmaduras();
+                        break;
+                    case 3:
+                        consultarOroPartidasAnteriores(p);
+                        break;
+                    case 4:
+                        System.out.println("Introduce el nickname del usuario que quieres desafiar");
+                        String nickDes = sc.nextLine();
+                        if (encontrarNick(nickDes)) {
+                            System.out.println("Introduce el oro que quieres apostar");
+                            int oroApostado = sc.nextInt();
+                            desafiarUsuario(nickDes, oroApostado);
+                        }
+                        break;
+                    case 5:
+                        consultarRankingGlobal();
+                        break;
+                    case 6:
+                        darseDeBaja();
+                        break;
+                    case 7:
+                        break;
                 }
+
                 break;
             case 2:
                 darseDeBaja();
@@ -184,16 +209,16 @@ public class Sistema implements Serializable {
         }
     }
 
-    public void darseDeBaja(){
+    public void darseDeBaja() {
     }
 
-    public void entrar(){
+    public void entrar() {
     }
 
-    public void salir(){
+    public void salir() {
     }
 
-    public void registrarPersonaje(){
+    public void registrarPersonaje() {
         Creator c = new Creator() {
             @Override
             public Personaje crearPersonaje() {
@@ -210,11 +235,11 @@ public class Sistema implements Serializable {
                         break;
                     case 2:
                         CrearVampiro vampiro = new CrearVampiro();
-                        p =  vampiro.crearPersonaje();
+                        p = vampiro.crearPersonaje();
                         break;
                     case 3:
                         CrearLicantropo licantropo = new CrearLicantropo();
-                        p =  licantropo.crearPersonaje();
+                        p = licantropo.crearPersonaje();
                         break;
                 }
                 usuario.setPersonaje(p);
@@ -228,21 +253,20 @@ public class Sistema implements Serializable {
     }
 
 
-    public void elegirArmasActivas(){
+    public void elegirArmasActivas() {
     }
 
-    public void iniciarSesion(){
-        try(Scanner sc = new Scanner(System.in)){
+    public void iniciarSesion() {
+        try (Scanner sc = new Scanner(System.in)) {
             System.out.println("Nombre de usuario");
             String nick = sc.nextLine();
             System.out.println("Contraseña");
             String contraseña = sc.nextLine();
-            if (comprobarSesion(nick, contraseña)){
+            if (comprobarSesion(nick, contraseña)) {
                 usuario.setNick(nick);
                 usuario.setPassword(contraseña);
                 menuPrincipal();
-            }
-            else{
+            } else {
                 System.out.println("Inicio de sesión erroneo vuelva a intentarlo");
                 System.out.println();
                 iniciarSesion();
@@ -285,19 +309,20 @@ public class Sistema implements Serializable {
         return conjuntoArmaduras;
     }*/
 
-    public void serializarSistema() throws FileNotFoundException, IOException{
-        String rutaArchivo ="./usuarios.bin";
+    public void serializarSistema() throws FileNotFoundException, IOException {
+        String rutaArchivo = "./informacion.bin";
         File f1 = new File(rutaArchivo);
-        ObjectOutputStream datosSalida = new ObjectOutputStream (new FileOutputStream(f1));
-        datosSalida.writeObject(whiteList);
-    }
-    //método encargado de obtener la información introducida por cliente/clientes anteriores.
-    public void deserializarSistema() throws FileNotFoundException, IOException, ClassNotFoundException {
-        String rutaArchivo = "./usuarios.bin";
-        ObjectInputStream datosEntrada = new ObjectInputStream(new FileInputStream(rutaArchivo));
-        whiteList = (ArrayList<Usuario>) datosEntrada.readObject();
+        ObjectOutputStream datosSalida = new ObjectOutputStream(new FileOutputStream(f1));
+        datosSalida.writeObject(this);
     }
 
+    //método encargado de obtener la información introducida por cliente/clientes anteriores.
+    public Sistema deserializarSistema() throws FileNotFoundException, IOException, ClassNotFoundException {
+        String rutaArchivo = "./informacion.bin";
+        ObjectInputStream datosEntrada = new ObjectInputStream(new FileInputStream(rutaArchivo));
+        Sistema datos = (Sistema) datosEntrada.readObject();
+        return datos;
+    }
 
 
     public Usuario getUsuario() {
@@ -316,24 +341,24 @@ public class Sistema implements Serializable {
         this.whiteList = listaUsuarios;
     }
 
-    private Boolean comprobarSesion(String nick, String contraseña){
+    private Boolean comprobarSesion(String nick, String contraseña) {
         int i = 0;
         boolean registrado = false;
-        while(i < whiteList.size() && !registrado) {
+        while (i < whiteList.size() && !registrado) {
             registrado = whiteList.get(i).getNick().equals(nick) && whiteList.get(i).getPassword().equals(contraseña);
             i = i + 1;
         }
         return registrado;
     }
 
-    public void modificarOro(){
+    public void modificarOro() {
         int cantidadOro = ((Jugador) usuario).getPersonaje().getCantidadOro();
         System.out.println("Indica cuánto oro quieres sumarte entre 0 y 1000");
         Scanner sc = new Scanner(System.in);
         int oroASumar = -1;
         while (oroASumar < 0 || oroASumar > 1000) {
             oroASumar = sc.nextInt();
-            if (oroASumar < 0 || oroASumar > 1000){
+            if (oroASumar < 0 || oroASumar > 1000) {
                 System.out.println("Vuélvelo a intentar, introduzca un número entre 0 y 1000");
             }
         }
@@ -361,13 +386,12 @@ public class Sistema implements Serializable {
             Usuario user = blackList.get(opcion);
             whiteList.remove(user);
             blackList.add(user);
-        }
-        else{
+        } else {
             System.out.println("No hay jugadores para banear");
         }
     }
 
-    public void desbanearUsuario(){
+    public void desbanearUsuario() {
         if (!blackList.isEmpty()) {
             System.out.println("¿Qué usuario quieres banear?");
             int i = 0;
@@ -385,27 +409,25 @@ public class Sistema implements Serializable {
             Usuario user = blackList.get(opcion);
             blackList.remove(user);
             whiteList.add(user);
-        }
-        else{
+        } else {
             System.out.println("No hay jugadores baneados");
         }
     }
 
-    public void consultarVentas(){
-        if (!listaLogs.isEmpty()){
+    public void consultarVentas() {
+        if (!listaLogs.isEmpty()) {
             int i = 0;
-            for (VentaLog log: listaLogs) {
+            for (VentaLog log : listaLogs) {
                 System.out.println(i + ") ");
                 log.imprimirLog();
                 i += 1;
             }
-        }
-        else{
+        } else {
             System.out.println("No tuvo lugar ninguna venta");
         }
     }
 
-    public void crearOferta(){
+    public void crearOferta() {
         Scanner sc = new Scanner(System.in);
         ArrayList<Equipo> listaEquipo = new ArrayList<>();
         ArrayList<Esbirro> listaEsbirros = new ArrayList<>();
@@ -415,7 +437,7 @@ public class Sistema implements Serializable {
         int opcion2 = -1;
         int i;
         int contador = 0;
-        while (opcion < 4){
+        while (opcion < 4) {
             System.out.println("Introduzca el tipo de artículo que quieres vender: ");
             System.out.println("1) Armas");
             System.out.println("2) Armadura");
@@ -423,20 +445,19 @@ public class Sistema implements Serializable {
             System.out.println("4) Cancelar");
             if (contador >= 1) {
                 System.out.println("5) Finalizar oferta");
-                while (opcion > 5 || opcion <1){
+                while (opcion > 5 || opcion < 1) {
                     opcion = sc.nextInt();
                 }
-            }
-            else{
-                while (opcion > 4 || opcion <1){
+            } else {
+                while (opcion > 4 || opcion < 1) {
                     opcion = sc.nextInt();
                 }
             }
             i = 0;
-            switch (opcion){
+            switch (opcion) {
                 case 1:
-                    for (Arma arma: ((Jugador) usuario).getPersonaje().getListaArmas()){
-                        System.out.println(i + ") " + arma.getNombre() + " Categoría: "+ arma.getCategoria()  + " Ataque: " + arma.getModAtaque() + " Defensa: " + arma.getModDefensa() + " Manos: " + arma.getNumManos());
+                    for (Arma arma : ((Jugador) usuario).getPersonaje().getListaArmas()) {
+                        System.out.println(i + ") " + arma.getNombre() + " Categoría: " + arma.getCategoria() + " Ataque: " + arma.getModAtaque() + " Defensa: " + arma.getModDefensa() + " Manos: " + arma.getNumManos());
                         i += 1;
                     }
                     i -= 1;
@@ -446,8 +467,8 @@ public class Sistema implements Serializable {
                     listaEquipo.add(((Jugador) usuario).getPersonaje().getListaArmas().get(opcion2));
                     break;
                 case 2:
-                    for (Armadura armadura: ((Jugador) usuario).getPersonaje().getListaArmaduras()){
-                        System.out.println(i + ") " +  armadura.getNombre() + " Categoría: " + armadura.getCategoria() + armadura.getNombre() + " Ataque: " + armadura.getModAtaque() + " Defensa: " + armadura.getModDefensa());
+                    for (Armadura armadura : ((Jugador) usuario).getPersonaje().getListaArmaduras()) {
+                        System.out.println(i + ") " + armadura.getNombre() + " Categoría: " + armadura.getCategoria() + armadura.getNombre() + " Ataque: " + armadura.getModAtaque() + " Defensa: " + armadura.getModDefensa());
                         i += 1;
                     }
                     i -= 1;
@@ -457,7 +478,7 @@ public class Sistema implements Serializable {
                     listaEquipo.add(((Jugador) usuario).getPersonaje().getListaArmaduras().get(opcion2));
                     break;
                 case 3:
-                    for (Esbirro esbirro: ((Jugador) usuario).getPersonaje().getListaEsbirros()){
+                    for (Esbirro esbirro : ((Jugador) usuario).getPersonaje().getListaEsbirros()) {
                         Class claseEsbirro = esbirro.getClass();
                         System.out.println(i + ") Tipo: " + esbirro.getClass().getSimpleName() + " Nombre: " + esbirro.getNombre() + " Salud: " + esbirro.getSalud() + esbirro + " Ataque: " + ((claseEsbirro) esbirro) + " Defensa: " + armadura.getModDefensa());
                         i += 1;
@@ -475,15 +496,16 @@ public class Sistema implements Serializable {
 
 
     }
-    /*private Boolean encontrarNick(String nick){ //Creo que sobra, no se para qué está
+
+    private Boolean encontrarNick(String nick) {
         int i = 0;
         boolean encontrado = false;
-        while(i < listaUsuarios.size() && !encontrado) {
-            encontrado = listaUsuarios.get(i).getNick().equals(nick);
+        while (i < whiteList.size() && !encontrado) {
+            encontrado = whiteList.get(i).getNick().equals(nick);
             i = i + 1;
         }
         return encontrado;
-    }*/
+    }
 
 }
 
