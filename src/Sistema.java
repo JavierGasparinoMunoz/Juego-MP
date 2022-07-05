@@ -25,6 +25,7 @@ public class Sistema implements Serializable {
             for (Oferta oferta : listaOfertas) {
                 System.out.println("Oferta numero " + i);
                 oferta.mostrarOferta();
+                i++;
             }
             System.out.println("----------------------------------");
             System.out.println("Seleccione el numero de la oferta que quiere comprar o presione 0 para salir");
@@ -35,7 +36,7 @@ public class Sistema implements Serializable {
                     System.out.println("No hay oro disponible");
                 }
             }else{
-                System.out.println("Inserte un numero valido");
+                System.out.println("El numero ingresado no es valido");
             }
             sc.close();
         }else{
@@ -276,6 +277,84 @@ public class Sistema implements Serializable {
                 System.out.println("Inicio de sesión erroneo vuelva a intentarlo");
                 System.out.println();
                 iniciarSesion();
+            }
+        }
+    }
+
+    public void modificarEquipo(){
+        System.out.println("Seleccione una opcion");
+        System.out.println("1. Añadir Equipo");
+        System.out.println("2. Eliminar Equipo");
+        System.out.println("0. Salir");
+        int opcion = sc.nextInt();
+        switch (opcion) {
+            case 1:
+                añadirEquipo();
+            case 2:
+                eliminarEquipo();
+        }
+    }
+
+    private void añadirEquipo(){
+        ArrayList<Equipo> listaEquipo = new ArrayList<>();
+        System.out.println("Seleccione el equipo que desea añadir");
+        System.out.println("Armaduras:");
+        int i = 1;
+        for(Armadura armadura: conjuntoArmaduras){
+
+            if(!((Jugador) usuario).getPersonaje().getListaArmaduras().contains(armadura)) {
+                System.out.println("Numero" + i);
+                armadura.mostrarEquipo();
+                listaEquipo.add(armadura);
+                i++;
+            }
+        }
+        System.out.println("Armas:");
+        for(Arma arma: conjuntoArmas){
+
+            if(!((Jugador) usuario).getPersonaje().getListaArmas().contains(arma)) {
+                System.out.println("Numero" + i);
+                arma.mostrarEquipo();
+                listaEquipo.add(arma);
+                i++;
+            }
+        }
+        int opcion = sc.nextInt();
+        if (opcion < listaEquipo.size() && 0 < opcion) {
+            Equipo e = listaEquipo.get(opcion);
+            if (e instanceof Arma){
+                ((Jugador) usuario).getPersonaje().addListaArmas((Arma) e );
+            }else{
+                ((Jugador) usuario).getPersonaje().addListaArmaduras((Armadura) e );
+            }
+        }
+    }
+
+    private void eliminarEquipo(){
+        ArrayList<Equipo> listaEquipo = new ArrayList<>();
+        System.out.println("Seleccione el equipo que desea eliminar");
+        System.out.println("Armaduras:");
+        int i = 1;
+        for(Armadura armadura: ((Jugador) usuario).getPersonaje().getListaArmaduras()){
+            System.out.println("Numero" + i);
+            armadura.mostrarEquipo();
+            listaEquipo.add(armadura);
+            i++;
+        }
+        System.out.println("Armas:");
+        for(Arma arma: ((Jugador) usuario).getPersonaje().getListaArmas()){
+            System.out.println("Numero" + i);
+            arma.mostrarEquipo();
+            listaEquipo.add(arma);
+            i++;
+        }
+        int opcion = sc.nextInt();
+        if (opcion < listaEquipo.size() && 0 < opcion) {
+            Equipo e = listaEquipo.get(opcion);
+            if (e instanceof Arma){
+                ((Jugador) usuario).getPersonaje().removeArmasActivas((Arma) e);
+            }else{
+                ((Jugador) usuario).getPersonaje().removeListaArmaduras((Armadura) e);
             }
         }
     }
