@@ -8,8 +8,8 @@ public class Sistema implements Serializable {
     private ArrayList<Oferta> listaOfertas = new ArrayList<>();
     private ArrayList<Notificacion> listaNotificaciones = new ArrayList<>();
     private ArrayList<VentaLog> listaLogs = new ArrayList<>();
-    private HashSet<Arma> conjuntoArmas = new HashSet<>();
-    private HashSet<Armadura> conjuntoArmaduras = new HashSet<>();
+    private ArrayList<Arma> conjuntoArmas = new ArrayList<>();
+    private ArrayList<Armadura> conjuntoArmaduras = new ArrayList<>();
 
 
     private int opcionMI, opcionRol, opcionMP1, opcionMP2;
@@ -224,39 +224,48 @@ public class Sistema implements Serializable {
     public void salir() {
     }
 
-    public void registrarPersonaje() {
-        Creator c = new Creator() {
+    private void crearPersonajeBase(){
+        System.out.println("Introduce el nombre del personaje");
+        String nombre = sc.nextLine();
+        System.out.println("Introduzca la cantidad de oro del personaje");
+        int cantidadOro = sc.nextInt();
+        HashSet<Arma> armasActivas = new HashSet<>();
+        ArrayList<Esbirro> listaEsbirros = new ArrayList<>();
+        p = new Personaje(nombre,conjuntoArmas,armasActivas,conjuntoArmaduras,listaEsbirros,cantidadOro) {
             @Override
-            public Personaje crearPersonaje() {
-                p = usuario.getPersonaje();
-                System.out.println("Elige un rol");
-                System.out.println("1. Cazador");
-                System.out.println("2. Vampiro");
-                System.out.println("3. Licantropo");
-                opcionRol = sc.nextInt();
-                switch (opcionRol) {
-                    case 1:
-                        CrearCazador cazador = new CrearCazador();
-                        p = cazador.crearPersonaje();
-                        break;
-                    case 2:
-                        CrearVampiro vampiro = new CrearVampiro();
-                        p = vampiro.crearPersonaje();
-                        break;
-                    case 3:
-                        CrearLicantropo licantropo = new CrearLicantropo();
-                        p = licantropo.crearPersonaje();
-                        break;
-                }
-                usuario.setPersonaje(p);
-                return p;
+            public void añadirEsbirro(Esbirro esbirro) {
+
             }
         };
-        c.crearPersonaje();
-        elegirArmadurasDefecto();
-        elegirArmasDefecto();
-        elegirOroApostadoDefecto();
     }
+
+    public Personaje registrarPersonaje() {
+        crearPersonajeBase();
+        p = ((Jugador) usuario).getPersonaje();
+        System.out.println("Elige un rol");
+        System.out.println("1. Cazador");
+        System.out.println("2. Vampiro");
+        System.out.println("3. Licantropo");
+        opcionRol = sc.nextInt();
+        switch (opcionRol) {
+            case 1:
+                CrearCazador cazador = new CrearCazador();
+                p = cazador.crearPersonaje(p.getNombre(),p.getListaArmas(),p.getArmasActivas(),p.getListaArmaduras(),p.getListaEsbirros(),p.getCantidadOro());
+                break;
+            case 2:
+                CrearVampiro vampiro = new CrearVampiro();
+                p = vampiro.crearPersonaje(p.getNombre(),p.getListaArmas(),p.getArmasActivas(),p.getListaArmaduras(),p.getListaEsbirros(),p.getCantidadOro());
+                break;
+            case 3:
+                CrearLicantropo licantropo = new CrearLicantropo();
+                p = licantropo.crearPersonaje(p.getNombre(),p.getListaArmas(),p.getArmasActivas(),p.getListaArmaduras(),p.getListaEsbirros(),p.getCantidadOro());
+                break;
+        }
+        ((Jugador) usuario).setPersonaje(p);
+        return p;
+    }
+
+
 
 
     public void elegirArmasActivas() {
