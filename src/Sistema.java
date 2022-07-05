@@ -33,20 +33,26 @@ public class Sistema implements Serializable {
 
     private void consultarOferta(){
         int i = 1;
-        for(Oferta oferta: listaOfertas){
-            System.out.println("Oferta numero " + i);
-            oferta.mostrarOferta();
-        }
-        System.out.println("----------------------------------");
-        System.out.println("Seleccione el numero de la oferta que quiere comprar o presione 0 para salir");
-        int option = sc.nextInt();
-        if (option != 0){
-            boolean oroDisponible = comprarOferta(listaOfertas.get(option - 1));
-            if(!oroDisponible){
-                System.out.println("No hay oro disponible");
+        if (!listaOfertas.isEmpty()) {
+            for (Oferta oferta : listaOfertas) {
+                System.out.println("Oferta numero " + i);
+                oferta.mostrarOferta();
             }
+            System.out.println("----------------------------------");
+            System.out.println("Seleccione el numero de la oferta que quiere comprar o presione 0 para salir");
+            int option = sc.nextInt();
+            if (option != 0 && option<=listaOfertas.size() && option >= 0) {
+                boolean oroDisponible = comprarOferta(listaOfertas.get(option - 1));
+                if (!oroDisponible) {
+                    System.out.println("No hay oro disponible");
+                }
+            }else{
+                System.out.println("Inserte un numero valido");
+            }
+            sc.close();
+        }else{
+            System.out.println("No hay ofertas disponibles");
         }
-        sc.close();
     }
 
     private boolean comprarOferta(Oferta oferta){
@@ -55,7 +61,7 @@ public class Sistema implements Serializable {
             ((Jugador) usuario).getPersonaje().setCantidadOro(cantidadOro - oferta.getPrecio());
             for(Equipo equipo: oferta.getListaEquipo()){
                 if (equipo instanceof Arma){
-                    Arma arma = ((Arma) equipo) ;
+                    Arma arma = ((Arma) equipo);
                     ((Jugador) usuario).getPersonaje().addListaArmas(arma);
                 }else{
                     Armadura armadura = ((Armadura) equipo) ;
@@ -71,6 +77,7 @@ public class Sistema implements Serializable {
             return false;
         }
     }
+    
     private void menuInicio(){
         System.out.println("----------------------------------");
         System.out.println("   Bienvenido al Menu de Inicio   ");

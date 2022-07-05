@@ -13,4 +13,12 @@ public class Humano extends Esbirro{
     public void setLealtad(int lealtad) {
         this.lealtad = lealtad;
     }
+
+    @Override
+    public void mostrarEsbirro() {
+        System.out.println("Tipo: Humano");
+        System.out.println("Nombre: " + getNombre());
+        System.out.println("Salud: " + getSalud());
+        System.out.println("Lealtad: " + getLealtad());
+    }
 }
