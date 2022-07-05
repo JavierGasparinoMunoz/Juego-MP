@@ -4,7 +4,8 @@ import java.util.HashSet;
 public class Cazador extends Personaje{
     private int puntosVoluntad;
 
-    public Cazador(int puntosVoluntad) {
+    public Cazador(String nombre, ArrayList<Arma> listaArmas, HashSet<Arma> armasActivas, ArrayList<Armadura> listaArmaduras, ArrayList<Esbirro> listaEsbirros, int cantidadOro, int puntosVoluntad) {
+        super(nombre, listaArmas, armasActivas, listaArmaduras, listaEsbirros, cantidadOro);
         this.puntosVoluntad = puntosVoluntad;
     }
 
