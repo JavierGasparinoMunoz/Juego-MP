@@ -1,16 +1,16 @@
 public class Humano extends Esbirro{
-    private int lealtad;
+    private String lealtad;
 
-    public Humano(String nombre, int salud, int lealtad) {
+    public Humano(String nombre, int salud, String lealtad) {
         super(nombre, salud);
         this.lealtad = lealtad;
     }
 
-    public int getLealtad() {
+    public String getLealtad() {
         return lealtad;
     }
 
-    public void setLealtad(int lealtad) {
+    public void setLealtad(String lealtad) {
         this.lealtad = lealtad;
     }
 

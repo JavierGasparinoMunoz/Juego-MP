@@ -1,21 +1,22 @@
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
 public class Demonio extends Esbirro{
-    private HashSet<Esbirro> conjuntoEsbirros = new HashSet<Esbirro>();
+    private ArrayList<Esbirro> conjuntoEsbirros = new ArrayList<>();
     private String pacto;
 
-    public Demonio(String nombre, int salud, HashSet<Esbirro> conjuntoEsbirros, String pacto) {
+    public Demonio(String nombre, int salud, ArrayList<Esbirro> conjuntoEsbirros, String pacto) {
         super(nombre, salud);
         this.conjuntoEsbirros = conjuntoEsbirros;
         this.pacto = pacto;
     }
 
-    public Set<Esbirro> getConjuntoEsbirros() {
+    public ArrayList<Esbirro> getConjuntoEsbirros() {
         return conjuntoEsbirros;
     }
 
-    public void setConjuntoEsbirros(HashSet<Esbirro> conjuntoEsbirros) {
+    public void setConjuntoEsbirros(ArrayList<Esbirro> conjuntoEsbirros) {
         this.conjuntoEsbirros = conjuntoEsbirros;
     }
 
