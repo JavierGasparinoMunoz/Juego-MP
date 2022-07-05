@@ -8,45 +8,39 @@ public class Sistema implements Serializable {
     private ArrayList<Oferta> listaOfertas = new ArrayList<>();
     private ArrayList<Notificacion> listaNotificaciones = new ArrayList<>();
     private ArrayList<VentaLog> listaLogs = new ArrayList<>();
-    private ArrayList<Arma> conjuntoArmas = new ArrayList<>();
-    private ArrayList<Armadura> conjuntoArmaduras = new ArrayList<>();
-
-    Personaje p;
+    private HashSet<Arma> conjuntoArmas = new HashSet<>();
+    private HashSet<Armadura> conjuntoArmaduras = new HashSet<>();
 
 
     private int opcionMI, opcionRol, opcionMP1, opcionMP2;
+    private Personaje p;
 
     public Sistema() throws IOException, ClassNotFoundException {
-        String ruta = "./usuarios.bin";
-        File ficheroUsuarios = new File(ruta);
-        if (!ficheroUsuarios.exists()) {
-            try {
-                ficheroUsuarios.createNewFile();
-            } catch (IOException e) {
-                System.err.println(e.getMessage());
-            }
-        } else {
-            deserializarSistema();
-        }
         menuInicio();
     }
 
-    private void consultarOferta() {
+    private void consultarOferta(){
         int i = 1;
-        for (Oferta oferta : listaOfertas) {
-            System.out.println("Oferta numero " + i);
-            oferta.mostrarOferta();
-        }
-        System.out.println("----------------------------------");
-        System.out.println("Seleccione el numero de la oferta que quiere comprar o presione 0 para salir");
-        int option = sc.nextInt();
-        if (option != 0) {
-            boolean oroDisponible = comprarOferta(listaOfertas.get(option - 1));
-            if (!oroDisponible) {
-                System.out.println("No hay oro disponible");
+        if (!listaOfertas.isEmpty()) {
+            for (Oferta oferta : listaOfertas) {
+                System.out.println("Oferta numero " + i);
+                oferta.mostrarOferta();
             }
+            System.out.println("----------------------------------");
+            System.out.println("Seleccione el numero de la oferta que quiere comprar o presione 0 para salir");
+            int option = sc.nextInt();
+            if (option != 0 && option<=listaOfertas.size() && option >= 0) {
+                boolean oroDisponible = comprarOferta(listaOfertas.get(option - 1));
+                if (!oroDisponible) {
+                    System.out.println("No hay oro disponible");
+                }
+            }else{
+                System.out.println("Inserte un numero valido");
+            }
+            sc.close();
+        }else{
+            System.out.println("No hay ofertas disponibles");
         }
-        sc.close();
     }
 
     private boolean comprarOferta(Oferta oferta) {
@@ -72,7 +66,7 @@ public class Sistema implements Serializable {
         }
     }
 
-    private void menuInicio() {
+    public void menuInicio() {
         System.out.println("----------------------------------");
         System.out.println("   Bienvenido al Menu de Inicio   ");
         System.out.println("----------------------------------");
@@ -94,20 +88,60 @@ public class Sistema implements Serializable {
 
     private void registrarCuenta() {
         try (Scanner sc = new Scanner(System.in)) { //preguntar si se quiere registrar un Operador o Jugador antes
-            System.out.println("Introduce el nombre");
-            String nombre = sc.nextLine();
-            usuario.setNombre(nombre);
-            String nick;
-            do {
-                System.out.println("Introduce el nick");
-                nick = sc.nextLine();
-                usuario.setNick(nick);
-            } while (encontrarNick(nick));
+            System.out.println("Como quieres registrate:");
+            System.out.println("1. Jugador");
+            System.out.println("2. Operador");
+            System.out.println("3. Volver al menú de inicio");
+            int opcion = sc.nextInt();
 
-            System.out.println("Introduce la contraseña");
-            String contraseña = sc.nextLine();
-            usuario.setPassword(contraseña);
+            switch (opcion) {
+                case 1:
+                    System.out.println("Introduce el nombre");
+                    String nombre = sc.nextLine();
+                    String nick;
+                    do {
+                        System.out.println("Introduce el nick");
+                        nick = sc.nextLine();
+                    } while (encontrarNick(nick));
 
+                    System.out.println("Introduce la contraseña");
+                    String contraseña = sc.nextLine();
+                    registrarPersonaje();
+                    Personaje personaje = p;
+                    Jugador player = new Jugador(nombre, nick, contraseña, personaje);
+                    usuario = player;
+                    break;
+                case 2:
+                    System.out.println("Introduzca el codigo secreto o introduzca 1 para cancelar");
+                    int codigo = sc.nextInt();
+                    do {
+                        System.out.println("Codigo incorrecto, vuelva intentarlo o cancele la accion");
+                        codigo = sc.nextInt();
+                    } while (codigo != 1 || codigo != 1234);
+                    switch (codigo) {
+                        case 1:
+                            registrarCuenta();
+                            break;
+                        case 1234:
+                            System.out.println("Introduce el nombre");
+                            String nombreOperador = sc.nextLine();
+                            String nickOperador;
+                            do {
+                                System.out.println("Introduce el nick");
+                                nickOperador = sc.nextLine();
+                            } while (encontrarNick(nickOperador));
+
+                            System.out.println("Introduce la contraseña");
+                            String contraseñaOperador = sc.nextLine();
+                            Operador admin = new Operador(nombreOperador, nickOperador, contraseñaOperador);
+                            usuario = admin;
+                            break;
+                    }
+                    break;
+                case 3:
+                    menuInicio();
+                    break;
+            }
             crearUsuario();
             menuPrincipal();
         } catch (IOException e) {
@@ -116,7 +150,6 @@ public class Sistema implements Serializable {
     }
 
     public void crearUsuario() throws IOException {
-        usuario = new Usuario(usuario.getNombre(), usuario.getNick(), usuario.getPassword(), usuario.getPersonaje());
         whiteList.add(usuario);
         serializarSistema();
     }
@@ -125,57 +158,54 @@ public class Sistema implements Serializable {
         System.out.println("-----------------------------------------------------");
         System.out.println("Bienvenido al menu principal " + usuario.getNick());
         System.out.println("Elige una de las siguientes opciones");
-        System.out.println("1. Registrar un personaje / Gestion avanzada de personaje");
+        System.out.println("1. Gestion avanzada de personaje");
         System.out.println("2. Darse de baja");
         System.out.println("3. Salir");
         System.out.println("-----------------------------------------------------");
         opcionMP1 = sc.nextInt();
         switch (opcionMP1) {
             case 1:
-                if (usuario.getPersonaje() == null) {
-                    registrarPersonaje();
-                } else {
-                    System.out.println("-----------------------------------------------------");
-                    System.out.println("Bienvenido al menu avanzado para personajes " + usuario.getNick());
-                    System.out.println("Elige una de las siguientes opciones");
-                    System.out.println("1. Elegir armas");
-                    System.out.println("2. Elegir armaduras");
-                    System.out.println("3. Consultar oro apostado en partidas anteriores");
-                    System.out.println("4. Desafiar un usuario");
-                    System.out.println("5. Consultar ranking global");
-                    System.out.println("6. Darse de baja");
-                    System.out.println("7. Salir");
-                    System.out.println("-----------------------------------------------------");
-                    opcionMP2 = sc.nextInt();
-                    switch (opcionMP2) {
-                        case 1:
-                            elegirArmas();
-                            break;
-                        case 2:
-                            elegirArmaduras();
-                            break;
-                        case 3:
-                            consultarOroPartidasAnteriores(p);
-                            break;
-                        case 4:
-                            System.out.println("Introduce el nickname del usuario que quieres desafiar");
-                            String nickDes = sc.nextLine();
-                            if (encontrarNick(nickDes)) {
-                                System.out.println("Introduce el oro que quieres apostar");
-                                int oroApostado = sc.nextInt();
-                                desafiarUsuario(nickDes, oroApostado);
-                            }
-                            break;
-                        case 5:
-                            consultarRankingGlobal();
-                            break;
-                        case 6:
-                            darseDeBaja();
-                            break;
-                        case 7:
-                            break;
-                    }
+                System.out.println("-----------------------------------------------------");
+                System.out.println("Bienvenido al menu avanzado para personajes " + usuario.getNick());
+                System.out.println("Elige una de las siguientes opciones");
+                System.out.println("1. Elegir armas");
+                System.out.println("2. Elegir armaduras");
+                System.out.println("3. Consultar oro apostado en partidas anteriores");
+                System.out.println("4. Desafiar un usuario");
+                System.out.println("5. Consultar ranking global");
+                System.out.println("6. Darse de baja");
+                System.out.println("7. Salir");
+                System.out.println("-----------------------------------------------------");
+                opcionMP2 = sc.nextInt();
+                switch (opcionMP2) {
+                    case 1:
+                        elegirArmas();
+                        break;
+                    case 2:
+                        elegirArmaduras();
+                        break;
+                    case 3:
+                        consultarOroPartidasAnteriores(p);
+                        break;
+                    case 4:
+                        System.out.println("Introduce el nickname del usuario que quieres desafiar");
+                        String nickDes = sc.nextLine();
+                        if (encontrarNick(nickDes)) {
+                            System.out.println("Introduce el oro que quieres apostar");
+                            int oroApostado = sc.nextInt();
+                            desafiarUsuario(nickDes, oroApostado);
+                        }
+                        break;
+                    case 5:
+                        consultarRankingGlobal();
+                        break;
+                    case 6:
+                        darseDeBaja();
+                        break;
+                    case 7:
+                        break;
                 }
+
                 break;
             case 2:
                 darseDeBaja();
@@ -194,47 +224,39 @@ public class Sistema implements Serializable {
     public void salir() {
     }
 
-    private void crearPersonajeBase(){
-        System.out.println("Introduce el nombre del personaje");
-        String nombre = sc.nextLine();
-        System.out.println("Introduzca la cantidad de oro del personaje");
-        int cantidadOro = sc.nextInt();
-        HashSet<Arma> armasActivas = new HashSet<>();
-        ArrayList<Esbirro> listaEsbirros = new ArrayList<>();
-        p = new Personaje(nombre,conjuntoArmas,armasActivas,conjuntoArmaduras,listaEsbirros,cantidadOro) {
+    public void registrarPersonaje() {
+        Creator c = new Creator() {
             @Override
-            public void añadirEsbirro(Esbirro esbirro) {
-
+            public Personaje crearPersonaje() {
+                p = usuario.getPersonaje();
+                System.out.println("Elige un rol");
+                System.out.println("1. Cazador");
+                System.out.println("2. Vampiro");
+                System.out.println("3. Licantropo");
+                opcionRol = sc.nextInt();
+                switch (opcionRol) {
+                    case 1:
+                        CrearCazador cazador = new CrearCazador();
+                        p = cazador.crearPersonaje();
+                        break;
+                    case 2:
+                        CrearVampiro vampiro = new CrearVampiro();
+                        p = vampiro.crearPersonaje();
+                        break;
+                    case 3:
+                        CrearLicantropo licantropo = new CrearLicantropo();
+                        p = licantropo.crearPersonaje();
+                        break;
+                }
+                usuario.setPersonaje(p);
+                return p;
             }
         };
+        c.crearPersonaje();
+        elegirArmadurasDefecto();
+        elegirArmasDefecto();
+        elegirOroApostadoDefecto();
     }
-
-    public Personaje registrarPersonaje() {
-        crearPersonajeBase();
-        p = ((Jugador) usuario).getPersonaje();
-        System.out.println("Elige un rol");
-        System.out.println("1. Cazador");
-        System.out.println("2. Vampiro");
-        System.out.println("3. Licantropo");
-        opcionRol = sc.nextInt();
-        switch (opcionRol) {
-            case 1:
-                CrearCazador cazador = new CrearCazador();
-                p = cazador.crearPersonaje(p.getNombre(),p.getListaArmas(),p.getArmasActivas(),p.getListaArmaduras(),p.getListaEsbirros(),p.getCantidadOro());
-                break;
-            case 2:
-                CrearVampiro vampiro = new CrearVampiro();
-                p = vampiro.crearPersonaje(p.getNombre(),p.getListaArmas(),p.getArmasActivas(),p.getListaArmaduras(),p.getListaEsbirros(),p.getCantidadOro());
-                break;
-            case 3:
-                CrearLicantropo licantropo = new CrearLicantropo();
-                p = licantropo.crearPersonaje(p.getNombre(),p.getListaArmas(),p.getArmasActivas(),p.getListaArmaduras(),p.getListaEsbirros(),p.getCantidadOro());
-                break;
-        }
-        ((Jugador) usuario).setPersonaje(p);
-        return p;
-    }
-
 
 
     public void elegirArmasActivas() {
@@ -294,17 +316,18 @@ public class Sistema implements Serializable {
     }*/
 
     public void serializarSistema() throws FileNotFoundException, IOException {
-        String rutaArchivo = "./usuarios.bin";
+        String rutaArchivo = "./informacion.bin";
         File f1 = new File(rutaArchivo);
         ObjectOutputStream datosSalida = new ObjectOutputStream(new FileOutputStream(f1));
-        datosSalida.writeObject(whiteList);
+        datosSalida.writeObject(this);
     }
 
     //método encargado de obtener la información introducida por cliente/clientes anteriores.
-    public void deserializarSistema() throws FileNotFoundException, IOException, ClassNotFoundException {
-        String rutaArchivo = "./usuarios.bin";
+    public Sistema deserializarSistema() throws FileNotFoundException, IOException, ClassNotFoundException {
+        String rutaArchivo = "./informacion.bin";
         ObjectInputStream datosEntrada = new ObjectInputStream(new FileInputStream(rutaArchivo));
-        whiteList = (ArrayList<Usuario>) datosEntrada.readObject();
+        Sistema datos = (Sistema) datosEntrada.readObject();
+        return datos;
     }
 
 
@@ -479,15 +502,16 @@ public class Sistema implements Serializable {
 
 
     }
-    /*private Boolean encontrarNick(String nick){ //Creo que sobra, no se para qué está
+
+    private Boolean encontrarNick(String nick) {
         int i = 0;
         boolean encontrado = false;
-        while(i < listaUsuarios.size() && !encontrado) {
-            encontrado = listaUsuarios.get(i).getNick().equals(nick);
+        while (i < whiteList.size() && !encontrado) {
+            encontrado = whiteList.get(i).getNick().equals(nick);
             i = i + 1;
         }
         return encontrado;
-    }*/
+    }
 
 }
 

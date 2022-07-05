@@ -16,6 +16,9 @@ public class Ghoul extends Esbirro{
 
     @Override
     public void mostrarEsbirro() {
-
+        System.out.println("Tipo: Ghoul");
+        System.out.println("Nombre: " + getNombre());
+        System.out.println("Salud: " + getSalud());
+        System.out.println("Dependencia: " + getDependencia());
     }
 }

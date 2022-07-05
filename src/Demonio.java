@@ -26,4 +26,19 @@ public class Demonio extends Esbirro{
     public void setPacto(String pacto) {
         this.pacto = pacto;
     }
+
+    @Override
+    public void mostrarEsbirro() {
+        System.out.println("Tipo: Demonio");
+        System.out.println("Nombre: " + getNombre());
+        System.out.println("Salud: " + getSalud());
+        if (!getConjuntoEsbirros().isEmpty()) {
+            System.out.println("Esbirros: ");
+            for (Esbirro esbirro : getConjuntoEsbirros()) {
+                esbirro.mostrarEsbirro();
+            }
+        }else{
+            System.out.println("Este demonio no tiene más esbirros");
+        }
+    }
 }
