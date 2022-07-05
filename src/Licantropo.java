@@ -4,7 +4,8 @@ import java.util.HashSet;
 public class Licantropo extends Personaje{
     private int puntosRabia;
 
-    public Licantropo(int puntosRabia) {
+    public Licantropo(String nombre, ArrayList<Arma> listaArmas, HashSet<Arma> armasActivas, ArrayList<Armadura> listaArmaduras, ArrayList<Esbirro> listaEsbirros, int cantidadOro,int puntosRabia) {
+        super(nombre,listaArmas,armasActivas,listaArmaduras,listaEsbirros,cantidadOro);
         this.puntosRabia = puntosRabia;
     }
 
@@ -18,11 +19,6 @@ public class Licantropo extends Personaje{
 
     @Override
     public void eliminarEsbirro() {
-    }
-
-    @Override
-    public int calcularAtaque() {
-        return 0;
     }
 
     /*@Override
@@ -56,7 +52,7 @@ public class Licantropo extends Personaje{
         return Ataque;
 
     }*/
-    @Override
+    /*@Override
     public int calcularDefensa() {
         int Defensa;
         Defensa = getDefensa() + getHabilidadEspecial().getValorDesfensa();
@@ -84,7 +80,7 @@ public class Licantropo extends Personaje{
 
         return Defensa;
     }
-
+    */
     public int getPuntosRabia() {
         return puntosRabia;
     }

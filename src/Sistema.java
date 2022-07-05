@@ -8,10 +8,8 @@ public class Sistema implements Serializable {
     private ArrayList<Oferta> listaOfertas = new ArrayList<>();
     private ArrayList<Notificacion> listaNotificaciones = new ArrayList<>();
     private ArrayList<VentaLog> listaLogs = new ArrayList<>();
-    private HashSet<Arma> conjuntoArmas = new HashSet<>();
-    private HashSet<Armadura> conjuntoArmaduras = new HashSet<>();
-
-
+    private ArrayList<Arma> conjuntoArmas = new ArrayList<>();
+    private ArrayList<Armadura> conjuntoArmaduras = new ArrayList<>();
     private int opcionMI, opcionRol, opcionMP1, opcionMP2;
     private Personaje p;
 
@@ -115,10 +113,10 @@ public class Sistema implements Serializable {
                 case 2:
                     System.out.println("Introduzca el codigo secreto o introduzca 1 para cancelar");
                     int codigo = sc.nextInt();
-                    do {
+                    while (codigo != 1 || codigo != 1234){
                         System.out.println("Codigo incorrecto, vuelva intentarlo o cancele la accion");
                         codigo = sc.nextInt();
-                    } while (codigo != 1 || codigo != 1234);
+                    }
                     switch (codigo) {
                         case 1:
                             registrarCuenta();
@@ -225,39 +223,103 @@ public class Sistema implements Serializable {
     public void salir() {
     }
 
-    public void registrarPersonaje() {
-        Creator c = new Creator() {
+    private Esbirro crearEsbirroAleatorio(){
+        Esbirro esbirro = null;
+        int tipoEsbirro = (int) (Math.random() * 3);
+        return esbirro;
+    }
+
+    private void crearPersonajeBase(){
+        System.out.println("Introduce el nombre del personaje");
+        String nombre = sc.nextLine();
+        System.out.println("Introduzca la cantidad de oro del personaje");
+        int cantidadOro = sc.nextInt();
+        HashSet<Arma> armasActivas = new HashSet<>();
+        ArrayList<Esbirro> listaEsbirros = new ArrayList<>();
+        p = new Personaje(nombre,conjuntoArmas,armasActivas,conjuntoArmaduras,listaEsbirros,cantidadOro) {
             @Override
-            public Personaje crearPersonaje() {
-                p = usuario.getPersonaje();
-                System.out.println("Elige un rol");
-                System.out.println("1. Cazador");
-                System.out.println("2. Vampiro");
-                System.out.println("3. Licantropo");
-                opcionRol = sc.nextInt();
-                switch (opcionRol) {
+            public void añadirEsbirro(Esbirro esbirro) {
+                System.out.println("Elige el tipo de esbirro que quieres crear");
+                System.out.println("1 - Humano");
+                System.out.println("2 - Ghoul");
+                System.out.println("3 - Demonio");
+                int opcion = sc.nextInt();
+                System.out.println("Introduce el nombre del esbirro");
+                String nombreEsbirro = sc.nextLine();
+                System.out.println("Introduce la salud para el esbirro");
+                int salud = sc.nextInt();
+                switch(opcion){
                     case 1:
-                        CrearCazador cazador = new CrearCazador();
-                        p = cazador.crearPersonaje();
+                        System.out.println("Introduce el tipo de lealtad (ALTA,NORMAL o BAJA)");
+                        String lealtad = sc.nextLine().toUpperCase();
+                        while (!lealtad.equals("ALTA") && !lealtad.equals("NORMAL") && !lealtad.equals("BAJA")) {
+                             System.out.println("El tipo de lealtad tiene que ser ALTO,NORMAL o BAJA");
+                             lealtad = sc.nextLine().toUpperCase();
+                        }
+                        Humano h = new Humano(nombreEsbirro, salud, lealtad);
+                        p.getListaEsbirros().add(h);
                         break;
                     case 2:
-                        CrearVampiro vampiro = new CrearVampiro();
-                        p = vampiro.crearPersonaje();
+                        boolean error = false;
+                        System.out.println("Introduce la dependencia");
+                        int dependencia = 0;
+                        do {
+                            try {
+                                dependencia = sc.nextInt();
+                            } catch(NumberFormatException e){
+                                System.out.println("El valor debe ser numerico");
+                                error = true;
+                            }
+                            while (dependencia < 1 || dependencia > 5) {
+                                System.out.println("La dependencia debe ser un numero entre 1 y 5");
+                                dependencia = sc.nextInt();
+                            }
+                        } while (error);
+                        Ghoul g = new Ghoul(nombreEsbirro,salud,dependencia);
+                        p.getListaEsbirros().add(g);
                         break;
                     case 3:
-                        CrearLicantropo licantropo = new CrearLicantropo();
-                        p = licantropo.crearPersonaje();
+                        ArrayList<Esbirro> listaEsbirrosDemonio = new ArrayList<>();
+                        int cantEsbirros = (int) (Math.random() * 3);
+                        for (int i = 0; i < cantEsbirros; i++) {
+                            listaEsbirrosDemonio.add(crearEsbirroAleatorio());
+                        }
+                        String descripcion = sc.nextLine();
+                        Demonio demonio = new Demonio(nombreEsbirro,salud,listaEsbirrosDemonio,descripcion);
+                        p.getListaEsbirros().add(demonio);
                         break;
                 }
-                usuario.setPersonaje(p);
-                return p;
             }
         };
-        c.crearPersonaje();
-        elegirArmadurasDefecto();
-        elegirArmasDefecto();
-        elegirOroApostadoDefecto();
     }
+
+    public Personaje registrarPersonaje() {
+        crearPersonajeBase();
+        p = ((Jugador) usuario).getPersonaje();
+        System.out.println("Elige un rol");
+        System.out.println("1. Cazador");
+        System.out.println("2. Vampiro");
+        System.out.println("3. Licantropo");
+        opcionRol = sc.nextInt();
+        switch (opcionRol) {
+            case 1:
+                CrearCazador cazador = new CrearCazador();
+                p = cazador.crearPersonaje(p.getNombre(),p.getListaArmas(),p.getArmasActivas(),p.getListaArmaduras(),p.getListaEsbirros(),p.getCantidadOro());
+                break;
+            case 2:
+                CrearVampiro vampiro = new CrearVampiro();
+                p = vampiro.crearPersonaje(p.getNombre(),p.getListaArmas(),p.getArmasActivas(),p.getListaArmaduras(),p.getListaEsbirros(),p.getCantidadOro());
+                break;
+            case 3:
+                CrearLicantropo licantropo = new CrearLicantropo();
+                p = licantropo.crearPersonaje(p.getNombre(),p.getListaArmas(),p.getArmasActivas(),p.getListaArmaduras(),p.getListaEsbirros(),p.getCantidadOro());
+                break;
+        }
+        ((Jugador) usuario).setPersonaje(p);
+        return p;
+    }
+
+
 
 
     public void elegirArmasActivas() {
@@ -269,14 +331,19 @@ public class Sistema implements Serializable {
             String nick = sc.nextLine();
             System.out.println("Contraseña");
             String contraseña = sc.nextLine();
-            if (comprobarSesion(nick, contraseña)) {
+
+            if (comprobarSesion(nick, contraseña) && !encontrarBaneado(nick)) {
                 usuario.setNick(nick);
                 usuario.setPassword(contraseña);
                 menuPrincipal();
-            } else {
+            } else if (!comprobarSesion(nick, contraseña)){
                 System.out.println("Inicio de sesión erroneo vuelva a intentarlo");
                 System.out.println();
                 iniciarSesion();
+            }else {
+                System.out.println("Su usuario esta baneado");
+                System.out.println();
+                menuInicio();
             }
         }
     }
@@ -587,6 +654,21 @@ public class Sistema implements Serializable {
         boolean encontrado = false;
         while (i < whiteList.size() && !encontrado) {
             encontrado = whiteList.get(i).getNick().equals(nick);
+            i = i + 1;
+        }
+        i = 0;
+        while (i < blackList.size() && !encontrado) {
+            encontrado = blackList.get(i).getNick().equals(nick);
+            i = i + 1;
+        }
+        return encontrado;
+    }
+
+    private Boolean encontrarBaneado(String nick){
+        int i = 0;
+        boolean encontrado = false;
+        while (i < blackList.size() && !encontrado) {
+            encontrado = blackList.get(i).getNick().equals(nick);
             i = i + 1;
         }
         return encontrado;
