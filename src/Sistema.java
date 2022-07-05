@@ -114,10 +114,10 @@ public class Sistema implements Serializable {
                 case 2:
                     System.out.println("Introduzca el codigo secreto o introduzca 1 para cancelar");
                     int codigo = sc.nextInt();
-                    do {
+                    while (codigo != 1 || codigo != 1234){
                         System.out.println("Codigo incorrecto, vuelva intentarlo o cancele la accion");
                         codigo = sc.nextInt();
-                    } while (codigo != 1 || codigo != 1234);
+                    }
                     switch (codigo) {
                         case 1:
                             registrarCuenta();
@@ -277,14 +277,19 @@ public class Sistema implements Serializable {
             String nick = sc.nextLine();
             System.out.println("Contraseña");
             String contraseña = sc.nextLine();
-            if (comprobarSesion(nick, contraseña)) {
+
+            if (comprobarSesion(nick, contraseña) && !encontrarBaneado(nick)) {
                 usuario.setNick(nick);
                 usuario.setPassword(contraseña);
                 menuPrincipal();
-            } else {
+            } else if (!comprobarSesion(nick, contraseña)){
                 System.out.println("Inicio de sesión erroneo vuelva a intentarlo");
                 System.out.println();
                 iniciarSesion();
+            }else {
+                System.out.println("Su usuario esta baneado");
+                System.out.println();
+                menuInicio();
             }
         }
     }
@@ -517,6 +522,21 @@ public class Sistema implements Serializable {
         boolean encontrado = false;
         while (i < whiteList.size() && !encontrado) {
             encontrado = whiteList.get(i).getNick().equals(nick);
+            i = i + 1;
+        }
+        i = 0;
+        while (i < blackList.size() && !encontrado) {
+            encontrado = blackList.get(i).getNick().equals(nick);
+            i = i + 1;
+        }
+        return encontrado;
+    }
+
+    private Boolean encontrarBaneado(String nick){
+        int i = 0;
+        boolean encontrado = false;
+        while (i < blackList.size() && !encontrado) {
+            encontrado = blackList.get(i).getNick().equals(nick);
             i = i + 1;
         }
         return encontrado;
