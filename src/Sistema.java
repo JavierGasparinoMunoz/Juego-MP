@@ -10,8 +10,6 @@ public class Sistema implements Serializable {
     private ArrayList<VentaLog> listaLogs = new ArrayList<>();
     private ArrayList<Arma> conjuntoArmas = new ArrayList<>();
     private ArrayList<Armadura> conjuntoArmaduras = new ArrayList<>();
-
-
     private int opcionMI, opcionRol, opcionMP1, opcionMP2;
     private Personaje p;
 
@@ -224,6 +222,12 @@ public class Sistema implements Serializable {
     public void salir() {
     }
 
+    private Esbirro crearEsbirroAleatorio(){
+        Esbirro esbirro = null;
+        int tipoEsbirro = (int) (Math.random() * 3);
+        return esbirro;
+    }
+
     private void crearPersonajeBase(){
         System.out.println("Introduce el nombre del personaje");
         String nombre = sc.nextLine();
@@ -234,7 +238,56 @@ public class Sistema implements Serializable {
         p = new Personaje(nombre,conjuntoArmas,armasActivas,conjuntoArmaduras,listaEsbirros,cantidadOro) {
             @Override
             public void añadirEsbirro(Esbirro esbirro) {
-
+                System.out.println("Elige el tipo de esbirro que quieres crear");
+                System.out.println("1 - Humano");
+                System.out.println("2 - Ghoul");
+                System.out.println("3 - Demonio");
+                int opcion = sc.nextInt();
+                System.out.println("Introduce el nombre del esbirro");
+                String nombreEsbirro = sc.nextLine();
+                System.out.println("Introduce la salud para el esbirro");
+                int salud = sc.nextInt();
+                switch(opcion){
+                    case 1:
+                        System.out.println("Introduce el tipo de lealtad (ALTA,NORMAL o BAJA)");
+                        String lealtad = sc.nextLine().toUpperCase();
+                        while (!lealtad.equals("ALTA") && !lealtad.equals("NORMAL") && !lealtad.equals("BAJA")) {
+                             System.out.println("El tipo de lealtad tiene que ser ALTO,NORMAL o BAJA");
+                             lealtad = sc.nextLine().toUpperCase();
+                        }
+                        Humano h = new Humano(nombreEsbirro, salud, lealtad);
+                        p.getListaEsbirros().add(h);
+                        break;
+                    case 2:
+                        boolean error = false;
+                        System.out.println("Introduce la dependencia");
+                        int dependencia = 0;
+                        do {
+                            try {
+                                dependencia = sc.nextInt();
+                            } catch(NumberFormatException e){
+                                System.out.println("El valor debe ser numerico");
+                                error = true;
+                            }
+                            while (dependencia < 1 || dependencia > 5) {
+                                System.out.println("La dependencia debe ser un numero entre 1 y 5");
+                                dependencia = sc.nextInt();
+                            }
+                        } while (error);
+                        Ghoul g = new Ghoul(nombreEsbirro,salud,dependencia);
+                        p.getListaEsbirros().add(g);
+                        break;
+                    case 3:
+                        ArrayList<Esbirro> listaEsbirrosDemonio = new ArrayList<>();
+                        int cantEsbirros = (int) (Math.random() * 3);
+                        for (int i = 0; i < cantEsbirros; i++) {
+                            listaEsbirrosDemonio.add(crearEsbirroAleatorio());
+                        }
+                        String descripcion = sc.nextLine();
+                        Demonio demonio = new Demonio(nombreEsbirro,salud,listaEsbirrosDemonio,descripcion);
+                        p.getListaEsbirros().add(demonio);
+                        break;
+                }
             }
         };
     }
