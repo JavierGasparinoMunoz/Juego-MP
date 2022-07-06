@@ -203,7 +203,7 @@ public class Sistema implements Serializable {
                 modificarOro();
                 break;
             case 4:
-                consultarIformacion();
+                consultarInformacionPersonaje();
                 break;
             case 5:
                 menuPrincipal();
@@ -237,6 +237,40 @@ public class Sistema implements Serializable {
     }
 
     public void darseDeBaja() {
+    }
+
+    public void consultarInformacionPersonaje(){
+        System.out.println("Cantidad de oro del Personaje:" + p.getCantidadOro());
+        System.out.println();
+        System.out.println("Armas del Personaje:");
+        int i = 0;
+        while(i < p.getListaArmas().size()){
+            System.out.println(i + ". " + p.getListaArmas().get(i).getNombre());
+            i += 1;
+        }
+        System.out.println("Armaduras del Personaje:");
+        i = 0;
+        while(i < p.getListaArmas().size()){
+            System.out.println(i + ". " + p.getListaArmaduras().get(i).getNombre());
+            i += 1;
+        }
+        System.out.println("Esbirros del Personaje:");
+        i = 0;
+        while(i < p.getListaArmas().size()){
+            System.out.println(i + ". " + p.getListaEsbirros().get(i).getNombre());
+            if (p.getListaEsbirros().get(i) instanceof Demonio){
+                Demonio dem = (Demonio) p.getListaEsbirros().get(i);
+                int j = 0;
+                ArrayList<Esbirro> demEsb = dem.getConjuntoEsbirros();
+                while (j < dem.getConjuntoEsbirros().size()){
+                    System.out.println("Esbirros del Demonio:");
+                    System.out.println(i + "." + j + " " + demEsb.get(j).getNombre());
+                    j += 1;
+                }
+            }
+            i += 1;
+        }
+
     }
 
     public void salir() {
