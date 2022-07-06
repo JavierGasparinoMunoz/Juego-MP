@@ -10,7 +10,7 @@ public class Sistema implements Serializable {
     private ArrayList<VentaLog> listaLogs = new ArrayList<>();
     private ArrayList<Arma> conjuntoArmas = new ArrayList<>();
     private ArrayList<Armadura> conjuntoArmaduras = new ArrayList<>();
-    private int opcionMI, opcionRol, opcionMP1, opcionMP2,opcionMO;
+    private int opcionMI, opcionRol, opcionMP1, opcionMP2,opcionMOF,opcionMOP,opcionMU;
     private Personaje p;
 
     public Sistema() throws IOException, ClassNotFoundException {
@@ -153,6 +153,37 @@ public class Sistema implements Serializable {
         serializarSistema();
     }
 
+    private void menuOperador(){
+        System.out.println("-----------------------------------------------------");
+        System.out.println("Bienvenido al menu principal " + usuario.getNick());
+        System.out.println("Elige una de las siguientes opciones");
+        System.out.println("1. Validar ofertas");
+        System.out.println("2. Gestionar usuarios");
+        System.out.println("3. Consultar las ventas realizadas");
+        System.out.println("4. Darse de baja");
+        System.out.println("5. Salir");
+        System.out.println("-----------------------------------------------------");
+        opcionMOP = sc.nextInt();
+        switch (opcionMOP){
+            case 1:
+                validarOferta();
+                break;
+            case 2:
+                menuUsuario();
+                break;
+            case 3:
+                consultarVentas();
+                break;
+            case 4:
+                darseDeBaja();
+                break;
+            case 5:
+                salir();
+                break;
+        }
+
+    }
+
     private void menuPrincipal() {
         System.out.println("-----------------------------------------------------");
         System.out.println("Bienvenido al menu principal " + usuario.getNick());
@@ -183,32 +214,28 @@ public class Sistema implements Serializable {
         System.out.println("-----------------------------------------------------");
         System.out.println("Bienvenido al menu avanzado para personajes " + usuario.getNick());
         System.out.println("Elige una de las siguientes opciones");
-        System.out.println("1. Añadir equipo");
-        System.out.println("2. Eliminar equipo");
-        System.out.println("3. Modificar oro");
-        System.out.println("4. Consultar información del personaje");
-        System.out.println("5. Volver al menu principal");
-        System.out.println("6. Salir");
+        System.out.println("1. Modificar equipo");
+        System.out.println("2. Modificar oro");
+        System.out.println("3. Consultar información del personaje");
+        System.out.println("4. Volver al menu principal");
+        System.out.println("5. Salir");
         System.out.println("-----------------------------------------------------");
         opcionMP2 = sc.nextInt();
         switch (opcionMP2) {
             case 1:
-                añadirEquipo();
+                modificarEquipo();
                 // Si esta añadir equipo y eliminar equipo que hacia modificar equipo
             case 2:
-                eliminarEquipo();
-                break;
-            case 3:
                 // Modificar oro tiene que poder reducir el oro
                 modificarOro();
                 break;
-            case 4:
+            case 3:
                 consultarInformacionPersonaje();
                 break;
-            case 5:
+            case 4:
                 menuPrincipal();
                 break;
-            case 6:
+            case 5:
                 salir();
         }
     }
@@ -222,8 +249,8 @@ public class Sistema implements Serializable {
         System.out.println("3. Suscribirse a una oferta");
         System.out.println("4. Volver al menu avanzado de personaje");
         System.out.println("--------------------------------------");
-        opcionMO = sc.nextInt();
-        switch (opcionMO){
+        opcionMOF = sc.nextInt();
+        switch (opcionMOF){
             case 1:
                 crearOferta();
                 break;
@@ -274,6 +301,8 @@ public class Sistema implements Serializable {
     }
 
     public void salir() {
+        //Este método sale de la sesión ()
+        menuInicio();
     }
 
     private void crearPersonajeBase(){
@@ -620,7 +649,34 @@ public class Sistema implements Serializable {
         System.out.println("El dinero se ha sumado correctamente");
     }
 
-    public void banearUsuario() {
+    private void menuUsuario(){
+        System.out.println("-----------------------------------------------------");
+        System.out.println("Bienvenido al menu de gestion de usuarios " + usuario.getNick());
+        System.out.println("Elige una de las siguientes opciones");
+        System.out.println("1. Banear usuario");
+        System.out.println("2. Desbanear usuario");
+        System.out.println("3. Volver al menu del operador");
+        System.out.println("4. Salir");
+        System.out.println("-----------------------------------------------------");
+        opcionMU = sc.nextInt();
+        switch (opcionMU){
+            case 1:
+                banearUsuario();
+                break;
+            case 2:
+                desbanearUsuario();
+                break;
+            case 3:
+                menuOperador();
+                break;
+            case 4:
+                salir();
+                break;
+        }
+
+    }
+
+    private void banearUsuario() {
         if (!whiteList.isEmpty()) {
             System.out.println("¿Qué usuario quieres banear?");
             int i = 0;
@@ -643,7 +699,7 @@ public class Sistema implements Serializable {
         }
     }
 
-    public void desbanearUsuario() {
+    private void desbanearUsuario() {
         if (!blackList.isEmpty()) {
             System.out.println("¿Qué usuario quieres banear?");
             int i = 0;
