@@ -10,7 +10,7 @@ public class Sistema implements Serializable {
     private ArrayList<VentaLog> listaLogs = new ArrayList<>();
     private ArrayList<Arma> conjuntoArmas = new ArrayList<>();
     private ArrayList<Armadura> conjuntoArmaduras = new ArrayList<>();
-    private int opcionMI, opcionRol, opcionMP1, opcionMP2;
+    private int opcionMI, opcionRol, opcionMP1, opcionMP2,opcionMO;
     private Personaje p;
 
     public Sistema() throws IOException, ClassNotFoundException {
@@ -158,66 +158,85 @@ public class Sistema implements Serializable {
         System.out.println("Bienvenido al menu principal " + usuario.getNick());
         System.out.println("Elige una de las siguientes opciones");
         System.out.println("1. Gestion avanzada de personaje");
-        System.out.println("2. Darse de baja");
-        System.out.println("3. Salir");
+        System.out.println("2. Gestion avanzada de las ofertas");
+        System.out.println("3. Darse de baja");
+        System.out.println("4. Salir");
         System.out.println("-----------------------------------------------------");
         opcionMP1 = sc.nextInt();
         switch (opcionMP1) {
             case 1:
-                System.out.println("-----------------------------------------------------");
-                System.out.println("Bienvenido al menu avanzado para personajes " + usuario.getNick());
-                System.out.println("Elige una de las siguientes opciones");
-                System.out.println("1. Elegir armas");
-                System.out.println("2. Elegir armaduras");
-                System.out.println("3. Consultar oro apostado en partidas anteriores");
-                System.out.println("4. Desafiar un usuario");
-                System.out.println("5. Consultar ranking global");
-                System.out.println("6. Darse de baja");
-                System.out.println("7. Salir");
-                System.out.println("-----------------------------------------------------");
-                opcionMP2 = sc.nextInt();
-                switch (opcionMP2) {
-                    case 1:
-                        elegirArmas();
-                        break;
-                    case 2:
-                        elegirArmaduras();
-                        break;
-                    case 3:
-                        consultarOroPartidasAnteriores(p);
-                        break;
-                    case 4:
-                        System.out.println("Introduce el nickname del usuario que quieres desafiar");
-                        String nickDes = sc.nextLine();
-                        if (encontrarNick(nickDes)) {
-                            System.out.println("Introduce el oro que quieres apostar");
-                            int oroApostado = sc.nextInt();
-                            desafiarUsuario(nickDes, oroApostado);
-                        }
-                        break;
-                    case 5:
-                        consultarRankingGlobal();
-                        break;
-                    case 6:
-                        darseDeBaja();
-                        break;
-                    case 7:
-                        break;
-                }
-
+                menuAvanzadoPersonaje();
                 break;
             case 2:
-                darseDeBaja();
+                menuAvanzadoOfertas();
                 break;
             case 3:
+                darseDeBaja();
+                break;
+            case 4:
+                salir();
+                break;
+        }
+    }
+
+    private void menuAvanzadoPersonaje(){
+        System.out.println("-----------------------------------------------------");
+        System.out.println("Bienvenido al menu avanzado para personajes " + usuario.getNick());
+        System.out.println("Elige una de las siguientes opciones");
+        System.out.println("1. Añadir equipo");
+        System.out.println("2. Eliminar equipo");
+        System.out.println("3. Modificar oro");
+        System.out.println("4. Consultar información del personaje");
+        System.out.println("5. Volver al menu principal");
+        System.out.println("6. Salir");
+        System.out.println("-----------------------------------------------------");
+        opcionMP2 = sc.nextInt();
+        switch (opcionMP2) {
+            case 1:
+                añadirEquipo();
+                // Si esta añadir equipo y eliminar equipo que hacia modificar equipo
+            case 2:
+                eliminarEquipo();
+                break;
+            case 3:
+                // Modificar oro tiene que poder reducir el oro
+                modificarOro();
+                break;
+            case 4:
+                consultarIformacion();
+                break;
+            case 5:
+                menuPrincipal();
+                break;
+            case 6:
+                salir();
+        }
+    }
+
+    private void menuAvanzadoOfertas(){
+        System.out.println("Bienvenido al menu Avanzado de Ofertas" + usuario.getNick());
+        System.out.println("¿Que operacion desea realizar?");
+        System.out.println("--------------------------------------");
+        System.out.println("1. Crear una oferta");
+        System.out.println("2. Buscar y comprar ofertas");
+        System.out.println("3. Suscribirse a una oferta");
+        System.out.println("4. Volver al menu avanzado de personaje");
+        System.out.println("--------------------------------------");
+        opcionMO = sc.nextInt();
+        switch (opcionMO){
+            case 1:
+                crearOferta();
+                break;
+            case 2:
+                consultarOferta();
+                break;
+            case 3:
+                // Falta hacer sucribirse a una oferta
                 break;
         }
     }
 
     public void darseDeBaja() {
-    }
-
-    public void entrar() {
     }
 
     public void salir() {
@@ -277,6 +296,7 @@ public class Sistema implements Serializable {
                         String descripcion = sc.nextLine();
                         Demonio demonio = new Demonio(nombreEsbirro,salud,descripcion);
                         p.getListaEsbirros().add(demonio);
+                        //Falta que los demonios puedan crear demonios
                         break;
                 }
             }
