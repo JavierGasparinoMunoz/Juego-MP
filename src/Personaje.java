@@ -26,18 +26,23 @@ public abstract class Personaje {
         return listaArmas;
     }
 
-    public void addListaArmas(Arma arma) {listaArmas.add(arma); }
-
-
     public HashSet<Arma>  getArmasActivas() {
         return armasActivas;
     }
 
     public void addArmasActivas(Arma arma) {
-        listaArmas.add(arma);
+        armasActivas.add(arma);
     }
 
     public void removeArmasActivas(Arma arma) {
+        armasActivas.remove(arma);
+    }
+
+    public void addListaArmas(Arma arma) {
+        listaArmas.add(arma);
+    }
+
+    public void removeListaArmas(Arma arma) {
         listaArmas.remove(arma);
     }
 

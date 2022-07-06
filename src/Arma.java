@@ -37,6 +37,7 @@ public class Arma extends Equipo{
 
     @Override
     public void mostrarEquipo() {
+        System.out.println("Tipo: Arma");
         System.out.println("Nombre: " + getNombre());
         System.out.println("Modificador de ataque: " + getModAtaque());
         System.out.println("Modificador de defensa: " + getModDefensa());

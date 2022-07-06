@@ -6,10 +6,50 @@ public class Demonio extends Esbirro{
     private ArrayList<Esbirro> conjuntoEsbirros = new ArrayList<>();
     private String pacto;
 
-    public Demonio(String nombre, int salud, ArrayList<Esbirro> conjuntoEsbirros, String pacto) {
+    public Demonio(String nombre, int salud, String pacto) {
         super(nombre, salud);
-        this.conjuntoEsbirros = conjuntoEsbirros;
         this.pacto = pacto;
+
+        //Creación de esbirros hijos aleatorios para no estar constantemente introduciendo información por pantalla.
+        int numEsbirrosHijos = (int)(Math.random()*3);
+        for (int i=0; i == numEsbirrosHijos; i++) { //Ponemos tope para que no se creen un número excesivo de esbirros.
+            int tipoEsbirro = (int) (Math.random() * 3);
+            String nombreHijo;
+            int saludHijo = (int) (Math.random() * 3) + 1;
+            switch (tipoEsbirro) {
+                case 0:
+                    nombreHijo = "Humano #" + (int) (Math.random() * 10000);
+                    String lealtad = "";
+                    int randLealtad = (int) (Math.random() * 3);
+                    switch (randLealtad) {
+                        case 0:
+                            lealtad = "ALTA";
+                            break;
+                        case 1:
+                            lealtad = "MEDIA";
+                            break;
+                        case 2:
+                            lealtad = "BAJA";
+                            break;
+                    }
+
+                    Humano humano = new Humano(nombreHijo, saludHijo, lealtad);
+                    conjuntoEsbirros.add(humano);
+                    break;
+                case 1:
+                    nombreHijo = "Ghoul #" + (int) (Math.random() * 10000);
+                    int independencia = (int) (Math.random() * 5 + 1);
+                    Ghoul ghoul = new Ghoul(nombreHijo, saludHijo, independencia);
+                    conjuntoEsbirros.add(ghoul);
+                    break;
+                case 2:
+                    nombreHijo = "Demonio #" + (int) (Math.random() * 10000);
+                    String pactoHijo = nombreHijo + " ha pactado con " + nombre;
+                    Demonio demonio = new Demonio(nombreHijo, saludHijo, pactoHijo);
+                    conjuntoEsbirros.add(demonio);
+                    break;
+            }
+        }
     }
 
     public ArrayList<Esbirro> getConjuntoEsbirros() {
