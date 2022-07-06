@@ -318,8 +318,6 @@ public class Sistema implements Serializable {
             String contraseña = sc.nextLine();
 
             if (comprobarSesion(nick, contraseña) && !encontrarBaneado(nick)) {
-                usuario.setNick(nick);
-                usuario.setPassword(contraseña);
                 menuPrincipal();
             } else if (!comprobarSesion(nick, contraseña)){
                 System.out.println("Inicio de sesión erroneo vuelva a intentarlo");
@@ -512,7 +510,7 @@ public class Sistema implements Serializable {
         datosSalida.writeObject(this);
     }
 
-    //método encargado de obtener la información introducida por cliente/clientes anteriores.
+    //método encargado de obtener la información introducida anteriormente en el sistema
     public Sistema deserializarSistema() throws FileNotFoundException, IOException, ClassNotFoundException {
         String rutaArchivo = "./informacion.bin";
         ObjectInputStream datosEntrada = new ObjectInputStream(new FileInputStream(rutaArchivo));
@@ -543,6 +541,10 @@ public class Sistema implements Serializable {
         while (i < whiteList.size() && !registrado) {
             registrado = whiteList.get(i).getNick().equals(nick) && whiteList.get(i).getPassword().equals(contraseña);
             i = i + 1;
+        }
+        if (registrado && whiteList.get(i-1) instanceof Jugador){
+            usuario = whiteList.get(i-1);
+            p = ((Jugador) whiteList.get(i - 1)).getPersonaje();
         }
         return registrado;
     }
