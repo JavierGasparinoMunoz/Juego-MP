@@ -264,6 +264,9 @@ public class Sistema implements Serializable {
     }
 
     public void darseDeBaja() {
+        whiteList.remove(usuario);
+        System.out.println("Se ha dado de baja correctamente");
+        menuInicio();
     }
 
     public void consultarInformacionPersonaje(){
