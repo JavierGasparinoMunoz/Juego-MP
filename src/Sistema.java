@@ -153,6 +153,14 @@ public class Sistema implements Serializable {
         serializarSistema();
     }
 
+    private void menuPrincipal(){
+        if (usuario instanceof Jugador) {
+            menuJugador();
+        } else {
+            menuOperador();
+        }
+    }
+
     private void menuOperador(){
         System.out.println("-----------------------------------------------------");
         System.out.println("Bienvenido al menu principal " + usuario.getNick());
@@ -184,7 +192,7 @@ public class Sistema implements Serializable {
 
     }
 
-    private void menuPrincipal() {
+    private void menuJugador() {
         System.out.println("-----------------------------------------------------");
         System.out.println("Bienvenido al menu principal " + usuario.getNick());
         System.out.println("Elige una de las siguientes opciones");
