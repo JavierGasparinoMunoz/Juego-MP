@@ -291,25 +291,25 @@ public class Sistema implements Serializable {
         menuInicio();
     }
 
-    public void consultarInformacionPersonaje(){
+    public void consultarInformacionPersonaje() throws IOException {
         System.out.println("Cantidad de oro del Personaje:" + p.getCantidadOro());
         System.out.println();
         System.out.println("Armas del Personaje:");
         int i = 0;
         while(i < p.getListaArmas().size()){
-            System.out.println(i + ". " + p.getListaArmas().get(i).getNombre());
+            System.out.println(i+1 + ". " + p.getListaArmas().get(i).getNombre());
             i += 1;
         }
         System.out.println("Armaduras del Personaje:");
         i = 0;
-        while(i < p.getListaArmas().size()){
-            System.out.println(i + ". " + p.getListaArmaduras().get(i).getNombre());
+        while(i < p.getListaArmaduras().size()){
+            System.out.println(i+1 + ". " + p.getListaArmaduras().get(i).getNombre());
             i += 1;
         }
         System.out.println("Esbirros del Personaje:");
         i = 0;
-        while(i < p.getListaArmas().size()){
-            System.out.println(i + ". " + p.getListaEsbirros().get(i).getNombre());
+        while(i < p.getListaEsbirros().size()){
+            System.out.println(i+1 + ". " + p.getListaEsbirros().get(i).getNombre());
             if (p.getListaEsbirros().get(i) instanceof Demonio){
                 Demonio dem = (Demonio) p.getListaEsbirros().get(i);
                 int j = 0;
@@ -322,7 +322,7 @@ public class Sistema implements Serializable {
             }
             i += 1;
         }
-
+        menuJugador();
     }
 
     public void salir() throws IOException {
@@ -341,56 +341,65 @@ public class Sistema implements Serializable {
         p = new Personaje(nombre,conjuntoArmas,armasActivas,conjuntoArmaduras,listaEsbirros,cantidadOro) {
             @Override
             public void añadirEsbirro(Esbirro esbirro) {
-                System.out.println("Elige el tipo de esbirro que quieres crear");
-                System.out.println("1 - Humano");
-                System.out.println("2 - Ghoul");
-                System.out.println("3 - Demonio");
-                int opcion = sc.nextInt();
-                System.out.println("Introduce el nombre del esbirro");
-                String nombreEsbirro = sc.next();
-                System.out.println("Introduce la salud para el esbirro");
-                int salud = sc.nextInt();
-                switch(opcion){
-                    case 1:
-                        System.out.println("Introduce el tipo de lealtad (ALTA,NORMAL o BAJA)");
-                        String lealtad = sc.next().toUpperCase();
-                        while (!lealtad.equals("ALTA") && !lealtad.equals("NORMAL") && !lealtad.equals("BAJA")) {
-                             System.out.println("El tipo de lealtad tiene que ser ALTO,NORMAL o BAJA");
-                             lealtad = sc.next().toUpperCase();
-                        }
-                        Humano h = new Humano(nombreEsbirro, salud, lealtad);
-                        p.getListaEsbirros().add(h);
-                        break;
-                    case 2:
-                        boolean error = false;
-                        System.out.println("Introduce la dependencia");
-                        int dependencia = 0;
-                        do {
-                            try {
-                                dependencia = sc.nextInt();
-                            } catch(NumberFormatException e){
-                                System.out.println("El valor debe ser numerico");
-                                error = true;
-                            }
-                            while (dependencia < 1 || dependencia > 5) {
-                                System.out.println("La dependencia debe ser un numero entre 1 y 5");
-                                dependencia = sc.nextInt();
-                            }
-                        } while (error);
-                        Ghoul g = new Ghoul(nombreEsbirro,salud,dependencia);
-                        p.getListaEsbirros().add(g);
-                        break;
-                    case 3:
-                        int cantEsbirros = (int) (Math.random() * 3);
-                        String descripcion = sc.next();
-                        Demonio demonio = new Demonio(nombreEsbirro,salud,descripcion);
-                        p.getListaEsbirros().add(demonio);
-                        //Falta que los demonios puedan crear demonios
-                        break;
-                }
+
             }
-        };
+            };
         return p;
+    }
+
+    public void crearEsbirro() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Elige el tipo de esbirro que quieres crear");
+        System.out.println("1 - Humano");
+        System.out.println("2 - Ghoul");
+        System.out.println("3 - Demonio");
+        int opcion = sc.nextInt();
+        System.out.println("Introduce el nombre del esbirro");
+        String nombreEsbirro = sc.next();
+        System.out.println("Introduce la salud para el esbirro");
+        int salud = sc.nextInt();
+        switch (opcion) {
+            case 1:
+                if (p instanceof Vampiro){
+                    System.out.println("Los vampiros no pueden tener humanos, introduzca otro tipo de esbirro");
+                    crearEsbirro();
+                }else {
+                    System.out.println("Introduce el tipo de lealtad (ALTA,NORMAL o BAJA)");
+                    String lealtad = sc.next().toUpperCase();
+                    while (!lealtad.equals("ALTA") && !lealtad.equals("NORMAL") && !lealtad.equals("BAJA")) {
+                        System.out.println("El tipo de lealtad tiene que ser ALTO,NORMAL o BAJA");
+                        lealtad = sc.next().toUpperCase();
+                    }
+                    Humano h = new Humano(nombreEsbirro, salud, lealtad);
+                    p.getListaEsbirros().add(h);
+                }
+                break;
+            case 2:
+                boolean error = false;
+                System.out.println("Introduce la dependencia");
+                int dependencia = 0;
+                do {
+                    try {
+                        dependencia = sc.nextInt();
+                    } catch (NumberFormatException e) {
+                        System.out.println("El valor debe ser numerico");
+                        error = true;
+                    }
+                    while (dependencia < 1 || dependencia > 5) {
+                        System.out.println("La dependencia debe ser un numero entre 1 y 5");
+                        dependencia = sc.nextInt();
+                    }
+                } while (error);
+                Ghoul g = new Ghoul(nombreEsbirro, salud, dependencia);
+                p.getListaEsbirros().add(g);
+                break;
+            case 3:
+                System.out.println("Dime la descripcion del pacto");
+                String descripcion = sc.next();
+                Demonio demonio = new Demonio(nombreEsbirro, salud, descripcion);
+                p.getListaEsbirros().add(demonio);
+                break;
+        }
     }
 
     private void suscribirseOferta() {
@@ -688,6 +697,7 @@ public class Sistema implements Serializable {
                 p = licantropo.crearPersonaje(p.getNombre(),p.getListaArmas(),p.getArmasActivas(),p.getListaArmaduras(),p.getListaEsbirros(),p.getCantidadOro());
                 break;
         }
+        crearEsbirro();
         return p;
     }
 
