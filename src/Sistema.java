@@ -6,7 +6,7 @@ public class Sistema implements Serializable {
     private Usuario usuario;
     private ArrayList<Usuario> whiteList, blackList = new ArrayList<>();
     private ArrayList<Oferta> listaOfertas, listaOfertasNoValidadas = new ArrayList<>();
-    private ArrayList<Notificacion> listaNotificaciones = new ArrayList<>();
+    private ArrayList<Notificador> listaNotificaciones = new ArrayList<>();
     private ArrayList<VentaLog> listaLogs = new ArrayList<>();
     private ArrayList<Arma> conjuntoArmas = new ArrayList<>();
     private ArrayList<Armadura> conjuntoArmaduras = new ArrayList<>();
@@ -107,7 +107,8 @@ public class Sistema implements Serializable {
                     String contraseña = sc.nextLine();
                     registrarPersonaje();
                     Personaje personaje = p;
-                    Jugador player = new Jugador(nombre, nick, contraseña, personaje);
+                    //todo Implementar el metodo generar numRegistro
+                    Jugador player = new Jugador(nombre, nick, contraseña, personaje,);
                     usuario = player;
                     break;
                 case 2:
@@ -375,6 +376,233 @@ public class Sistema implements Serializable {
                 }
             }
         };
+    }
+
+    private void suscribirseOferta() {
+        String filtro;
+        System.out.println("Elige el tipo de oferta al que te quieres suscribir");
+        System.out.println("1 - Por tipo de equipo/esbirros");
+        System.out.println("2 - Por categoría");
+        System.out.println("3 - Por valor");
+        System.out.println("4 - Por lealtad de esbirro");
+        System.out.println("5 - Por tipo de esbirro");
+        System.out.println("6 - Por tipo de usuario que realiza la oferta");
+        System.out.println("7 - Por un precio mínimo-máximo");
+        System.out.println("0 - Salir");
+        int opcion;
+        do {
+            opcion = sc.nextInt();
+        } while (opcion < 0 || opcion > 7);
+        switch (opcion) {
+            case 1:
+                filtro = "Suscripcion por tipo de equipo/esbirros: \n";
+                System.out.println("Elige una opcion para suscribirse");
+                System.out.println("1 - Armas");
+                System.out.println("2 - Armaduras");
+                System.out.println("3 - Esbirros");
+                System.out.println("4 - Armas y Armaduras");
+                System.out.println("5 - Armas y Esbirros");
+                System.out.println("6 - Armaduras y Esbirros");
+                System.out.println("0 - Salir");
+                do {
+                    opcion = sc.nextInt();
+                } while (opcion < 0 || opcion > 6);
+                switch (opcion) {
+                    case 1:
+                        filtro.concat("-Armas \n");
+                        break;
+                    case 2:
+                        filtro.concat("-Armaduras \n");
+                        break;
+                    case 3:
+                        filtro.concat("-Esbirros \n");
+                        break;
+                    case 4:
+                        filtro.concat("-Armas \n-Armaduras \n");
+                        break;
+                    case 5:
+                        filtro.concat("-Armas \n-Esbirros \n");
+                        break;
+                    case 6:
+                        filtro.concat("-Armaduras \n-Esbirros \n");
+                        break;
+                }
+                break;
+            case 2:
+                filtro = "Suscripcion por categoría: \n";
+                System.out.println("Elige una opcion para suscribirse");
+                System.out.println("1 - Comun");
+                System.out.println("2 - Raro");
+                System.out.println("3 - Epico");
+                System.out.println("4 - Legendario");
+                System.out.println("0 - Salir");
+                do {
+                    opcion = sc.nextInt();
+                } while (opcion < 0 || opcion > 4);
+                switch (opcion) {
+                    case 1:
+                        filtro.concat("-Comun \n");
+                        break;
+                    case 2:
+                        filtro.concat("-Raro \n");
+                        break;
+                    case 3:
+                        filtro.concat("-Epico \n");
+                        break;
+                    case 4:
+                        filtro.concat("-Legendario \n");
+                        break;
+                }
+                break;
+            case 3:
+                filtro = "Suscripcion por valor de equipo: \n";
+                System.out.println("Elige una opcion para suscribirse");
+                System.out.println("1 - Valor de Armas");
+                System.out.println("2 - Valor de Armaduras");
+                System.out.println("0 - Salir");
+                do {
+                    opcion = sc.nextInt();
+                } while (opcion < 0 || opcion > 2);
+                switch (opcion) {
+                    case 1:
+                        System.out.println("Elige una opcion para suscribirse");
+                        System.out.println("1 - Modificador de Ataque del arma de 1");
+                        System.out.println("2 - Modificador de Ataque del arma de 2");
+                        System.out.println("3 - Modificador de Ataque del arma de 3");
+                        System.out.println("4 - Modificador de Defensa del arma de 1");
+                        System.out.println("5 - Modificador de Defensa del arma de 2");
+                        System.out.println("6 - Modificador de Defensa del arma de 3");
+                        System.out.println("0 - Salir");
+                        do {
+                            opcion = sc.nextInt();
+                        } while (opcion < 0 || opcion > 6);
+                        switch (opcion) {
+                            case 1:
+                                filtro.concat("-Modificador de Ataque del arma de 1 \n");
+                                break;
+                            case 2:
+                                filtro.concat("-Modificador de Ataque del arma de 2 \n");
+                                break;
+                            case 3:
+                                filtro.concat("-Modificador de Ataque del arma de 3 \n");
+                                break;
+                            case 4:
+                                filtro.concat("-Modificador de Defensa del arma de 1 \n");
+                                break;
+                            case 5:
+                                filtro.concat("-Modificador de Defensa del arma de 2 \n");
+                                break;
+                            case 6:
+                                filtro.concat("-Modificador de Defensa del arma de 3 \n");
+                                break;
+                        }
+                    case 2:
+                        System.out.println("Elige una opcion para suscribirse");
+                        System.out.println("1 - Modificador de Ataque de la armadura de 1");
+                        System.out.println("2 - Modificador de Ataque de la armadura de 2");
+                        System.out.println("3 - Modificador de Ataque de la armadura de 3");
+                        System.out.println("4 - Modificador de Defensa de la armadura de 1");
+                        System.out.println("5 - Modificador de Defensa de la armadura de 2");
+                        System.out.println("6 - Modificador de Defensa de la armadura de 3");
+                        System.out.println("0 - Salir");
+                        do {
+                            opcion = sc.nextInt();
+                        } while (opcion < 0 || opcion > 6);
+                        switch (opcion) {
+                            case 1:
+                                filtro.concat("-Modificador de Ataque de la armadura de 1 \n");
+                                break;
+                            case 2:
+                                filtro.concat("-Modificador de Ataque de la armadura del arma de 2 \n");
+                                break;
+                            case 3:
+                                filtro.concat("-Modificador de Ataque de la armadura del arma de 3 \n");
+                                break;
+                            case 4:
+                                filtro.concat("-Modificador de Defensa de la armadura del arma de 1 \n");
+                                break;
+                            case 5:
+                                filtro.concat("-Modificador de Defensa de la armadura del arma de 2 \n");
+                                break;
+                            case 6:
+                                filtro.concat("-Modificador de Defensa de la armadura del arma de 3 \n");
+                                break;
+                        }
+                        break;
+            case 4:
+                filtro = "Suscripcion por lealtad de Esbirro: \n";
+                System.out.println("Elige una opcion para suscribirse");
+                System.out.println("1 - ALTA");
+                System.out.println("2 - MEDIA");
+                System.out.println("3 - BAJA");
+                System.out.println("0 - Salir");
+                do {
+                    opcion = sc.nextInt();
+                } while(opcion<0 ||opcion>3);
+                switch(opcion) {
+                    case 1:
+                        filtro.concat("-ALTA \n");
+                        break;
+                    case 2:
+                        filtro.concat("-MEDIA \n");
+                        break;
+                    case 3:
+                        filtro.concat("-BAJA \n");
+                        break;
+                        }
+                    case 5:
+
+
+                    case 6:
+                        filtro = "Suscripcion por tipo de usuario: \n";
+                        System.out.println("Elige una opcion para suscribirse");
+                        System.out.println("1 - Licantropo");
+                        System.out.println("2 - Vampiro");
+                        System.out.println("3 - Cazador");
+                        System.out.println("0 - Salir");
+                        do {
+                            opcion = sc.nextInt();
+                        } while (opcion < 0 || opcion > 3);
+                        switch (opcion) {
+                            case 1:
+                                filtro.concat("-Licantropo \n");
+                                break;
+                            case 2:
+                                filtro.concat("-Vampiro \n");
+                                break;
+                            case 3:
+                                filtro.concat("-Cazador \n");
+                                break;
+                        }
+                    case 7:
+                        filtro = "Suscripcion por un precio minimo-maximo: \n";
+                        System.out.println("Elige el precio minimo [0-1000]: ");
+                        do {
+                            opcion = sc.nextInt();
+                        } while(opcion<0 || opcion>1000);
+                        filtro.concat("Min: " + opcion + " oro \n");
+                        System.out.println("Elige el precio maximo [0-1000]: ");
+                        do {
+                            opcion = sc.nextInt();
+                        } while(opcion<0 || opcion>999);
+                        filtro.concat("Max: " + opcion + " oro");
+                }
+                boolean encontrado = false;
+                int i = 0;
+                int indice = -1;
+                for (Notificador notificador : listaNotificaciones) {
+                    if (notificador.getFiltro().equals(filtro)) {
+                        encontrado = true;
+                        indice = i;
+                        i++;
+                    }
+                }
+                if (!encontrado) {
+                    Notificador notificador = new Notificador(filtro);
+                } else {
+                    listaNotificaciones.get(indice).suscribirse((Observado) usuario);
+                }
+        }
     }
 
     public Personaje registrarPersonaje() {
@@ -750,7 +978,6 @@ public class Sistema implements Serializable {
         Scanner sc = new Scanner(System.in);
         ArrayList<Equipo> listaEquipo = new ArrayList<>();
         ArrayList<Esbirro> listaEsbirros = new ArrayList<>();
-        String usuarioVendedor = usuario.getNick();
         int opcion = -1;
         int opcion2 = -1;
         int i;
@@ -833,7 +1060,7 @@ public class Sistema implements Serializable {
             do {
                 precio = sc.nextInt();
             } while (precio < 0);
-            Oferta oferta = new Oferta(listaEquipo, listaEsbirros, precio, usuarioVendedor);
+            Oferta oferta = new Oferta(listaEquipo, listaEsbirros, precio, usuario);
             listaOfertasNoValidadas.add(oferta);
 
             //Quitar armas del inventario del usuario

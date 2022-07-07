@@ -4716,7 +4716,7 @@
 											"top": 822,
 											"width": 273.83154296875,
 											"height": 13,
-											"text": "-notificacion: Notificacion",
+											"text": "-notificacion: Notificador",
 											"horizontalAlignment": 0
 										},
 										{
@@ -4801,7 +4801,7 @@
 											"top": 900,
 											"width": 273.83154296875,
 											"height": 13,
-											"text": "-listaNotiticaciones: ArrayList<Notificacion>",
+											"text": "-listaNotiticaciones: ArrayList<Notificador>",
 											"horizontalAlignment": 0
 										},
 										{
@@ -7242,7 +7242,7 @@
 											"top": 1046,
 											"width": 242.76611328125,
 											"height": 13,
-											"text": "-listaNotificaiones: ArrayList<Notificacion>",
+											"text": "-listaNotificaiones: ArrayList<Notificador>",
 											"horizontalAlignment": 0
 										}
 									],
@@ -8615,7 +8615,7 @@
 											"top": 503,
 											"width": 226.17333984375,
 											"height": 13,
-											"text": "Notificacion"
+											"text": "Notificador"
 										},
 										{
 											"_type": "LabelView",
@@ -13097,7 +13097,7 @@
 							},
 							"name": "listaNotiticaciones",
 							"visibility": "private",
-							"type": "ArrayList<Notificacion>"
+							"type": "ArrayList<Notificador>"
 						},
 						{
 							"_type": "UMLAttribute",
@@ -13711,7 +13711,7 @@
 							},
 							"name": "listaNotificaiones",
 							"visibility": "private",
-							"type": "ArrayList<Notificacion>"
+							"type": "ArrayList<Notificador>"
 						}
 					],
 					"operations": [
@@ -13965,7 +13965,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Notificacion",
+					"name": "Notificador",
 					"ownedElements": [
 						{
 							"_type": "UMLAssociation",

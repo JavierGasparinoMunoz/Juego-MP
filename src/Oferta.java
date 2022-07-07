@@ -2,20 +2,20 @@
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Oferta {
+public class Oferta{
     private ArrayList<Equipo> listaEquipo;
     private ArrayList<Esbirro> listaEsbirros;
     private int precio;
-    private String usuarioVendedor;
+    private Usuario usuarioVendedor;
 
-    public Oferta(ArrayList<Equipo> listaEquipo, ArrayList<Esbirro> listaEsbirros, int precio, String usuarioVendedor){
+    public Oferta(ArrayList<Equipo> listaEquipo, ArrayList<Esbirro> listaEsbirros, int precio, Usuario usuarioVendedor){
         this.listaEquipo = listaEquipo;
         this.listaEsbirros = listaEsbirros;
         this.precio = precio;
         this.usuarioVendedor = usuarioVendedor;
     }
     public void mostrarOferta(){
-        System.out.println("Usuario vendedor: " + usuarioVendedor);
+        System.out.println("Usuario vendedor: " + usuarioVendedor.getNick());
         System.out.println("Precio: " + precio);
         System.out.println("Artículos vendidos: ");
         if (!listaEquipo.isEmpty()){
@@ -33,7 +33,6 @@ public class Oferta {
             System.out.print(esbirrosVendidos);
         }
     }
-
     public ArrayList<Equipo> getListaEquipo() {
         return listaEquipo;
     }
@@ -48,6 +47,7 @@ public class Oferta {
 
     public void generarVentaLog(String usuario){
         Date date = new Date();
-        VentaLog ventalog = new VentaLog(date, usuarioVendedor, usuario, listaEquipo, listaEsbirros, precio);
+        VentaLog ventalog = new VentaLog(date, usuarioVendedor.getNick(), usuario, listaEquipo, listaEsbirros, precio);
     }
+
 }

@@ -1,8 +1,15 @@
-public class Jugador extends Usuario{
+import java.util.ArrayList;
+
+public class Jugador extends Usuario implements Observador {
     private Personaje personaje;
     private String numRegistro;
-    public Jugador(String nombre, String nick, String password, Personaje personaje) {
+    private ArrayList<String> listaNotificaciones;
+
+    public Jugador(String nombre, String nick, String password, Personaje personaje, String numRegistro) {
         super(nombre, nick, password);
+        this.personaje = personaje;
+        this.numRegistro = numRegistro;
+        this.listaNotificaciones = new ArrayList<>();
     }
 
     public String getNumRegistro() {
@@ -48,4 +55,16 @@ public class Jugador extends Usuario{
     public void setPassword(String password) {
         super.setPassword(password);
     }
+
+    @Override
+    public void actualizar(String notificacion) {
+        listaNotificaciones.add(notificacion);
+    }
+
+    public void mostrarNotificaciones() {
+        for(String notificacion: listaNotificaciones){
+            System.out.println(notificacion);
+        }
+    }
+
 }
