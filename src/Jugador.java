@@ -1,10 +1,11 @@
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Jugador extends Usuario implements Observador {
     private Personaje personaje;
     private String numRegistro;
     private ArrayList<String> listaNotificaciones;
-
+    private ArrayList<Notificador> listaNotificadores;
     public Jugador(String nombre, String nick, String password, Personaje personaje, String numRegistro) {
         super(nombre, nick, password);
         this.personaje = personaje;
@@ -61,10 +62,25 @@ public class Jugador extends Usuario implements Observador {
         listaNotificaciones.add(notificacion);
     }
 
+    public void addNotificacion(String notificacion){
+        listaNotificaciones.add(notificacion);
+    }
+
+    public void addNotificador(Notificador notificador){
+        listaNotificadores.add(notificador);
+    }
+
     public void mostrarNotificaciones() {
         for(String notificacion: listaNotificaciones){
             System.out.println(notificacion);
         }
     }
 
+    public ArrayList<String> getListaNotificaciones() {
+        return listaNotificaciones;
+    }
+
+    public ArrayList<Notificador> getListaNotificadores() {
+        return listaNotificadores;
+    }
 }

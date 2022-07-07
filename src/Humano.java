@@ -21,4 +21,5 @@ public class Humano extends Esbirro{
         System.out.println("Salud: " + getSalud());
         System.out.println("Lealtad: " + getLealtad());
     }
+
 }

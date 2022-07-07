@@ -1,4 +1,5 @@
 import java.io.*;
+import java.sql.SQLOutput;
 import java.util.*;
 
 public class Sistema implements Serializable {
@@ -6,7 +7,7 @@ public class Sistema implements Serializable {
     private Usuario usuario;
     private ArrayList<Usuario> whiteList, blackList = new ArrayList<>();
     private ArrayList<Oferta> listaOfertas, listaOfertasNoValidadas = new ArrayList<>();
-    private ArrayList<Notificador> listaNotificaciones = new ArrayList<>();
+    private ArrayList<Notificador> listaNotificadores = new ArrayList<>();
     private ArrayList<VentaLog> listaLogs = new ArrayList<>();
     private ArrayList<Arma> conjuntoArmas = new ArrayList<>();
     private ArrayList<Armadura> conjuntoArmaduras = new ArrayList<>();
@@ -90,7 +91,7 @@ public class Sistema implements Serializable {
             System.out.println("Como quieres registrate:");
             System.out.println("1. Jugador");
             System.out.println("2. Operador");
-            System.out.println("3. Volver al menú de inicio"); //Por qué?
+            System.out.println("3. Volver al menú de inicio");
             int opcion = sc.nextInt();
 
             switch (opcion) {
@@ -379,6 +380,7 @@ public class Sistema implements Serializable {
 
     private void suscribirseOferta() {
         String filtro;
+        Scanner sc = new Scanner(System.in);
         System.out.println("Elige el tipo de oferta al que te quieres suscribir");
         System.out.println("1 - Por tipo de equipo/esbirros");
         System.out.println("2 - Por categoría");
@@ -477,22 +479,22 @@ public class Sistema implements Serializable {
                         } while (opcion < 0 || opcion > 6);
                         switch (opcion) {
                             case 1:
-                                filtro.concat("-Modificador de Ataque del arma de 1 \n");
+                                filtro.concat("-Modificador de Ataque del arma de 1");
                                 break;
                             case 2:
-                                filtro.concat("-Modificador de Ataque del arma de 2 \n");
+                                filtro.concat("-Modificador de Ataque del arma de 2");
                                 break;
                             case 3:
-                                filtro.concat("-Modificador de Ataque del arma de 3 \n");
+                                filtro.concat("-Modificador de Ataque del arma de 3");
                                 break;
                             case 4:
-                                filtro.concat("-Modificador de Defensa del arma de 1 \n");
+                                filtro.concat("-Modificador de Defensa del arma de 1");
                                 break;
                             case 5:
-                                filtro.concat("-Modificador de Defensa del arma de 2 \n");
+                                filtro.concat("-Modificador de Defensa del arma de 2");
                                 break;
                             case 6:
-                                filtro.concat("-Modificador de Defensa del arma de 3 \n");
+                                filtro.concat("-Modificador de Defensa del arma de 3");
                                 break;
                         }
                     case 2:
@@ -509,48 +511,67 @@ public class Sistema implements Serializable {
                         } while (opcion < 0 || opcion > 6);
                         switch (opcion) {
                             case 1:
-                                filtro.concat("-Modificador de Ataque de la armadura de 1 \n");
+                                filtro.concat("-Modificador de Ataque de la armadura de 1");
                                 break;
                             case 2:
-                                filtro.concat("-Modificador de Ataque de la armadura del arma de 2 \n");
+                                filtro.concat("-Modificador de Ataque de la armadura del arma de 2");
                                 break;
                             case 3:
-                                filtro.concat("-Modificador de Ataque de la armadura del arma de 3 \n");
+                                filtro.concat("-Modificador de Ataque de la armadura del arma de 3");
                                 break;
                             case 4:
-                                filtro.concat("-Modificador de Defensa de la armadura del arma de 1 \n");
+                                filtro.concat("-Modificador de Defensa de la armadura del arma de 1");
                                 break;
                             case 5:
-                                filtro.concat("-Modificador de Defensa de la armadura del arma de 2 \n");
+                                filtro.concat("-Modificador de Defensa de la armadura del arma de 2");
                                 break;
                             case 6:
-                                filtro.concat("-Modificador de Defensa de la armadura del arma de 3 \n");
+                                filtro.concat("-Modificador de Defensa de la armadura del arma de 3");
                                 break;
                         }
                         break;
-            case 4:
-                filtro = "Suscripcion por lealtad de Esbirro: \n";
-                System.out.println("Elige una opcion para suscribirse");
-                System.out.println("1 - ALTA");
-                System.out.println("2 - MEDIA");
-                System.out.println("3 - BAJA");
-                System.out.println("0 - Salir");
-                do {
+                case 4:
+                    filtro = "Suscripcion por lealtad de Esbirro: \n";
+                    System.out.println("Elige una opcion para suscribirse");
+                    System.out.println("1 - ALTA");
+                    System.out.println("2 - MEDIA");
+                    System.out.println("3 - BAJA");
+                    System.out.println("0 - Salir");
+                    do {
+                        opcion = sc.nextInt();
+                    } while(opcion<0 ||opcion>3);
+                    switch(opcion) {
+                        case 1:
+                            filtro.concat("-ALTA");
+                            break;
+                        case 2:
+                            filtro.concat("-MEDIA");
+                            break;
+                        case 3:
+                            filtro.concat("-BAJA");
+                            break;
+                            }
+                        break;
+                case 5:
+                    filtro = "Suscripcion por tipo de esbirro: \n";
+                    System.out.println("Elige una opcion para suscribirse");
+                    System.out.println("1 - Demonio");
+                    System.out.println("2 - Ghoul");
+                    System.out.println("3 - Cazador");
+                    System.out.println("0 - Humano");
+                    do {
                     opcion = sc.nextInt();
-                } while(opcion<0 ||opcion>3);
-                switch(opcion) {
-                    case 1:
-                        filtro.concat("-ALTA \n");
-                        break;
-                    case 2:
-                        filtro.concat("-MEDIA \n");
-                        break;
-                    case 3:
-                        filtro.concat("-BAJA \n");
-                        break;
-                        }
-                    case 5:
-
+                    } while (opcion < 0 || opcion > 3);
+                    switch (opcion) {
+                        case 1:
+                            filtro.concat("-Demonio");
+                        case 2:
+                            filtro.concat("-Ghoul");
+                            break;
+                        case 3:
+                            filtro.concat("-Humano");
+                            break;
+                    }
 
                     case 6:
                         filtro = "Suscripcion por tipo de usuario: \n";
@@ -564,13 +585,13 @@ public class Sistema implements Serializable {
                         } while (opcion < 0 || opcion > 3);
                         switch (opcion) {
                             case 1:
-                                filtro.concat("-Licantropo \n");
+                                filtro.concat("-Licantropo");
                                 break;
                             case 2:
-                                filtro.concat("-Vampiro \n");
+                                filtro.concat("-Vampiro");
                                 break;
                             case 3:
-                                filtro.concat("-Cazador \n");
+                                filtro.concat("-Cazador");
                                 break;
                         }
                     case 7:
@@ -589,7 +610,7 @@ public class Sistema implements Serializable {
                 boolean encontrado = false;
                 int i = 0;
                 int indice = -1;
-                for (Notificador notificador : listaNotificaciones) {
+                for (Notificador notificador : listaNotificadores) {
                     if (notificador.getFiltro().equals(filtro)) {
                         encontrado = true;
                         indice = i;
@@ -598,10 +619,36 @@ public class Sistema implements Serializable {
                 }
                 if (!encontrado) {
                     Notificador notificador = new Notificador(filtro);
+                    notificador.suscribirse((Observado) usuario);
+                    listaNotificadores.add(notificador);
+                    ((Jugador) usuario).addNotificador(notificador);
+
                 } else {
-                    listaNotificaciones.get(indice).suscribirse((Observado) usuario);
+                    listaNotificadores.get(indice).suscribirse((Observado) usuario);
+                    ((Jugador) usuario).addNotificador(listaNotificadores.get(indice));
                 }
         }
+        sc.close();
+    }
+    public void desuscribirse(){
+        if (((Jugador) usuario).getListaNotificadores().isEmpty()){
+            System.out.println("No tienes ninguna suscripción!");
+        } else{
+            Scanner sc = new Scanner(System.in);
+            int opcion;
+            System.out.println("Elija un filtro del que te quieres desuscribir:");
+            int i = 0;
+            for (Notificador notificador: ((Jugador) usuario).getListaNotificadores()) {
+                System.out.println(i + ") " + notificador.getFiltro());
+                i++;
+            }
+            do{
+                opcion = sc.nextInt();
+            } while(opcion > 0 || opcion > i--);
+            ((Jugador) usuario).getListaNotificadores().get(opcion).desuscribirse((Observado) usuario);
+            ((Jugador) usuario).getListaNotificadores().remove(opcion);
+        }
+
     }
 
     public Personaje registrarPersonaje() {
@@ -1007,9 +1054,9 @@ public class Sistema implements Serializable {
             System.out.println("4) Cancelar");
             if (contador >= 1) {
                 System.out.println("5) Finalizar oferta");
-                while (opcion > 5 || opcion < 1) {
+                do {
                     opcion = sc.nextInt();
-                }
+                }while (opcion > 5 || opcion < 1);
             } else {
                 while (opcion > 4 || opcion < 1) {
                     opcion = sc.nextInt();
