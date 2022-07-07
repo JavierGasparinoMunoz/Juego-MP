@@ -3,8 +3,8 @@ import java.util.ArrayList;
 
 public class Arma extends Equipo implements Serializable {
     private int numManos;
-    public Arma(int modAtaque, int modDefensa, int numManos, String nombre, String categoria){
-        super(modAtaque, modDefensa, nombre, categoria);
+    public Arma(int modAtaque, int modDefensa, int numManos, String nombre, String categoria, ArrayList<String> listMateriales){
+        super(modAtaque, modDefensa, nombre, categoria,listMateriales);
         this.numManos = numManos;
     }
 

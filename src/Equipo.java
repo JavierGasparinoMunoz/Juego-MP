@@ -6,12 +6,12 @@ public abstract class Equipo implements Serializable {
     private String nombre, categoria; //no se si puede no ser protected
     private ArrayList<String> listaMateriales = new ArrayList<>();
 
-    public Equipo(int modAtaque, int modDefensa, String nombre, String categoria){
+    public Equipo(int modAtaque, int modDefensa, String nombre, String categoria, ArrayList<String> listaMateriales){
         this.modAtaque = modAtaque;
         this.modDefensa = modDefensa;
         this.nombre = nombre;
         this.categoria = categoria;
-
+        this.listaMateriales = listaMateriales;
     }
     public abstract void mostrarEquipo();
     public String getNombre() { return nombre; }

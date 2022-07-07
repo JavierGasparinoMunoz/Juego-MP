@@ -261,7 +261,7 @@ public class Sistema implements Serializable {
         }
     }
 
-    private void menuAvanzadoOfertas(){
+    private void menuAvanzadoOfertas() throws IOException {
         Scanner sc = new Scanner(System.in);
         System.out.println("Bienvenido al menu Avanzado de Ofertas" + usuario.getNick());
         System.out.println("¿Que operacion desea realizar?");
@@ -269,7 +269,8 @@ public class Sistema implements Serializable {
         System.out.println("1. Crear una oferta");
         System.out.println("2. Buscar y comprar ofertas");
         System.out.println("3. Suscribirse a una oferta");
-        System.out.println("4. Volver al menu avanzado de personaje");
+        System.out.println("4. Desuscribirse a una oferta");
+        System.out.println("5. Volver al menu principal");
         System.out.println("--------------------------------------");
         opcionMOF = sc.nextInt();
         switch (opcionMOF){
@@ -280,7 +281,13 @@ public class Sistema implements Serializable {
                 consultarOferta();
                 break;
             case 3:
-                // Falta hacer sucribirse a una oferta
+                suscribirseOferta();
+                break;
+            case 4:
+                desuscribirse();
+                break;
+            case 5:
+                menuPrincipal();
                 break;
         }
     }
@@ -864,25 +871,32 @@ public class Sistema implements Serializable {
         }
     }
 
-    /*public HashSet<Arma> inicializarArmas(){
+    public HashSet<Arma> inicializarArmas(){
         //armas ofensivas
-        Arma espadaPequeña = new Arma(2, 0, 1, "Espada pequeña");
-        Arma espadon = new Arma(3, 1, 2, "Espadón");
-        Arma guadanya = new Arma(3, 0, 2, "Guadaña");
-        Arma palo = new Arma(1, 0, 2, "¡Un Palo!");
-        Arma cuchillo = new Arma(1, 0, 1, "¡Un Palo!");
-        Arma guantesMagicos = new Arma(3, 1, 2, "Guantes Mágicos");
-        Arma varitaMagica = new Arma(2, 1, 2, "Varita Mágica");
-        Arma varitaNoTanMagica = new Arma(1,0,2, "Varita No Tan Mágica");
-        Arma ocarina = new Arma(1, 1, 2, "Ocarina");
-        Arma bumeran = new Arma(2, 0, 1, "Bumerán");
-        Arma bfs = new Arma(5, 1, 1, "B.F.Sword");
-        Arma bajoAutoestima = new Arma(0, 0, 0, "Bajo Autoestima");
+        ArrayList<String> materiales1 = new ArrayList<>(Arrays.asList("Cobre","Hierro","Madera"));
+        ArrayList<String> materiales2 = new ArrayList<>(Arrays.asList("Acero","Hierro"));
+        ArrayList<String> materiales3 = new ArrayList<>(Arrays.asList("Diamante","Hierro","Madera"));
+        ArrayList<String> materiales4 = new ArrayList<>(Arrays.asList("Acero","Cuero"));
+        ArrayList<String> materiales5 = new ArrayList<>(Arrays.asList("Plata","Acero"));
+        ArrayList<String> materiales6 = new ArrayList<>(Arrays.asList("Madera"));
+        ArrayList<String> materiales7 = new ArrayList<>(Arrays.asList("Cuero"));
+        Arma espadaPequeña = new Arma(2, 0, 1, "Espada pequeña","comun",materiales2);
+        Arma espadon = new Arma(3, 1, 2, "Espadón","raro",materiales1);
+        Arma guadanya = new Arma(3, 0, 2, "Guadaña","raro",materiales3);
+        Arma palo = new Arma(1, 0, 2, "¡Un Palo!","comun",materiales6);
+        Arma cuchillo = new Arma(1, 0, 1, "Cuchillo","comun",materiales4);
+        Arma guantesMagicos = new Arma(3, 1, 2, "Guantes Mágicos","epico",materiales7);
+        Arma varitaMagica = new Arma(2, 1, 2, "Varita Mágica","legendario",materiales3);
+        Arma varitaNoTanMagica = new Arma(1,0,2, "Varita No Tan Mágica","comun",materiales6);
+        Arma ocarina = new Arma(1, 1, 2, "Ocarina","raro",materiales6);
+        Arma bumeran = new Arma(2, 0, 1, "Bumerán","comun",materiales6);
+        Arma bfs = new Arma(5, 1, 1, "B.F.Sword","epico",materiales5);
+        Arma bajoAutoestima = new Arma(0, 0, 0, "Bajo Autoestima","legendario",materiales3);
 
         //armas defensivas
-        Arma escudoPequeño = new Arma(0, 2 , 1, "Escudo Pequeño");
-        Arma escudoGrande = new Arma(0, 3, 1, "Escudo Grande");
-        Arma hologramaFormacionTortuga = new Arma(0, 1, 1, "Holograma Formación Tortuga, (solamente intimida.)");
+        Arma escudoPequeño = new Arma(0, 2 , 1, "Escudo Pequeño","comun",materiales1);
+        Arma escudoGrande = new Arma(0, 3, 1, "Escudo Grande","raro",materiales1);
+        Arma hologramaFormacionTortuga = new Arma(0, 1, 1, "Holograma Formación Tortuga, (solamente intimida.)","epico",materiales5);
 
         HashSet<Arma> conjuntoArmas = new HashSet<Arma>(Arrays.asList(espadaPequeña, espadon, guadanya, palo, cuchillo, guantesMagicos, varitaMagica, varitaNoTanMagica, ocarina, bumeran, bfs, bajoAutoestima, escudoPequeño, escudoGrande, hologramaFormacionTortuga));
         return conjuntoArmas;
@@ -890,14 +904,18 @@ public class Sistema implements Serializable {
 
     public HashSet<Armadura> inicializarArmaduras(){
         //armadura
-        Armadura camisetaPrimark = new Armadura(0, 0, "Camiseta Primark");
-        Armadura armaduraBasica = new Armadura(1,3, "Armadura Básica");
-        Armadura armaduraTortuga = new Armadura(0,4, "Armadura Tortuga");
-        Armadura armaduraDentada = new Armadura(2,2, "Armadura Dentada");
+        ArrayList<String> materiales1 = new ArrayList<>(Arrays.asList("Algodon"));
+        ArrayList<String> materiales2 = new ArrayList<>(Arrays.asList("Cuero"));
+        ArrayList<String> materiales3 = new ArrayList<>(Arrays.asList("Hiero","Acero","Cuero","Diamante"));
+        ArrayList<String> materiales4 = new ArrayList<>(Arrays.asList("Diamante","Hierro"));
+        Armadura camisetaPrimark = new Armadura(0, 0, "Camiseta Primark","comun",materiales1);
+        Armadura armaduraBasica = new Armadura(1,3, "Armadura Básica","raro",materiales2);
+        Armadura armaduraTortuga = new Armadura(0,4, "Armadura Tortuga","epico",materiales4);
+        Armadura armaduraDentada = new Armadura(2,2, "Armadura Dentada","legendaria",materiales3);
 
         HashSet<Armadura> conjuntoArmaduras = new HashSet<Armadura>(Arrays.asList(camisetaPrimark, armaduraBasica, armaduraTortuga, armaduraDentada));
         return conjuntoArmaduras;
-    }*/
+    }
 
     public void serializarSistema() throws FileNotFoundException, IOException {
         String rutaArchivo = "./informacion.bin";
@@ -905,16 +923,6 @@ public class Sistema implements Serializable {
         ObjectOutputStream datosSalida = new ObjectOutputStream(new FileOutputStream(f1));
         datosSalida.writeObject(this);
     }
-
-    //método encargado de obtener la información introducida anteriormente en el sistema
-    public Sistema deserializarSistema() throws FileNotFoundException, IOException, ClassNotFoundException {
-        String rutaArchivo = "./informacion.bin";
-        ObjectInputStream datosEntrada = new ObjectInputStream(new FileInputStream(rutaArchivo));
-        Sistema datos = (Sistema) datosEntrada.readObject();
-        return datos;
-    }
-
-
     public Usuario getUsuario() {
         return usuario;
     }

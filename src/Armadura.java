@@ -1,8 +1,9 @@
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Armadura extends Equipo implements Serializable {
-    public Armadura(int modAtaque, int modDefensa, String nombre, String categoria){
-        super(modAtaque, modDefensa, nombre, categoria);
+    public Armadura(int modAtaque, int modDefensa, String nombre, String categoria, ArrayList<String> listaMateriales){
+        super(modAtaque, modDefensa, nombre, categoria,listaMateriales);
     }
 
     @Override
