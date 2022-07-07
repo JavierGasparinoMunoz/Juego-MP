@@ -15,7 +15,7 @@ public class Jugador extends Usuario implements Observador, Serializable {
     }
 
     public String getNumRegistro() {
-        return getNumRegistro();
+        return numRegistro;
     }
 
     public void setNumRegistro(String numRegistro) { setNumRegistro(numRegistro); }

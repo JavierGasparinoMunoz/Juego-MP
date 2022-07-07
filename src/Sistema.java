@@ -3,7 +3,6 @@ import java.sql.SQLOutput;
 import java.util.*;
 
 public class Sistema implements Serializable {
-    Scanner sc = new Scanner(System.in);
     private Usuario usuario;
     private ArrayList<Usuario> whiteList, blackList = new ArrayList<>();
     private ArrayList<Oferta> listaOfertas, listaOfertasNoValidadas = new ArrayList<>();
@@ -19,6 +18,7 @@ public class Sistema implements Serializable {
     }
 
     private void consultarOferta(){
+        Scanner sc = new Scanner(System.in);
         int i = 1;
         if (!listaOfertas.isEmpty()) {
             for (Oferta oferta : listaOfertas) {
@@ -66,8 +66,8 @@ public class Sistema implements Serializable {
         }
     }
 
-    public void menuInicio() {
-        Scanner scInicio = new Scanner(System.in);
+    public void menuInicio() throws IOException {
+        Scanner sc = new Scanner(System.in);
         System.out.println("----------------------------------");
         System.out.println("   Bienvenido al Menu de Inicio   ");
         System.out.println("----------------------------------");
@@ -75,7 +75,7 @@ public class Sistema implements Serializable {
         System.out.println("1 - Registrarse                   ");
         System.out.println("2 - Iniciar sesion                ");
         System.out.println("----------------------------------");
-        opcionMI = scInicio.nextInt();
+        opcionMI = sc.nextInt();
 
         switch (opcionMI) {
             case 1:
@@ -87,8 +87,8 @@ public class Sistema implements Serializable {
         }
     }
 
-    private void registrarCuenta() {
-        try (Scanner sc = new Scanner(System.in)) {
+    private void registrarCuenta() throws IOException {
+            Scanner sc = new Scanner(System.in);
             System.out.println("Como quieres registrate:");
             System.out.println("1. Jugador");
             System.out.println("2. Operador");
@@ -113,7 +113,7 @@ public class Sistema implements Serializable {
                     }
                     registrarPersonaje();
                     Personaje personaje = p;
-                    //todo Implementar el metodo generar numRegistro
+
                     String numeroRegistro = calcularNumRegistro();
                     Jugador player = new Jugador(nombre, nick, contraseña, personaje,numeroRegistro);
                     usuario = player;
@@ -149,11 +149,9 @@ public class Sistema implements Serializable {
                     menuInicio();
                     break;
             }
+            sc.close();
             crearUsuario();
             menuPrincipal();
-        } catch (IOException e) {
-            System.err.println(e.getMessage());
-        }
     }
 
     public void crearUsuario() throws IOException {
@@ -167,7 +165,7 @@ public class Sistema implements Serializable {
         }
     }
 
-    private void menuPrincipal(){
+    private void menuPrincipal() throws IOException {
         if (usuario instanceof Jugador) {
             menuJugador();
         } else {
@@ -175,7 +173,8 @@ public class Sistema implements Serializable {
         }
     }
 
-    private void menuOperador(){
+    private void menuOperador() throws IOException {
+        Scanner sc = new Scanner(System.in);
         System.out.println("-----------------------------------------------------");
         System.out.println("Bienvenido al menu principal " + usuario.getNick());
         System.out.println("Elige una de las siguientes opciones");
@@ -206,7 +205,8 @@ public class Sistema implements Serializable {
 
     }
 
-    private void menuJugador() {
+    private void menuJugador() throws IOException {
+        Scanner sc = new Scanner(System.in);
         System.out.println("-----------------------------------------------------");
         System.out.println("Bienvenido al menu principal " + usuario.getNick());
         System.out.println("Elige una de las siguientes opciones");
@@ -215,8 +215,8 @@ public class Sistema implements Serializable {
         System.out.println("3. Darse de baja");
         System.out.println("4. Salir");
         System.out.println("-----------------------------------------------------");
-        opcionMP1 = sc.nextInt();
-        switch (opcionMP1) {
+        opcionMI = sc.nextInt();
+        switch (opcionMI) {
             case 1:
                 menuAvanzadoPersonaje();
                 break;
@@ -232,7 +232,8 @@ public class Sistema implements Serializable {
         }
     }
 
-    private void menuAvanzadoPersonaje(){
+    private void menuAvanzadoPersonaje() throws IOException {
+        Scanner sc = new Scanner(System.in);
         System.out.println("-----------------------------------------------------");
         System.out.println("Bienvenido al menu avanzado para personajes " + usuario.getNick());
         System.out.println("Elige una de las siguientes opciones");
@@ -262,6 +263,7 @@ public class Sistema implements Serializable {
     }
 
     private void menuAvanzadoOfertas(){
+        Scanner sc = new Scanner(System.in);
         System.out.println("Bienvenido al menu Avanzado de Ofertas" + usuario.getNick());
         System.out.println("¿Que operacion desea realizar?");
         System.out.println("--------------------------------------");
@@ -284,7 +286,7 @@ public class Sistema implements Serializable {
         }
     }
 
-    public void darseDeBaja() {
+    public void darseDeBaja() throws IOException {
         whiteList.remove(usuario);
         System.out.println("Se ha dado de baja correctamente");
         menuInicio();
@@ -324,12 +326,13 @@ public class Sistema implements Serializable {
 
     }
 
-    public void salir() {
+    public void salir() throws IOException {
         //Este método sale de la sesión ()
         menuInicio();
     }
 
     private Personaje crearPersonajeBase(){
+        Scanner sc = new Scanner(System.in);
         System.out.println("Introduce el nombre del personaje");
         String nombre = sc.next();
         System.out.println("Introduzca la cantidad de oro del personaje");
@@ -665,6 +668,7 @@ public class Sistema implements Serializable {
     }
 
     public Personaje registrarPersonaje() {
+        Scanner sc = new Scanner(System.in);
         p = crearPersonajeBase();
         System.out.println("Elige un rol");
         System.out.println("1. Cazador");
@@ -685,11 +689,12 @@ public class Sistema implements Serializable {
                 p = licantropo.crearPersonaje(p.getNombre(),p.getListaArmas(),p.getArmasActivas(),p.getListaArmaduras(),p.getListaEsbirros(),p.getCantidadOro());
                 break;
         }
+        sc.close();
         return p;
     }
 
 
-    public void iniciarSesion() {
+    public void iniciarSesion() throws IOException {
         try (Scanner sc = new Scanner(System.in)) {
             System.out.println("Nombre de usuario");
             String nick = sc.nextLine();
@@ -711,6 +716,7 @@ public class Sistema implements Serializable {
     }
 
     public void modificarEquipo(){
+        Scanner sc = new Scanner(System.in);
         System.out.println("Seleccione una opcion");
         System.out.println("1. Añadir Equipo");
         System.out.println("2. Eliminar Equipo");
@@ -731,6 +737,7 @@ public class Sistema implements Serializable {
     }
 
     private void añadirEquipo(){
+        Scanner sc = new Scanner(System.in);
         ArrayList<Equipo> listaEquipo = new ArrayList<>();
         System.out.println("Seleccione el equipo que desea añadir");
         System.out.println("Armaduras:");
@@ -774,6 +781,7 @@ public class Sistema implements Serializable {
     }
 
     private void eliminarEquipo(){
+        Scanner sc = new Scanner(System.in);
         ArrayList<Equipo> listaEquipo = new ArrayList<>();
         int i;
         if (((Jugador) usuario).getPersonaje().getListaArmas().isEmpty() && ((Jugador) usuario).getPersonaje().getListaArmaduras().isEmpty()){
@@ -812,6 +820,7 @@ public class Sistema implements Serializable {
     }
 
     private void elegirArmasActivas() {
+        Scanner sc = new Scanner(System.in);
         for (Arma armaActiva:(((Jugador) usuario).getPersonaje().getArmasActivas())){
             ((Jugador) usuario).getPersonaje().removeArmasActivas(armaActiva);
         }
@@ -967,7 +976,8 @@ public class Sistema implements Serializable {
         System.out.println("Nuevo saldo: "+ ((Jugador) usuario).getPersonaje().getCantidadOro());
     }
 
-    private void menuUsuario(){
+    private void menuUsuario() throws IOException {
+        Scanner sc = new Scanner(System.in);
         System.out.println("-----------------------------------------------------");
         System.out.println("Bienvenido al menu de gestion de usuarios " + usuario.getNick());
         System.out.println("Elige una de las siguientes opciones");
@@ -1230,9 +1240,13 @@ public class Sistema implements Serializable {
             int i = 0;
             boolean encontrado = false;
             while (i < whiteList.size() && !encontrado) {
-                Jugador user = (Jugador) whiteList.get(i);
-                encontrado = user.getNumRegistro().equals(numReg);
-                i = i + 1;
+                if(whiteList.get(i) instanceof Jugador) {
+                    Jugador user = (Jugador) whiteList.get(i);
+                    System.out.println(user.getNumRegistro());
+                    encontrado = user.getNumRegistro().equals(numReg);
+
+                }
+                i++;
             }
             i = 0;
             while (i < blackList.size() && !encontrado) {
@@ -1247,20 +1261,20 @@ public class Sistema implements Serializable {
     }
 
     public String calcularNumRegistro(){
+        Random rd = new Random();
         String numero;
         do {
             numero = new String();
-            int n = (int) (Math.random() * 90) + 65;
+            char n = (char) (rd.nextInt(26) + 'a');
             String caracter = String.valueOf(n);
             numero = numero.concat(caracter);
-            for (int i = 0; i < 1; i++) {
-                n = (int) Math.random() * 9;
+            for (int i = 0; i < 2; i++) {
+                n = (char) (rd.nextInt(9) + '0');
                 caracter = String.valueOf(n);
                 numero = numero.concat(caracter);
             }
-            for (int i = 0; i < 1; i++) {
-                n = (int) (Math.random() * 90) + 65;
-                ;
+            for (int i = 0; i < 2; i++) {
+                n = (char) ((char) rd.nextInt(26) + 'a');
                 caracter = String.valueOf(n);
                 numero = numero.concat(caracter);
             }
