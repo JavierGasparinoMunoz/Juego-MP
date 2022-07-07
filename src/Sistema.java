@@ -86,11 +86,11 @@ public class Sistema implements Serializable {
     }
 
     private void registrarCuenta() {
-        try (Scanner sc = new Scanner(System.in)) { //preguntar si se quiere registrar un Operador o Jugador antes
+        try (Scanner sc = new Scanner(System.in)) {
             System.out.println("Como quieres registrate:");
             System.out.println("1. Jugador");
             System.out.println("2. Operador");
-            System.out.println("3. Volver al menú de inicio");
+            System.out.println("3. Volver al menú de inicio"); //Por qué?
             int opcion = sc.nextInt();
 
             switch (opcion) {
@@ -98,7 +98,7 @@ public class Sistema implements Serializable {
                     System.out.println("Introduce el nombre");
                     String nombre = sc.nextLine();
                     String nick;
-                    do {
+                    do { //solo hacer encontrarNick() si !whitelist.isEmpty()
                         System.out.println("Introduce el nick");
                         nick = sc.nextLine();
                     } while (encontrarNick(nick));
@@ -234,7 +234,6 @@ public class Sistema implements Serializable {
                 modificarEquipo();
                 // Si esta añadir equipo y eliminar equipo que hacia modificar equipo
             case 2:
-                // Modificar oro tiene que poder reducir el oro
                 modificarOro();
                 break;
             case 3:
@@ -645,8 +644,18 @@ public class Sistema implements Serializable {
 
     public void modificarOro() {
         int cantidadOro = ((Jugador) usuario).getPersonaje().getCantidadOro();
-        System.out.println("Indica cuánto oro quieres sumarte entre 0 y 1000");
+        System.out.println("1) Sumar oro");
+        System.out.println("2) Restar oro");
+        int opcion;
         Scanner sc = new Scanner(System.in);
+        do{
+            opcion = sc.nextInt();
+        }while (opcion < 1 || opcion > 2);
+        if (opcion == 1) {
+            System.out.println("Indica cuánto oro quieres sumarte entre 0 y 1000");
+        } else{
+            System.out.println("Indica cuánto oro quieres restarte entre 0 y 1000");
+        }
         int oroASumar = -1;
         while (oroASumar < 0 || oroASumar > 1000) {
             oroASumar = sc.nextInt();
@@ -654,10 +663,18 @@ public class Sistema implements Serializable {
                 System.out.println("Vuélvelo a intentar, introduzca un número entre 0 y 1000");
             }
         }
+        if (opcion == 1){
+            cantidadOro += oroASumar;
+        } else{
+            cantidadOro -= oroASumar;
+            if (cantidadOro < 0){
+                cantidadOro = 0;
+            }
+        }
         sc.close();
-        cantidadOro += oroASumar;
         ((Jugador) usuario).getPersonaje().setCantidadOro(cantidadOro);
-        System.out.println("El dinero se ha sumado correctamente");
+        System.out.println("El oro se ha modificado correctamente");
+        System.out.println("Nuevo saldo: "+ ((Jugador) usuario).getPersonaje().getCantidadOro());
     }
 
     private void menuUsuario(){
