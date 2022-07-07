@@ -1,4 +1,6 @@
-public abstract class Esbirro {
+import java.io.Serializable;
+
+public abstract class Esbirro implements Serializable {
     private String nombre;
     private int salud;
 

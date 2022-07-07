@@ -1,7 +1,8 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-public abstract class Personaje {
+public abstract class Personaje implements Serializable {
     private String nombre;
     private ArrayList<Arma> listaArmas = new ArrayList<>();
     private HashSet<Arma> armasActivas = new HashSet<>();

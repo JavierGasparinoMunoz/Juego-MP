@@ -1,8 +1,9 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Scanner;
 
-public class CrearLicantropo extends Creator{
+public class CrearLicantropo extends Creator implements Serializable {
     Scanner sc = new Scanner(System.in);
     @Override
     public Personaje crearPersonaje(String nombre, ArrayList<Arma> listaArmas, HashSet<Arma> armasActivas, ArrayList<Armadura> listaArmaduras, ArrayList<Esbirro> listaEsbirros, int cantidadOro) {

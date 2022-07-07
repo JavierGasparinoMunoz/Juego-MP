@@ -6,7 +6,7 @@ public class Inicio {
     public Inicio() throws IOException, ClassNotFoundException {
         String ruta = "./informacion.bin";
         File ficheroUsuarios = new File(ruta);
-        if( !ficheroUsuarios.exists()){
+        if(!ficheroUsuarios.exists()){
             try {
                 ficheroUsuarios.createNewFile();
                 sistema = new Sistema();
@@ -27,9 +27,15 @@ public class Inicio {
     //método encargado de obtener la información en sesiones anteriores
     public Sistema deserializarSistema() throws FileNotFoundException, IOException, ClassNotFoundException {
         String rutaArchivo = "./informacion.bin";
-        ObjectInputStream datosEntrada = new ObjectInputStream(new FileInputStream(rutaArchivo));
-        Sistema datos = (Sistema) datosEntrada.readObject();
-        return datos;
+        File fichero = new File(rutaArchivo);
+        if (fichero.length()>0){
+            ObjectInputStream datosEntrada = new ObjectInputStream(new FileInputStream(rutaArchivo));
+            Sistema datos = (Sistema) datosEntrada.readObject();
+            return datos;
+        }else {
+            Sistema sistema = new Sistema();
+            return sistema;
+        }
     }
 
 }

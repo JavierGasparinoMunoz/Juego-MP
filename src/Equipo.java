@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public abstract class Equipo {
+public abstract class Equipo implements Serializable {
     private int modAtaque, modDefensa;
     private String nombre, categoria; //no se si puede no ser protected
     private ArrayList<String> listaMateriales = new ArrayList<>();

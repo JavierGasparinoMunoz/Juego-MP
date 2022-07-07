@@ -3,7 +3,7 @@ import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class VentaLog {
+public class VentaLog implements Serializable {
     private Date fecha;
     private String usuarioVendedor, usuarioComprador;
     private int precio;

@@ -1,8 +1,9 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Demonio extends Esbirro{
+public class Demonio extends Esbirro implements Serializable {
     private ArrayList<Esbirro> conjuntoEsbirros = new ArrayList<>();
     private String pacto;
 

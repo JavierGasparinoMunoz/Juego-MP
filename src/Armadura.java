@@ -1,4 +1,6 @@
-public class Armadura extends Equipo{
+import java.io.Serializable;
+
+public class Armadura extends Equipo implements Serializable {
     public Armadura(int modAtaque, int modDefensa, String nombre, String categoria){
         super(modAtaque, modDefensa, nombre, categoria);
     }

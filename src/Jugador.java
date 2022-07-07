@@ -1,7 +1,8 @@
+import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-public class Jugador extends Usuario implements Observador {
+public class Jugador extends Usuario implements Observador, Serializable {
     private Personaje personaje;
     private String numRegistro;
     private ArrayList<String> listaNotificaciones;

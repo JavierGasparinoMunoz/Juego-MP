@@ -1,8 +1,9 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
 
-public class Vampiro extends Personaje{
+public class Vampiro extends Personaje implements Serializable {
 
     private int puntosSangre;
     private int edad;

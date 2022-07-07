@@ -67,6 +67,7 @@ public class Sistema implements Serializable {
     }
 
     public void menuInicio() {
+        Scanner scInicio = new Scanner(System.in);
         System.out.println("----------------------------------");
         System.out.println("   Bienvenido al Menu de Inicio   ");
         System.out.println("----------------------------------");
@@ -74,7 +75,7 @@ public class Sistema implements Serializable {
         System.out.println("1 - Registrarse                   ");
         System.out.println("2 - Iniciar sesion                ");
         System.out.println("----------------------------------");
-        opcionMI = sc.nextInt();
+        opcionMI = scInicio.nextInt();
 
         switch (opcionMI) {
             case 1:
@@ -97,25 +98,30 @@ public class Sistema implements Serializable {
             switch (opcion) {
                 case 1:
                     System.out.println("Introduce el nombre");
-                    String nombre = sc.nextLine();
+                    String nombre = sc.next();
                     String nick;
                     do { //solo hacer encontrarNick() si !whitelist.isEmpty()
                         System.out.println("Introduce el nick");
-                        nick = sc.nextLine();
+                        nick = sc.next();
                     } while (encontrarNick(nick));
 
                     System.out.println("Introduce la contraseña");
-                    String contraseña = sc.nextLine();
+                    String contraseña = sc.next();
+                    while (contraseña.length() < 8 || contraseña.length() > 12){
+                        System.out.println("La contraseña debe ser entre 8 y 12, vuelva a intentarlo");
+                        contraseña = sc.next();
+                    }
                     registrarPersonaje();
                     Personaje personaje = p;
                     //todo Implementar el metodo generar numRegistro
-                    Jugador player = new Jugador(nombre, nick, contraseña, personaje,);
+                    String numeroRegistro = calcularNumRegistro();
+                    Jugador player = new Jugador(nombre, nick, contraseña, personaje,numeroRegistro);
                     usuario = player;
                     break;
                 case 2:
                     System.out.println("Introduzca el codigo secreto o introduzca 1 para cancelar");
                     int codigo = sc.nextInt();
-                    while (codigo != 1 || codigo != 1234){
+                    while (codigo != 1 && codigo != 1234){
                         System.out.println("Codigo incorrecto, vuelva intentarlo o cancele la accion");
                         codigo = sc.nextInt();
                     }
@@ -125,15 +131,15 @@ public class Sistema implements Serializable {
                             break;
                         case 1234:
                             System.out.println("Introduce el nombre");
-                            String nombreOperador = sc.nextLine();
+                            String nombreOperador = sc.next();
                             String nickOperador;
                             do {
                                 System.out.println("Introduce el nick");
-                                nickOperador = sc.nextLine();
+                                nickOperador = sc.next();
                             } while (encontrarNick(nickOperador));
 
                             System.out.println("Introduce la contraseña");
-                            String contraseñaOperador = sc.nextLine();
+                            String contraseñaOperador = sc.next();
                             Operador admin = new Operador(nombreOperador, nickOperador, contraseñaOperador);
                             usuario = admin;
                             break;
@@ -151,8 +157,14 @@ public class Sistema implements Serializable {
     }
 
     public void crearUsuario() throws IOException {
-        whiteList.add(usuario);
-        serializarSistema();
+        if(whiteList != null) {
+            whiteList.add(usuario);
+            serializarSistema();
+        }else{
+            whiteList = new ArrayList<>();
+            whiteList.add(usuario);
+            serializarSistema();
+        }
     }
 
     private void menuPrincipal(){
@@ -317,9 +329,9 @@ public class Sistema implements Serializable {
         menuInicio();
     }
 
-    private void crearPersonajeBase(){
+    private Personaje crearPersonajeBase(){
         System.out.println("Introduce el nombre del personaje");
-        String nombre = sc.nextLine();
+        String nombre = sc.next();
         System.out.println("Introduzca la cantidad de oro del personaje");
         int cantidadOro = sc.nextInt();
         HashSet<Arma> armasActivas = new HashSet<>();
@@ -333,16 +345,16 @@ public class Sistema implements Serializable {
                 System.out.println("3 - Demonio");
                 int opcion = sc.nextInt();
                 System.out.println("Introduce el nombre del esbirro");
-                String nombreEsbirro = sc.nextLine();
+                String nombreEsbirro = sc.next();
                 System.out.println("Introduce la salud para el esbirro");
                 int salud = sc.nextInt();
                 switch(opcion){
                     case 1:
                         System.out.println("Introduce el tipo de lealtad (ALTA,NORMAL o BAJA)");
-                        String lealtad = sc.nextLine().toUpperCase();
+                        String lealtad = sc.next().toUpperCase();
                         while (!lealtad.equals("ALTA") && !lealtad.equals("NORMAL") && !lealtad.equals("BAJA")) {
                              System.out.println("El tipo de lealtad tiene que ser ALTO,NORMAL o BAJA");
-                             lealtad = sc.nextLine().toUpperCase();
+                             lealtad = sc.next().toUpperCase();
                         }
                         Humano h = new Humano(nombreEsbirro, salud, lealtad);
                         p.getListaEsbirros().add(h);
@@ -368,7 +380,7 @@ public class Sistema implements Serializable {
                         break;
                     case 3:
                         int cantEsbirros = (int) (Math.random() * 3);
-                        String descripcion = sc.nextLine();
+                        String descripcion = sc.next();
                         Demonio demonio = new Demonio(nombreEsbirro,salud,descripcion);
                         p.getListaEsbirros().add(demonio);
                         //Falta que los demonios puedan crear demonios
@@ -376,6 +388,7 @@ public class Sistema implements Serializable {
                 }
             }
         };
+        return p;
     }
 
     private void suscribirseOferta() {
@@ -652,8 +665,7 @@ public class Sistema implements Serializable {
     }
 
     public Personaje registrarPersonaje() {
-        crearPersonajeBase();
-        p = ((Jugador) usuario).getPersonaje();
+        p = crearPersonajeBase();
         System.out.println("Elige un rol");
         System.out.println("1. Cazador");
         System.out.println("2. Vampiro");
@@ -673,7 +685,6 @@ public class Sistema implements Serializable {
                 p = licantropo.crearPersonaje(p.getNombre(),p.getListaArmas(),p.getArmasActivas(),p.getListaArmaduras(),p.getListaEsbirros(),p.getCantidadOro());
                 break;
         }
-        ((Jugador) usuario).setPersonaje(p);
         return p;
     }
 
@@ -690,7 +701,7 @@ public class Sistema implements Serializable {
             } else if (!comprobarSesion(nick, contraseña)){
                 System.out.println("Inicio de sesión erroneo vuelva a intentarlo");
                 System.out.println();
-                iniciarSesion();
+                menuInicio();
             }else {
                 System.out.println("Su usuario esta baneado");
                 System.out.println();
@@ -904,17 +915,21 @@ public class Sistema implements Serializable {
     }
 
     private Boolean comprobarSesion(String nick, String contraseña) {
-        int i = 0;
-        boolean registrado = false;
-        while (i < whiteList.size() && !registrado) {
-            registrado = whiteList.get(i).getNick().equals(nick) && whiteList.get(i).getPassword().equals(contraseña);
-            i = i + 1;
+        if(whiteList != null) {
+            int i = 0;
+            boolean registrado = false;
+            while (i < whiteList.size() && !registrado) {
+                registrado = whiteList.get(i).getNick().equals(nick) && whiteList.get(i).getPassword().equals(contraseña);
+                i = i + 1;
+            }
+            if (registrado && whiteList.get(i - 1) instanceof Jugador) {
+                usuario = whiteList.get(i - 1);
+                p = ((Jugador) whiteList.get(i - 1)).getPersonaje();
+            }
+            return registrado;
+        }else{
+            return false;
         }
-        if (registrado && whiteList.get(i-1) instanceof Jugador){
-            usuario = whiteList.get(i-1);
-            p = ((Jugador) whiteList.get(i - 1)).getPersonaje();
-        }
-        return registrado;
     }
 
     public void modificarOro() {
@@ -1178,28 +1193,79 @@ public class Sistema implements Serializable {
     }
 
     private Boolean encontrarNick(String nick) {
-        int i = 0;
-        boolean encontrado = false;
-        while (i < whiteList.size() && !encontrado) {
-            encontrado = whiteList.get(i).getNick().equals(nick);
-            i = i + 1;
+        if (whiteList != null && blackList != null) {
+            int i = 0;
+            boolean encontrado = false;
+            while (i < whiteList.size() && !encontrado) {
+                encontrado = whiteList.get(i).getNick().equals(nick);
+                i = i + 1;
+            }
+            i = 0;
+            while (i < blackList.size() && !encontrado) {
+                encontrado = blackList.get(i).getNick().equals(nick);
+                i = i + 1;
+            }
+            return encontrado;
+        }else {
+            return false;
         }
-        i = 0;
-        while (i < blackList.size() && !encontrado) {
-            encontrado = blackList.get(i).getNick().equals(nick);
-            i = i + 1;
-        }
-        return encontrado;
     }
 
     private Boolean encontrarBaneado(String nick){
-        int i = 0;
-        boolean encontrado = false;
-        while (i < blackList.size() && !encontrado) {
-            encontrado = blackList.get(i).getNick().equals(nick);
-            i = i + 1;
+        if (!blackList.isEmpty()) {
+            int i = 0;
+            boolean encontrado = false;
+            while (i < blackList.size() && !encontrado) {
+                encontrado = blackList.get(i).getNick().equals(nick);
+                i = i + 1;
+            }
+            return encontrado;
+        }else{
+            return false;
         }
-        return encontrado;
+    }
+
+    public Boolean encontrarNumReg(String numReg){
+        if (whiteList != null) {
+            int i = 0;
+            boolean encontrado = false;
+            while (i < whiteList.size() && !encontrado) {
+                Jugador user = (Jugador) whiteList.get(i);
+                encontrado = user.getNumRegistro().equals(numReg);
+                i = i + 1;
+            }
+            i = 0;
+            while (i < blackList.size() && !encontrado) {
+                Jugador user2 = (Jugador) blackList.get(i);
+                encontrado = user2.getNumRegistro().equals(numReg);
+                i = i + 1;
+            }
+            return encontrado;
+        }else {
+            return false;
+        }
+    }
+
+    public String calcularNumRegistro(){
+        String numero;
+        do {
+            numero = new String();
+            int n = (int) (Math.random() * 90) + 65;
+            String caracter = String.valueOf(n);
+            numero = numero.concat(caracter);
+            for (int i = 0; i < 1; i++) {
+                n = (int) Math.random() * 9;
+                caracter = String.valueOf(n);
+                numero = numero.concat(caracter);
+            }
+            for (int i = 0; i < 1; i++) {
+                n = (int) (Math.random() * 90) + 65;
+                ;
+                caracter = String.valueOf(n);
+                numero = numero.concat(caracter);
+            }
+        }while(encontrarNumReg(numero));
+        return numero;
     }
 
 }
