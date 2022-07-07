@@ -13,7 +13,6 @@ public class CrearLicantropo extends Creator implements Serializable {
             System.out.println("Introduzca los puntos de rabia del Licántropo, solo entre 0 y 3");
             rabia = sc.nextInt();
         } while (rabia < 0 || rabia > 3);
-        sc.close();
         Licantropo l = new Licantropo(nombre,listaArmas,armasActivas,listaArmaduras,listaEsbirros,cantidadOro,rabia);
         return l;
     }

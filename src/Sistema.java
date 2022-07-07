@@ -37,7 +37,6 @@ public class Sistema implements Serializable {
             }else{
                 System.out.println("El numero ingresado no es valido");
             }
-            sc.close();
         }else{
             System.out.println("No hay ofertas disponibles");
         }
@@ -149,7 +148,7 @@ public class Sistema implements Serializable {
                     menuInicio();
                     break;
             }
-            sc.close();
+
             crearUsuario();
             menuPrincipal();
     }
@@ -644,7 +643,7 @@ public class Sistema implements Serializable {
                     ((Jugador) usuario).addNotificador(listaNotificadores.get(indice));
                 }
         }
-        sc.close();
+
     }
     public void desuscribirse(){
         if (((Jugador) usuario).getListaNotificadores().isEmpty()){
@@ -689,7 +688,6 @@ public class Sistema implements Serializable {
                 p = licantropo.crearPersonaje(p.getNombre(),p.getListaArmas(),p.getArmasActivas(),p.getListaArmaduras(),p.getListaEsbirros(),p.getCantidadOro());
                 break;
         }
-        sc.close();
         return p;
     }
 
@@ -970,7 +968,7 @@ public class Sistema implements Serializable {
                 cantidadOro = 0;
             }
         }
-        sc.close();
+
         ((Jugador) usuario).getPersonaje().setCantidadOro(cantidadOro);
         System.out.println("El oro se ha modificado correctamente");
         System.out.println("Nuevo saldo: "+ ((Jugador) usuario).getPersonaje().getCantidadOro());
@@ -1018,7 +1016,7 @@ public class Sistema implements Serializable {
             while (opcion < 0 || opcion > i) {
                 opcion = sc.nextInt();
             }
-            sc.close();
+
             Usuario user = blackList.get(opcion);
             whiteList.remove(user);
             blackList.add(user);
@@ -1041,7 +1039,7 @@ public class Sistema implements Serializable {
             while (opcion < 0 || opcion > i) {
                 opcion = sc.nextInt();
             }
-            sc.close();
+
             Usuario user = blackList.get(opcion);
             blackList.remove(user);
             whiteList.add(user);
@@ -1164,7 +1162,7 @@ public class Sistema implements Serializable {
                 ((Jugador) usuario).getPersonaje().getListaEsbirros().remove(esbirro);
             }
         }
-        sc.close();
+
     }
 
     public void validarOferta() {
@@ -1242,7 +1240,6 @@ public class Sistema implements Serializable {
             while (i < whiteList.size() && !encontrado) {
                 if(whiteList.get(i) instanceof Jugador) {
                     Jugador user = (Jugador) whiteList.get(i);
-                    System.out.println(user.getNumRegistro());
                     encontrado = user.getNumRegistro().equals(numReg);
 
                 }
