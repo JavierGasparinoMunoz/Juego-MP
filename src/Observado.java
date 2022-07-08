@@ -1,5 +1,5 @@
 public interface Observado {
-    public abstract void suscribirse(Observado observado);
-    public abstract void desuscribirse(Observado observado);
+    public abstract void suscribirse(Observador observador);
+    public abstract void desuscribirse(Observador observador);
     public abstract void notificar();
 }

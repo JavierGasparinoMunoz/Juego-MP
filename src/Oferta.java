@@ -9,6 +9,10 @@ public class Oferta implements Serializable {
     private int precio;
     private Usuario usuarioVendedor;
 
+    public Usuario getUsuarioVendedor() {
+        return usuarioVendedor;
+    }
+
     public Oferta(ArrayList<Equipo> listaEquipo, ArrayList<Esbirro> listaEsbirros, int precio, Usuario usuarioVendedor){
         this.listaEquipo = listaEquipo;
         this.listaEsbirros = listaEsbirros;
@@ -46,12 +50,9 @@ public class Oferta implements Serializable {
         return precio;
     }
 
-    public void generarVentaLog(String usuario){
+    public VentaLog generarVentaLog(String usuario){
         Date date = new Date();
         VentaLog ventalog = new VentaLog(date, usuarioVendedor.getNick(), usuario, listaEquipo, listaEsbirros, precio);
-    }
-
-    public Usuario getUsuarioVendedor() {
-        return usuarioVendedor;
+        return ventalog;
     }
 }

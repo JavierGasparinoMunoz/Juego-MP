@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Notificador implements Observado{
+public class Notificador implements Observado, Serializable {
     private ArrayList<Jugador> escuchadores;
     private String filtro;
     private Oferta oferta;
@@ -13,6 +14,7 @@ public class Notificador implements Observado{
 
     public Notificador(String filtro){
         this.filtro = filtro;
+        this.escuchadores = new ArrayList<>();
     }
 
     public void añadirOferta(Oferta oferta){
@@ -21,20 +23,20 @@ public class Notificador implements Observado{
     }
 
     @Override
-    public void suscribirse(Observado observado) {
-        escuchadores.add((Jugador) observado);
+    public void suscribirse(Observador observador) {
+        escuchadores.add((Jugador) observador);
     }
 
     @Override
-    public void desuscribirse(Observado observado) {
+    public void desuscribirse(Observador observador) {
 
     }
 
     @Override
     public void notificar() {
         for (Jugador jugador: escuchadores){
-            String notificacion = "Hay una nueva oferta de las siguientes caracteristicas: /n";
-            notificacion.concat(filtro + "\n");
+            String notificacion = "Hay una nueva oferta de las siguientes caracteristicas: \n";
+            notificacion = notificacion.concat(filtro + "\n");
             jugador.actualizar(notificacion);
         }
     }

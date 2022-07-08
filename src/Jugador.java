@@ -12,6 +12,7 @@ public class Jugador extends Usuario implements Observador, Serializable {
         this.personaje = personaje;
         this.numRegistro = numRegistro;
         this.listaNotificaciones = new ArrayList<>();
+        this.listaNotificadores = new ArrayList<>();
     }
 
     public String getNumRegistro() {
@@ -72,9 +73,14 @@ public class Jugador extends Usuario implements Observador, Serializable {
     }
 
     public void mostrarNotificaciones() {
-        for(String notificacion: listaNotificaciones){
-            System.out.println(notificacion);
+        if(!listaNotificaciones.isEmpty()) {
+            for (String notificacion : listaNotificaciones) {
+                System.out.println(notificacion);
+            }
+        }else{
+            System.out.println("No hay notificaciones disponibles");
         }
+
     }
 
     public ArrayList<String> getListaNotificaciones() {
@@ -83,5 +89,9 @@ public class Jugador extends Usuario implements Observador, Serializable {
 
     public ArrayList<Notificador> getListaNotificadores() {
         return listaNotificadores;
+    }
+
+    public void vaciarListaNotificaciones() {
+        listaNotificaciones = new ArrayList<>();
     }
 }
