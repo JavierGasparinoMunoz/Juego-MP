@@ -25,7 +25,7 @@ public class Sistema implements Serializable {
     private void consultarOferta() {
         Scanner sc = new Scanner(System.in);
         int i = 1;
-        if (listaOfertas != null) {
+        if (!listaOfertas.isEmpty()) {
             for (Oferta oferta : listaOfertas) {
                 System.out.println("Oferta numero " + i + ")");
                 oferta.mostrarOferta();
@@ -33,23 +33,24 @@ public class Sistema implements Serializable {
             }
             System.out.println("----------------------------------");
             System.out.println("Seleccione el numero de la oferta que quiere comprar o presione 0 para salir");
-            int option = sc.nextInt();
-            if (option != 0 && option <= listaOfertas.size() && option >= 0) {
+            int option;
+            do{
+                option = sc.nextInt();
+            } while(option > listaOfertas.size() || option < 0 );
+            if (option != 0) {
                 boolean oroDisponible = comprarOferta(listaOfertas.get(option - 1));
                 if (!oroDisponible) {
                     System.out.println("No hay oro disponible");
                 }
-            } else {
-                System.out.println("El numero ingresado no es valido");
             }
         } else {
             System.out.println("No hay ofertas disponibles");
         }
     }
 
-    private boolean comprarOferta(Oferta oferta) { //TODO condicion en la cual un Vampiro compra un Humano
+    private boolean comprarOferta(Oferta oferta) {
         int cantidadOro = ((Jugador) usuario).getPersonaje().getCantidadOro();
-        if (cantidadOro < oferta.getPrecio()) {
+        if (cantidadOro >= oferta.getPrecio()) {
             ((Jugador) usuario).getPersonaje().setCantidadOro(cantidadOro - oferta.getPrecio());
             for (Equipo equipo : oferta.getListaEquipo()) {
                 if (equipo instanceof Arma) {
@@ -61,9 +62,14 @@ public class Sistema implements Serializable {
                 }
             }
             for (Esbirro esbirro : oferta.getListaEsbirros()) {
-                ((Jugador) usuario).getPersonaje().añadirEsbirro(esbirro);
+                if (!(((Jugador) usuario).getPersonaje() instanceof Vampiro && esbirro instanceof Humano)){
+                    ((Jugador) usuario).getPersonaje().añadirEsbirro(esbirro);
+                } else{
+                    System.out.println("Un vampiro no puede comprar un humano");
+                }
             }
             oferta.generarVentaLog(usuario.getNombre());
+            ((Jugador) oferta.getUsuarioVendedor()).getPersonaje().setCantidadOro(cantidadOro + oferta.getPrecio());
             return true;
         } else {
             return false;
@@ -274,7 +280,7 @@ public class Sistema implements Serializable {
         switch (opcionMP2) {
             case 1:
                 modificarEquipo();
-                // Si esta añadir equipo y eliminar equipo que hacia modificar equipo
+
                 break;
             case 2:
                 modificarOro();
@@ -822,39 +828,40 @@ public class Sistema implements Serializable {
         System.out.println("Armaduras:");
         int i = 1;
         for (Armadura armadura : conjuntoArmaduras) {
-
             if (!((Jugador) usuario).getPersonaje().getListaArmaduras().contains(armadura)) {
-                System.out.println("Numero" + i);
+                System.out.println("Numero: " + i + ")");
                 armadura.mostrarEquipo();
+                System.out.println();
                 listaEquipo.add(armadura);
                 i++;
             }
         }
         System.out.println("Armas:");
         for (Arma arma : conjuntoArmas) {
-
             if (!((Jugador) usuario).getPersonaje().getListaArmas().contains(arma)) {
-                System.out.println("Numero" + i);
+                System.out.println("Numero: " + i + ")");
                 arma.mostrarEquipo();
+                System.out.println();
                 listaEquipo.add(arma);
                 i++;
             }
         }
-        int opcion = sc.nextInt();
-        if (opcion < listaEquipo.size() && 0 < opcion) {
-            Equipo e = listaEquipo.get(opcion);
-            if (e instanceof Arma) {
-                if (((Jugador) usuario).getPersonaje().getListaArmas().size() < 4) {
-                    ((Jugador) usuario).getPersonaje().addListaArmas((Arma) e);
-                } else {
-                    System.out.println("No puedes añadir mas de 3 armas a tu personaje");
-                }
+        int opcion;
+        do {
+            opcion = sc.nextInt();
+        } while (opcion < listaEquipo.size() && 0 < opcion);
+        Equipo e = listaEquipo.get(opcion-1);
+        if (e instanceof Arma) {
+            if (((Jugador) usuario).getPersonaje().getListaArmas().size() < 4) {
+                ((Jugador) usuario).getPersonaje().addListaArmas((Arma) e);
             } else {
-                if (((Jugador) usuario).getPersonaje().getListaArmaduras().size() < 4) {
-                    ((Jugador) usuario).getPersonaje().addListaArmaduras((Armadura) e);
-                } else {
-                    System.out.println("No puedes añadir mas de 3 armaduras a tu personaje");
-                }
+                System.out.println("No puedes añadir mas de 3 armas a tu personaje");
+            }
+        } else {
+            if (((Jugador) usuario).getPersonaje().getListaArmaduras().size() < 4) {
+                ((Jugador) usuario).getPersonaje().addListaArmaduras((Armadura) e);
+            } else {
+                System.out.println("No puedes añadir mas de 3 armaduras a tu personaje");
             }
         }
     }
@@ -870,8 +877,9 @@ public class Sistema implements Serializable {
                 System.out.println("Armaduras:");
                 i = 1;
                 for (Armadura armadura : ((Jugador) usuario).getPersonaje().getListaArmaduras()) {
-                    System.out.println("Numero" + i);
+                    System.out.println("Numero: " + i + ")");
                     armadura.mostrarEquipo();
+                    System.out.println();
                     listaEquipo.add(armadura);
                     i++;
                 }
@@ -880,8 +888,9 @@ public class Sistema implements Serializable {
                 System.out.println("Armas:");
                 i = 1;
                 for (Arma arma : ((Jugador) usuario).getPersonaje().getListaArmas()) {
-                    System.out.println("Numero" + i);
+                    System.out.println("Numero: " + i + ")");
                     arma.mostrarEquipo();
+                    System.out.println();
                     listaEquipo.add(arma);
                     i++;
                 }
@@ -1168,9 +1177,9 @@ public class Sistema implements Serializable {
                     opcion = sc.nextInt();
                 } while (opcion > 5 || opcion < 1);
             } else {
-                while (opcion > 4 || opcion < 1) {
+                do{
                     opcion = sc.nextInt();
-                }
+                } while (opcion > 4 || opcion < 1);
             }
             i = 0;
             switch (opcion) {
@@ -1263,6 +1272,7 @@ public class Sistema implements Serializable {
                 System.out.println("2) Salir");
                 do {
                     opcion = sc.nextInt();
+                    sc.nextLine();
                 } while (opcion < 1 || opcion > 2);
                 if (opcion != 2) {
                     int i = 0;
@@ -1276,14 +1286,38 @@ public class Sistema implements Serializable {
                     int opcion2;
                     do {
                         opcion2 = sc.nextInt();
+                        sc.nextLine();
                     } while (opcion2 < 0 || opcion2 > i);
-                    Oferta oferta = listaOfertasNoValidadas.remove(opcion2);
-                    listaOfertas.add(oferta);
-                    notificarOferta(oferta);
+                    System.out.println("¿Desea validar la oferta?");
+                    System.out.println("0) Si");
+                    System.out.println("1) No");
+                    int opcion3;
+                    do{
+                        opcion3 = sc.nextInt();
+                    } while(opcion3 != 0 && opcion3 != 1);
+                    if (opcion3 == 0){
+                        Oferta oferta = listaOfertasNoValidadas.remove(opcion2);
+                        listaOfertas.add(oferta);
+                        notificarOferta(oferta);
+                        System.out.println("La oferta ha sido validada");
+                    } else{
+                        Oferta oferta = listaOfertasNoValidadas.remove(opcion2);
+                        for (Equipo equipo: oferta.getListaEquipo()) {
+                            if (equipo instanceof Arma){
+                                ((Jugador) oferta.getUsuarioVendedor()).getPersonaje().getListaArmas().add((Arma) equipo);
+                            } else{
+                                ((Jugador) oferta.getUsuarioVendedor()).getPersonaje().getListaArmaduras().add((Armadura) equipo);
+                            }
+                        }
+                        for (Esbirro esbirro: oferta.getListaEsbirros()) {
+                            ((Jugador) oferta.getUsuarioVendedor()).getPersonaje().getListaEsbirros().add(esbirro);
+                        }
+                        System.out.println("Los articulos fueron devueltos al inventario del usuario vendedor");
+                    }
                 }
             } while (opcion != 2 && !listaOfertasNoValidadas.isEmpty());
             if (listaOfertasNoValidadas.isEmpty()) {
-                System.out.println("No hay ofertas para validar.");
+                System.out.println("No hay mas ofertas para validar.");
             }
         }
     }

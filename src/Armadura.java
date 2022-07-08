@@ -13,8 +13,8 @@ public class Armadura extends Equipo implements Serializable {
         System.out.println("Modificador de ataque: " + getModAtaque());
         System.out.println("Modificador de defensa: " + getModDefensa());
         System.out.println("Categoria: " + getCategoria());
+        System.out.println("Materiales:");
         for(String material: getListaMateriales()){
-            System.out.println("Materiales:");
             System.out.println("-" + material);
         }
     }
