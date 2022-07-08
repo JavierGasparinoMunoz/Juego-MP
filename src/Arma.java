@@ -43,9 +43,9 @@ public class Arma extends Equipo implements Serializable {
         System.out.println("Modificador de ataque: " + getModAtaque());
         System.out.println("Modificador de defensa: " + getModDefensa());
         System.out.println("Categoria: " + getCategoria());
-        System.out.println("Numero de manos: " + getCategoria());
+        System.out.println("Numero de manos: " + getNumManos());
+        System.out.println("Materiales:");
         for(String material: getListaMateriales()){
-            System.out.println("Materiales:");
             System.out.println("-" + material);
         }
     }
