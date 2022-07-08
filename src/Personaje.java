@@ -5,12 +5,12 @@ import java.util.HashSet;
 public abstract class Personaje implements Serializable {
     private String nombre;
     private ArrayList<Arma> listaArmas = new ArrayList<>();
-    private HashSet<Arma> armasActivas = new HashSet<>();
+    private ArrayList<Arma> armasActivas = new ArrayList<>();
     private ArrayList<Armadura> listaArmaduras = new ArrayList<>();
     private ArrayList<Esbirro> listaEsbirros = new ArrayList<>();
     private int cantidadOro;
 
-    public Personaje(String nombre, ArrayList<Arma> listaArmas, HashSet<Arma> armasActivas, ArrayList<Armadura> listaArmaduras, ArrayList<Esbirro> listaEsbirros, int cantidadOro) {
+    public Personaje(String nombre, ArrayList<Arma> listaArmas, ArrayList<Arma> armasActivas, ArrayList<Armadura> listaArmaduras, ArrayList<Esbirro> listaEsbirros, int cantidadOro) {
         this.nombre = nombre;
         this.listaArmas = listaArmas;
         this.armasActivas = armasActivas;
@@ -27,7 +27,7 @@ public abstract class Personaje implements Serializable {
         return listaArmas;
     }
 
-    public HashSet<Arma>  getArmasActivas() {
+    public ArrayList<Arma>  getArmasActivas() {
         return armasActivas;
     }
 

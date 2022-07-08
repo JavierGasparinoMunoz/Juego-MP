@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class CrearVampiro extends Creator implements Serializable {
 
     @Override
-    public Personaje crearPersonaje(String nombre, ArrayList<Arma> listaArmas, HashSet<Arma> armasActivas, ArrayList<Armadura> listaArmaduras, ArrayList<Esbirro> listaEsbirros, int cantidadOro) {
+    public Personaje crearPersonaje(String nombre, ArrayList<Arma> listaArmas, ArrayList<Arma> armasActivas, ArrayList<Armadura> listaArmaduras, ArrayList<Esbirro> listaEsbirros, int cantidadOro) {
         Scanner sc = new Scanner(System.in);
         int puntosSangre;
         int edad;

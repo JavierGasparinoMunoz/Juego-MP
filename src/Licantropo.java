@@ -5,7 +5,7 @@ import java.util.HashSet;
 public class Licantropo extends Personaje implements Serializable {
     private int puntosRabia;
 
-    public Licantropo(String nombre, ArrayList<Arma> listaArmas, HashSet<Arma> armasActivas, ArrayList<Armadura> listaArmaduras, ArrayList<Esbirro> listaEsbirros, int cantidadOro,int puntosRabia) {
+    public Licantropo(String nombre, ArrayList<Arma> listaArmas, ArrayList<Arma> armasActivas, ArrayList<Armadura> listaArmaduras, ArrayList<Esbirro> listaEsbirros, int cantidadOro,int puntosRabia) {
         super(nombre,listaArmas,armasActivas,listaArmaduras,listaEsbirros,cantidadOro);
         this.puntosRabia = puntosRabia;
     }

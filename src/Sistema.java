@@ -91,6 +91,7 @@ public class Sistema implements Serializable {
                 iniciarSesion();
                 break;
             case 3:
+                System.exit(0);
                 break;
             default:
                 System.out.println("Introduce una opcion correcta");
@@ -349,6 +350,13 @@ public class Sistema implements Serializable {
             System.out.println(i + 1 + ". " + p.getListaArmaduras().get(i).getNombre());
             i += 1;
         }
+        System.out.println("Armas activas:");
+        i = 0;
+        while(i < p.getArmasActivas().size()){
+            System.out.println(i+1 + ".");
+            p.getArmasActivas().get(i).mostrarEquipo();
+            i +=1;
+        }
         System.out.println("Esbirros del Personaje:");
         i = 0;
         while (i < p.getListaEsbirros().size()) {
@@ -370,7 +378,7 @@ public class Sistema implements Serializable {
         String nombre = sc.next();
         System.out.println("Introduzca la cantidad de oro del personaje");
         int cantidadOro = sc.nextInt();
-        HashSet<Arma> armasActivas = new HashSet<>();
+        ArrayList<Arma> armasActivas = new ArrayList<>();
         ArrayList<Esbirro> listaEsbirros = new ArrayList<>();
         p = new Personaje(nombre, new ArrayList<Arma>(), armasActivas, new ArrayList<Armadura>(), listaEsbirros, cantidadOro) {
             @Override
