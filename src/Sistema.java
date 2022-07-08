@@ -28,9 +28,11 @@ public class Sistema implements Serializable {
         if (!listaOfertas.isEmpty()) {
             for (Oferta oferta : listaOfertas) {
                 //todo falta no ver tus propias ofertas tal vez
-                System.out.println("Oferta numero " + i + ")");
-                oferta.mostrarOferta();
-                i++;
+                if(oferta.getUsuarioVendedor().getNick() != usuario.getNick()) {
+                    System.out.println("Oferta numero " + i + ")");
+                    oferta.mostrarOferta();
+                    i++;
+                }
             }
             System.out.println("----------------------------------");
             System.out.println("Seleccione el numero de la oferta que quiere comprar o presione 0 para salir");
@@ -138,7 +140,12 @@ public class Sistema implements Serializable {
                 String numeroRegistro = calcularNumRegistro();
                 Jugador player = new Jugador(nombre, nick, contraseña, personaje, numeroRegistro);
                 usuario = player;
-                añadirEquipo();
+                int opcionEquipo;
+                do {
+                    añadirEquipo();
+                    System.out.println("Si quieres añadir mas equipo pulsa 1, sino, pulsa 0");
+                    opcionEquipo = sc.nextInt();
+                }while(opcionEquipo != 0);
                 break;
             case 2:
                 System.out.println("Introduzca el codigo secreto o introduzca 1 para cancelar");
@@ -354,32 +361,50 @@ public class Sistema implements Serializable {
     }
 
     public void consultarInformacionPersonaje() throws IOException {
-        System.out.println("Cantidad de oro del Personaje:" + p.getCantidadOro());
+        System.out.println("Cantidad de oro del Personaje: " + p.getCantidadOro() + " monedas de oro");
         System.out.println("Armas del Personaje:");
         int i = 0;
-        while (i < p.getListaArmas().size()) {
-            System.out.println(i + 1 + ". " + p.getListaArmas().get(i).getNombre());
-            i += 1;
+        if(!p.getListaArmas().isEmpty()) {
+            while (i < p.getListaArmas().size()) {
+                if(!p.getArmasActivas().contains(p.getListaArmas().get(i))) {
+                    System.out.println(i + 1 + ". " + p.getListaArmas().get(i).getNombre());
+                }
+                i += 1;
+            }
+        }else {
+            System.out.println("Este personaje no tiene Armas");
         }
         System.out.println("Armaduras del Personaje:");
         i = 0;
-        while (i < p.getListaArmaduras().size()) {
-            System.out.println(i + 1 + ". " + p.getListaArmaduras().get(i).getNombre());
-            i += 1;
+        if(!p.getListaArmaduras().isEmpty()) {
+            while (i < p.getListaArmaduras().size()) {
+                System.out.println(i + 1 + ". " + p.getListaArmaduras().get(i).getNombre());
+                i += 1;
+            }
+        }else {
+            System.out.println("Este personaje no tiene Armaduras");
         }
         System.out.println("Armas activas:");
         i = 0;
-        while(i < p.getArmasActivas().size()){
-            System.out.println(i+1 + ".");
-            p.getArmasActivas().get(i).mostrarEquipo();
-            i +=1;
+        if(!p.getArmasActivas().isEmpty()) {
+            while (i < p.getArmasActivas().size()) {
+                System.out.println(i + 1 + ".");
+                p.getArmasActivas().get(i).mostrarEquipo();
+                i += 1;
+            }
+        }else {
+            System.out.println("Este personaje no tiene Armas Activas");
         }
         System.out.println("Esbirros del Personaje:");
         i = 0;
-        while (i < p.getListaEsbirros().size()) {
-            Esbirro esbirro = p.getListaEsbirros().get(i);
-            esbirro.mostrarEsbirro();
-            i += 1;
+        if(!p.getListaEsbirros().isEmpty()) {
+            while (i < p.getListaEsbirros().size()) {
+                Esbirro esbirro = p.getListaEsbirros().get(i);
+                esbirro.mostrarEsbirro();
+                i += 1;
+            }
+        }else {
+            System.out.println("Este personaje no tiene Esbirros");
         }
         menuJugador();
     }
@@ -932,39 +957,32 @@ public class Sistema implements Serializable {
     }
 
     private void elegirArmasActivas() {
-        Scanner sc = new Scanner(System.in);
-        for (Arma armaActiva : (((Jugador) usuario).getPersonaje().getArmasActivas())) {
-            ((Jugador) usuario).getPersonaje().removeArmasActivas(armaActiva);
-        }
-        System.out.println("Elija una o dos armas: ");
-        int i = 1;
-        int opcion;
-        int contador = 0;
-        for (int j = 0; j <= 1; j++) {
-            if (j == 1) {
-                System.out.println("0) Salir");
-            }
-            for (Arma arma : ((Jugador) usuario).getPersonaje().getListaArmas()) {
-                if (!((Jugador) usuario).getPersonaje().getArmasActivas().contains(arma)) {
-                    System.out.println(i + " )");
-                    arma.mostrarEquipo();
+        if(!((Jugador) usuario).getPersonaje().getListaArmas().isEmpty()) {
+            Scanner sc = new Scanner(System.in);
+            ((Jugador) usuario).getPersonaje().getArmasActivas().clear();
+            System.out.println("Elija una o dos armas");
+            System.out.println();
+            int i = 0;
+            int opcion;
+            do {
+                for(Arma arma:((Jugador) usuario).getPersonaje().getListaArmas()){
+                    if(!p.getArmasActivas().contains(arma)) {
+                        System.out.println("Arma " + (i + 1) + ":");
+                        arma.mostrarEquipo();
+                    }
                 }
-                i++;
+                System.out.println();
+                opcion = sc.nextInt();
+                ((Jugador) usuario).getPersonaje().getArmasActivas().add(((Jugador) usuario).getPersonaje().getListaArmas().get((opcion-1)));
+                i+=1;
+                System.out.println("Si quieres salir pulsa 0, sino, pulse 1");
+                opcion = sc.nextInt();
+            } while(i<2 || opcion != 0);
+            if(i >= 2){
+                System.out.println("Lo sentimos, no puede añadir mas de 2 armas activas");
             }
-            i--;
-            if (contador == 0) {
-                do {
-                    opcion = sc.nextInt();
-                } while (opcion < 1 || opcion > i);
-            } else {
-                do {
-                    opcion = sc.nextInt();
-                } while (opcion < 0 || opcion > i);
-            }
-            if (opcion != 0) {
-                ((Jugador) usuario).getPersonaje().addArmasActivas(conjuntoArmas.get(i - 1));
-            }
-            contador++;
+        }else{
+            System.out.println("Este personaje no tiene armas, añada armas al personaje para poder añadirlas a las armas activas");
         }
     }
 
