@@ -8,11 +8,11 @@ public class CrearLicantropo extends Creator implements Serializable {
     @Override
     public Personaje crearPersonaje(String nombre, ArrayList<Arma> listaArmas, HashSet<Arma> armasActivas, ArrayList<Armadura> listaArmaduras, ArrayList<Esbirro> listaEsbirros, int cantidadOro) {
         System.out.println("Introduzca un valor de rabia entre (0 - 3)");
-        int rabia;
-        do {
+        int rabia = sc.nextInt();
+        while (rabia < 0 || rabia > 3) {
             System.out.println("Introduzca los puntos de rabia del Licántropo, solo entre 0 y 3");
             rabia = sc.nextInt();
-        } while (rabia < 0 || rabia > 3);
+        }
         Licantropo l = new Licantropo(nombre,listaArmas,armasActivas,listaArmaduras,listaEsbirros,cantidadOro,rabia);
         return l;
     }
