@@ -13,9 +13,7 @@ public class Licantropo extends Personaje implements Serializable {
 
     @Override
     public void añadirEsbirro(Esbirro esbirro) {
-        if (!(esbirro instanceof Humano)){
             super.addListaEsbirros(esbirro);
-        }
     }
 
     @Override

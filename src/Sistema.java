@@ -14,6 +14,8 @@ public class Sistema implements Serializable {
     private Personaje p;
 
     public Sistema() throws IOException, ClassNotFoundException {
+        inicializarArmas();
+        inicializarArmaduras();
         menuInicio();
     }
 
@@ -323,7 +325,7 @@ public class Sistema implements Serializable {
                 ArrayList<Esbirro> demEsb = dem.getConjuntoEsbirros();
                 while (j < dem.getConjuntoEsbirros().size()){
                     System.out.println("Esbirros del Demonio:");
-                    System.out.println(i + "." + j + " " + demEsb.get(j).getNombre());
+                    System.out.println((i + 1) + "." + (j+1) + " " + demEsb.get(j).getNombre());
                     j += 1;
                 }
             }
@@ -871,7 +873,7 @@ public class Sistema implements Serializable {
         }
     }
 
-    public HashSet<Arma> inicializarArmas(){
+    public void inicializarArmas(){
         //armas ofensivas
         ArrayList<String> materiales1 = new ArrayList<>(Arrays.asList("Cobre","Hierro","Madera"));
         ArrayList<String> materiales2 = new ArrayList<>(Arrays.asList("Acero","Hierro"));
@@ -898,11 +900,11 @@ public class Sistema implements Serializable {
         Arma escudoGrande = new Arma(0, 3, 1, "Escudo Grande","raro",materiales1);
         Arma hologramaFormacionTortuga = new Arma(0, 1, 1, "Holograma Formación Tortuga, (solamente intimida.)","epico",materiales5);
 
-        HashSet<Arma> conjuntoArmas = new HashSet<Arma>(Arrays.asList(espadaPequeña, espadon, guadanya, palo, cuchillo, guantesMagicos, varitaMagica, varitaNoTanMagica, ocarina, bumeran, bfs, bajoAutoestima, escudoPequeño, escudoGrande, hologramaFormacionTortuga));
-        return conjuntoArmas;
+        ArrayList<Arma> conjuntoArmas = new ArrayList<>(Arrays.asList(espadaPequeña, espadon, guadanya, palo, cuchillo, guantesMagicos, varitaMagica, varitaNoTanMagica, ocarina, bumeran, bfs, bajoAutoestima, escudoPequeño, escudoGrande, hologramaFormacionTortuga));
+        this.conjuntoArmas = conjuntoArmas;
     }
 
-    public HashSet<Armadura> inicializarArmaduras(){
+    public void inicializarArmaduras(){
         //armadura
         ArrayList<String> materiales1 = new ArrayList<>(Arrays.asList("Algodon"));
         ArrayList<String> materiales2 = new ArrayList<>(Arrays.asList("Cuero"));
@@ -913,8 +915,8 @@ public class Sistema implements Serializable {
         Armadura armaduraTortuga = new Armadura(0,4, "Armadura Tortuga","epico",materiales4);
         Armadura armaduraDentada = new Armadura(2,2, "Armadura Dentada","legendaria",materiales3);
 
-        HashSet<Armadura> conjuntoArmaduras = new HashSet<Armadura>(Arrays.asList(camisetaPrimark, armaduraBasica, armaduraTortuga, armaduraDentada));
-        return conjuntoArmaduras;
+        ArrayList<Armadura> conjuntoArmaduras = new ArrayList<>(Arrays.asList(camisetaPrimark, armaduraBasica, armaduraTortuga, armaduraDentada));
+        this.conjuntoArmaduras = conjuntoArmaduras;
     }
 
     public void serializarSistema() throws FileNotFoundException, IOException {

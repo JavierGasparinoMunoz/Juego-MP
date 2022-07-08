@@ -15,7 +15,11 @@ public class Vampiro extends Personaje implements Serializable {
     }
 
     @Override
-    public void añadirEsbirro(Esbirro esbirro) {super.addListaEsbirros(esbirro); }
+    public void añadirEsbirro(Esbirro esbirro) {
+        if (!(esbirro instanceof Humano)){
+            super.addListaEsbirros(esbirro);
+        }
+    }
 
     public int getPuntosSangre() {
         return puntosSangre;
