@@ -972,17 +972,13 @@ public class Sistema implements Serializable {
                         System.out.println("Arma " + (j) + ":");
                         System.out.println();
                         arma.mostrarEquipo();
-                        j+=1;
                     }
+                    j+=1;
                 }
                 System.out.println();
                 opcion = sc.nextInt();
                 opcion -= 1;
-                if(!((Jugador) usuario).getPersonaje().getArmasActivas().isEmpty()) {
-                    ((Jugador) usuario).getPersonaje().getArmasActivas().add(((Jugador) usuario).getPersonaje().getListaArmas().get((opcion + 1)));
-                }else{
-                    ((Jugador) usuario).getPersonaje().getArmasActivas().add(((Jugador) usuario).getPersonaje().getListaArmas().get((opcion)));
-                }
+                ((Jugador) usuario).getPersonaje().getArmasActivas().add(((Jugador) usuario).getPersonaje().getListaArmas().get(opcion));
                 i+=1;
                 System.out.println("Si quieres salir pulsa 0, sino, pulse 1");
                 opcion = sc.nextInt();
