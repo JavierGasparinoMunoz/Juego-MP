@@ -146,6 +146,7 @@ public class Sistema implements Serializable {
                     System.out.println("Si quieres añadir mas equipo pulsa 1, sino, pulsa 0");
                     opcionEquipo = sc.nextInt();
                 }while(opcionEquipo != 0);
+                elegirArmasActivas();
                 break;
             case 2:
                 System.out.println("Introduzca el codigo secreto o introduzca 1 para cancelar");
@@ -965,19 +966,27 @@ public class Sistema implements Serializable {
             int i = 0;
             int opcion;
             do {
+                int j = 1;
                 for(Arma arma:((Jugador) usuario).getPersonaje().getListaArmas()){
                     if(!p.getArmasActivas().contains(arma)) {
-                        System.out.println("Arma " + (i + 1) + ":");
+                        System.out.println("Arma " + (j) + ":");
+                        System.out.println();
                         arma.mostrarEquipo();
+                        j+=1;
                     }
                 }
                 System.out.println();
                 opcion = sc.nextInt();
-                ((Jugador) usuario).getPersonaje().getArmasActivas().add(((Jugador) usuario).getPersonaje().getListaArmas().get((opcion-1)));
+                opcion -= 1;
+                if(!((Jugador) usuario).getPersonaje().getArmasActivas().isEmpty()) {
+                    ((Jugador) usuario).getPersonaje().getArmasActivas().add(((Jugador) usuario).getPersonaje().getListaArmas().get((opcion + 1)));
+                }else{
+                    ((Jugador) usuario).getPersonaje().getArmasActivas().add(((Jugador) usuario).getPersonaje().getListaArmas().get((opcion)));
+                }
                 i+=1;
                 System.out.println("Si quieres salir pulsa 0, sino, pulse 1");
                 opcion = sc.nextInt();
-            } while(i<2 || opcion != 0);
+            } while(i<2 && opcion != 0);
             if(i >= 2){
                 System.out.println("Lo sentimos, no puede añadir mas de 2 armas activas");
             }
