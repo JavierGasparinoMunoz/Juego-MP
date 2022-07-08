@@ -14,8 +14,8 @@ public class Sistema implements Serializable {
     private Personaje p;
 
     public Sistema() throws IOException, ClassNotFoundException {
-        inicializarArmas();
         inicializarArmaduras();
+        inicializarArmas();
         menuInicio();
     }
 
@@ -69,6 +69,7 @@ public class Sistema implements Serializable {
 
     public void menuInicio() throws IOException {
         Scanner sc = new Scanner(System.in);
+        usuario = null;
         System.out.println("----------------------------------");
         System.out.println("   Bienvenido al Menu de Inicio   ");
         System.out.println("----------------------------------");
@@ -172,6 +173,8 @@ public class Sistema implements Serializable {
         } else {
             menuOperador();
         }
+        serializarSistema();
+        menuPrincipal();
     }
 
     private void menuOperador() throws IOException {
@@ -325,7 +328,7 @@ public class Sistema implements Serializable {
                 ArrayList<Esbirro> demEsb = dem.getConjuntoEsbirros();
                 while (j < dem.getConjuntoEsbirros().size()){
                     System.out.println("Esbirros del Demonio:");
-                    System.out.println((i + 1) + "." + (j+1) + " " + demEsb.get(j).getNombre());
+                    System.out.println(i + "." + j + " " + demEsb.get(j).getNombre());
                     j += 1;
                 }
             }
@@ -347,7 +350,7 @@ public class Sistema implements Serializable {
         int cantidadOro = sc.nextInt();
         HashSet<Arma> armasActivas = new HashSet<>();
         ArrayList<Esbirro> listaEsbirros = new ArrayList<>();
-        p = new Personaje(nombre,conjuntoArmas,armasActivas,conjuntoArmaduras,listaEsbirros,cantidadOro) {
+        p = new Personaje(nombre, new ArrayList<Arma>(),armasActivas,new ArrayList<Armadura>(),listaEsbirros,cantidadOro) {
             @Override
             public void añadirEsbirro(Esbirro esbirro) {
 
@@ -882,26 +885,26 @@ public class Sistema implements Serializable {
         ArrayList<String> materiales5 = new ArrayList<>(Arrays.asList("Plata","Acero"));
         ArrayList<String> materiales6 = new ArrayList<>(Arrays.asList("Madera"));
         ArrayList<String> materiales7 = new ArrayList<>(Arrays.asList("Cuero"));
-        Arma espadaPequeña = new Arma(2, 0, 1, "Espada pequeña","comun",materiales2);
-        Arma espadon = new Arma(3, 1, 2, "Espadón","raro",materiales1);
-        Arma guadanya = new Arma(3, 0, 2, "Guadaña","raro",materiales3);
-        Arma palo = new Arma(1, 0, 2, "¡Un Palo!","comun",materiales6);
-        Arma cuchillo = new Arma(1, 0, 1, "Cuchillo","comun",materiales4);
-        Arma guantesMagicos = new Arma(3, 1, 2, "Guantes Mágicos","epico",materiales7);
-        Arma varitaMagica = new Arma(2, 1, 2, "Varita Mágica","legendario",materiales3);
-        Arma varitaNoTanMagica = new Arma(1,0,2, "Varita No Tan Mágica","comun",materiales6);
-        Arma ocarina = new Arma(1, 1, 2, "Ocarina","raro",materiales6);
-        Arma bumeran = new Arma(2, 0, 1, "Bumerán","comun",materiales6);
-        Arma bfs = new Arma(5, 1, 1, "B.F.Sword","epico",materiales5);
-        Arma bajoAutoestima = new Arma(0, 0, 0, "Bajo Autoestima","legendario",materiales3);
+        Arma espadaPequeña = new Arma(2, 0, 1, "Espada pequeña","Comun",materiales2);
+        Arma espadon = new Arma(3, 1, 2, "Espadón","Raro",materiales1);
+        Arma guadanya = new Arma(3, 1, 2, "Guadaña","Raro",materiales3);
+        Arma palo = new Arma(1, 1, 2, "¡Un Palo!","Comun",materiales6);
+        Arma cuchillo = new Arma(1, 1, 1, "Cuchillo","Comun",materiales4);
+        Arma guantesMagicos = new Arma(3, 1, 2, "Guantes Mágicos","Epico",materiales7);
+        Arma varitaMagica = new Arma(2, 1, 2, "Varita Mágica","Legendario",materiales3);
+        Arma varitaNoTanMagica = new Arma(1,1,2, "Varita No Tan Mágica","Comun",materiales6);
+        Arma ocarina = new Arma(1, 1, 2, "Ocarina","Raro",materiales6);
+        Arma bumeran = new Arma(2, 1, 1, "Bumerán","Comun",materiales6);
+        Arma bfs = new Arma(5, 1, 1, "B.F.Sword","Epico",materiales5);
+        Arma bajoAutoestima = new Arma(1, 1, 1, "Bajo Autoestima","Legendario",materiales3);
 
         //armas defensivas
-        Arma escudoPequeño = new Arma(0, 2 , 1, "Escudo Pequeño","comun",materiales1);
-        Arma escudoGrande = new Arma(0, 3, 1, "Escudo Grande","raro",materiales1);
-        Arma hologramaFormacionTortuga = new Arma(0, 1, 1, "Holograma Formación Tortuga, (solamente intimida.)","epico",materiales5);
+        Arma escudoPequeño = new Arma(1, 2 , 1, "Escudo Pequeño","Comun",materiales1);
+        Arma escudoGrande = new Arma(1, 3, 1, "Escudo Grande","Raro",materiales1);
+        Arma hologramaFormacionTortuga = new Arma(1, 1, 1, "Holograma Formación Tortuga, (solamente intimida.)","Epico",materiales5);
 
-        ArrayList<Arma> conjuntoArmas = new ArrayList<>(Arrays.asList(espadaPequeña, espadon, guadanya, palo, cuchillo, guantesMagicos, varitaMagica, varitaNoTanMagica, ocarina, bumeran, bfs, bajoAutoestima, escudoPequeño, escudoGrande, hologramaFormacionTortuga));
-        this.conjuntoArmas = conjuntoArmas;
+        conjuntoArmas = new ArrayList<>(Arrays.asList(espadaPequeña, espadon, guadanya, palo, cuchillo, guantesMagicos, varitaMagica, varitaNoTanMagica, ocarina, bumeran, bfs, bajoAutoestima, escudoPequeño, escudoGrande, hologramaFormacionTortuga));
+
     }
 
     public void inicializarArmaduras(){
@@ -910,13 +913,13 @@ public class Sistema implements Serializable {
         ArrayList<String> materiales2 = new ArrayList<>(Arrays.asList("Cuero"));
         ArrayList<String> materiales3 = new ArrayList<>(Arrays.asList("Hiero","Acero","Cuero","Diamante"));
         ArrayList<String> materiales4 = new ArrayList<>(Arrays.asList("Diamante","Hierro"));
-        Armadura camisetaPrimark = new Armadura(0, 0, "Camiseta Primark","comun",materiales1);
-        Armadura armaduraBasica = new Armadura(1,3, "Armadura Básica","raro",materiales2);
-        Armadura armaduraTortuga = new Armadura(0,4, "Armadura Tortuga","epico",materiales4);
-        Armadura armaduraDentada = new Armadura(2,2, "Armadura Dentada","legendaria",materiales3);
+        Armadura camisetaPrimark = new Armadura(1, 1, "Camiseta Primark","Comun",materiales1);
+        Armadura armaduraBasica = new Armadura(1,3, "Armadura Básica","Raro",materiales2);
+        Armadura armaduraTortuga = new Armadura(1,4, "Armadura Tortuga","Epico",materiales4);
+        Armadura armaduraDentada = new Armadura(2,2, "Armadura Dentada","Legendaria",materiales3);
 
-        ArrayList<Armadura> conjuntoArmaduras = new ArrayList<>(Arrays.asList(camisetaPrimark, armaduraBasica, armaduraTortuga, armaduraDentada));
-        this.conjuntoArmaduras = conjuntoArmaduras;
+        conjuntoArmaduras = new ArrayList<Armadura>(Arrays.asList(camisetaPrimark, armaduraBasica, armaduraTortuga, armaduraDentada));
+
     }
 
     public void serializarSistema() throws FileNotFoundException, IOException {
@@ -1212,6 +1215,7 @@ public class Sistema implements Serializable {
                     } while (opcion2 < 0 || opcion2 > i);
                     Oferta oferta = listaOfertasNoValidadas.remove(opcion2);
                     listaOfertas.add(oferta);
+                    notificarOferta(oferta);
                 }
             } while (opcion != 2 && !listaOfertasNoValidadas.isEmpty());
             if (listaOfertasNoValidadas.isEmpty()){
@@ -1297,6 +1301,63 @@ public class Sistema implements Serializable {
             }
         }while(encontrarNumReg(numero));
         return numero;
+    }
+
+    private void notificarOferta(Oferta oferta) {
+        Jugador jugador = (Jugador) oferta.getUsuarioVendedor();
+
+        for (Notificador notificador:listaNotificadores){
+            String filtro = notificador.getFiltro();
+            String[] parts = filtro.split("\n");
+            parts[0] = parts[0].replace("Min: ", "");
+            parts[1] = parts[1].replace("Max: ", "");
+            parts[0] = parts[0].replace(" oro \n", "");
+            parts[1] = parts[1].replace(" oro", "");
+            int min = Integer.parseInt(parts[0]);
+            int max = Integer.parseInt(parts[1]);
+
+            boolean notificar = false;
+            if(!oferta.getListaEquipo().isEmpty()){
+                boolean hayArma = false, hayArmadura = false;
+                for(Equipo equipo: oferta.getListaEquipo()){
+                    if (filtro.contains(equipo.getCategoria())){
+                        notificar = true;
+                    }
+                    if (equipo instanceof Arma){
+                        hayArma = true;
+                    }else{
+                        hayArmadura = true;
+                    }
+                }
+                if(filtro.contains("Armas") && hayArma){
+                    notificar = true;
+                }else if(filtro.contains("Armaduras") && hayArmadura){
+                    notificar = true;
+                }
+            }else if(!oferta.getListaEsbirros().isEmpty()){
+                if(filtro.contains("Esbirros")) {
+                    notificar = true;
+                }
+                for (Esbirro esbirro: oferta.getListaEsbirros()){
+                    if(esbirro instanceof Humano){
+                        if(filtro.contains(((Humano) esbirro).getLealtad())){
+                            notificar = true;
+                        }
+                    }else if(filtro.contains(esbirro.getClass().getName())){
+                        notificar = true;
+                    }
+                }
+
+            } else if (oferta.getPrecio()<max && oferta.getPrecio()>min) {
+                notificar = true;
+            } else if(filtro.contains(jugador.getPersonaje().getClass().getName())) {
+                notificar = true;
+            }
+            if (notificar){
+                notificador.añadirOferta(oferta);
+                notificador.notificar();
+            }
+        }
     }
 
 }

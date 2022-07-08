@@ -51,4 +51,7 @@ public class Oferta implements Serializable {
         VentaLog ventalog = new VentaLog(date, usuarioVendedor.getNick(), usuario, listaEquipo, listaEsbirros, precio);
     }
 
+    public Usuario getUsuarioVendedor() {
+        return usuarioVendedor;
+    }
 }
