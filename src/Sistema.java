@@ -27,6 +27,7 @@ public class Sistema implements Serializable {
         int i = 1;
         if (!listaOfertas.isEmpty()) {
             for (Oferta oferta : listaOfertas) {
+                //todo falta no ver tus propias ofertas tal vez
                 System.out.println("Oferta numero " + i + ")");
                 oferta.mostrarOferta();
                 i++;
