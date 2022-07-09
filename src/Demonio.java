@@ -13,7 +13,7 @@ public class Demonio extends Esbirro implements Serializable {
 
         //Creación de esbirros hijos aleatorios para no estar constantemente introduciendo información por pantalla.
         int numEsbirrosHijos = (int)(Math.random()*3);
-        for (int i=0; i == numEsbirrosHijos; i++) { //Ponemos tope para que no se creen un número excesivo de esbirros.
+        for (int i=0; i < numEsbirrosHijos; i++) { //Ponemos tope para que no se creen un número excesivo de esbirros.
             int tipoEsbirro = (int) (Math.random() * 3);
             String nombreHijo;
             int saludHijo = (int) (Math.random() * 3) + 1;
