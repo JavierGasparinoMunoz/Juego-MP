@@ -1010,6 +1010,10 @@ public class Sistema implements Serializable {
 
     }
 
+    public ArrayList<Oferta> getListaOfertasNoValidadas() {
+        return listaOfertasNoValidadas;
+    }
+
     public void inicializarArmas() {
         //armas ofensivas
         ArrayList<String> materiales1 = new ArrayList<>(Arrays.asList("Cobre", "Hierro", "Madera"));

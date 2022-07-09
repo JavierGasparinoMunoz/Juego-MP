@@ -1,9 +1,13 @@
 import org.junit.jupiter.api.Test;
 
+
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.testng.Assert.assertEquals;
 
 class modificarOroTest {
 
@@ -40,6 +44,54 @@ class modificarOroTest {
     }
 }
 
+class crearOferta {
+    @Test
+    void crearEquipoTest() throws IOException {
+        int numEquipo = 15; //Es un arma
+        String data = "1" +
+                "\n1" + //registrar jugador
+                "\nTester" + //nombre usuario
+                "\nTester1" + //nick
+                "\n123412344" + //contraseña
+                "\nPersonaje" + //nombre personaje
+                "\n500" + //cantidad oro
+                "\n1" +  //Rol de Personaje
+                "\n1" + //puntos de voluntad
+                "\n1" + //tipo de esbirro
+                "\nHumano" + //nombre de esbirro
+                "\n1" + //salud de esbirro
+                "\nALTA" + //lealtad (en este caso)
+                "\n" + numEquipo +//numero de arma a elegir
+                "\n0" + //no quiero más armas
+                "\n1" + //Seleccionas arma activa y como no tengo más me envía al menú
+                "\n2" + //Gestion avanzada de las ofertas
+                "\n1" + //crear una oferta
+                "\n1" + //Armas()
+                "\n0" + //añadir arma 1 (Debe eliminar esta arma de armas activas también)
+                "\n5" + //Finalizar Oferta
+                "\n33" + //Introduzca un precio valido
+                "\n5" +//Salir
+                "\n3";
+
+        System.setIn(new ByteArrayInputStream(data.getBytes()));
+        Sistema sistema = new Sistema();
+
+        assertEquals(sistema.getListaOfertasNoValidadas().size(), 1);
+        ArrayList<Equipo> listaArmas = new ArrayList<>();
+        ArrayList<String> materiales5 = new ArrayList<>(Arrays.asList("Plata", "Acero"));
+        Arma bfs = new Arma(2, 1, 1, "B.F.Sword", "Epico", materiales5);
+        listaArmas.add(bfs);
+        Oferta oferta = new Oferta(listaArmas, new ArrayList<>(), 33, null);
+        String string1 = oferta.getListaEquipo().get(0).getNombre();
+        String string2 = sistema.getListaOfertasNoValidadas().get(0).getListaEquipo().get(0).getNombre();
+        assertEquals(string1, string2);
+        assertEquals(oferta.getListaEquipo().get(0).getCategoria(), sistema.getListaOfertasNoValidadas().get(0).getListaEquipo().get(0).getCategoria());
+        assertEquals(oferta.getListaEsbirros(), sistema.getListaOfertasNoValidadas().get(0).getListaEsbirros());
+        assertEquals(oferta.getPrecio(), sistema.getListaOfertasNoValidadas().get(0).getPrecio());
+
+
+    }
+}
 class modificarEquipoTest {
     @Test
     void modificarEquipoTest() throws IOException, ClassNotFoundException {
