@@ -8,41 +8,77 @@ import static org.junit.jupiter.api.Assertions.*;
 class modificarOroTest {
 
     @Test
-    public void modificarOroTest() throws IOException, ClassNotFoundException {
+    void modificarOroTest() throws IOException, ClassNotFoundException {
         int cantidadOroInicial = 500;
         int oroSumado = 100;
         String data = "1" +
-                "\n" +
-                "1" +
-                "\n" +
-                "1" +
-                "\nTester"+
-                "\nTester1"+
-                "\n123412344"+
-                "\nPersonaje"+
+                "\n1" + //registrar jugador
+                "\nTester"+ //nombre usuario
+                "\nTester1"+ //nick
+                "\n123412344"+ //contraseña
+                "\nPersonaje"+ //nombre personaje
                 "\n" + cantidadOroInicial+ //cantidad oro
                 "\n1"+  //Rol de Personaje
                 "\n1"+ //puntos de voluntad
-                "\n1"+
-                "\nHumano"+
-                "\n1"+
-                "\nALTA"+
-                "\n12"+
-                "\n0" +
+                "\n1"+ //tipo de esbirro
+                "\nHumano"+ //nombre de esbirro
+                "\n1"+ //salud de esbirro
+                "\nALTA"+ //lealtad (en este caso)
+                "\n12"+ //numero de arma a elegir
+                "\n0" + //no quiero más armas
                 "\n1" + //Seleccionas arma activa
-                "\n0"+ //entras al menú
-                "\n1"+ //entras a Gestion avanzada del personaje
-                "\n2"+ //entras a modificarOro()
-                "\n1"+
+                "\n0"+ //No quieres mas armas activas y entras al menú
+                "\n1"+ //Gestion avanzada del personaje
+                "\n2"+ //modificarOro()
+                "\n1"+ //sumar oro
                 "\n" + oroSumado +
                 "\n5" +//Salir
                 "\n3";
         System.setIn(new ByteArrayInputStream(data.getBytes()));
         Sistema sistema = new Sistema();
         assertEquals(cantidadOroInicial + oroSumado, ((Jugador)sistema.getUsuario()).getPersonaje().getCantidadOro(), "Hay un error en el codigo");
+    }
+}
+
+class modificarEquipoTest {
+    @Test
+    void modificarEquipoTest() throws IOException, ClassNotFoundException {
+        int numEquipo = 15; //Es un arma
+        String data = "1" +
+                "\n1" + //registrar jugador
+                "\nTester" + //nombre usuario
+                "\nTester1" + //nick
+                "\n123412344" + //contraseña
+                "\nPersonaje" + //nombre personaje
+                "\n500" + //cantidad oro
+                "\n1" +  //Rol de Personaje
+                "\n1" + //puntos de voluntad
+                "\n1" + //tipo de esbirro
+                "\nHumano" + //nombre de esbirro
+                "\n1" + //salud de esbirro
+                "\nALTA" + //lealtad (en este caso)
+                "\n" + numEquipo +//numero de arma a elegir
+                "\n0" + //no quiero más armas
+                "\n1" + //Seleccionas arma activa y como no tengo más me envía al menú
+                "\n1" + //Gestion avanzada del personaje
+                "\n1" + //modificarEquipo()
+                "\n2" + //eliminarEquipo()
+                "\n1" + //eliminar arma 1 (Debe eliminar esta arma de armas activas también)
+                "\n1" + //Gestion avanzada del personaje
+                "\n3" + //elegirArmasActivas() (Debe mandarme de nuevo al menú)
+                "\n1" + //Gestion avanzada del personaje
+                "\n1" + //modificarEquipo()
+                "\n1" +
+        "\n1" + //modificarEquipo()
+                "\n3";
+
+
+        System.setIn(new ByteArrayInputStream(data.getBytes()));
+        Sistema sistema = new Sistema();
 
     }
 }
+
 class validarOfertaTest {
     @Test
     public void validarOfertasTest() throws IOException, ClassNotFoundException {

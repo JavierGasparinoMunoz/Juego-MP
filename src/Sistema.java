@@ -1,5 +1,4 @@
 import java.io.*;
-import java.sql.SQLOutput;
 import java.util.*;
 
 public class Sistema implements Serializable {
@@ -24,26 +23,32 @@ public class Sistema implements Serializable {
 
     private void consultarOferta(Scanner sc) {
         int i = 1;
+        ArrayList <Oferta> copiaListaOfertas = new ArrayList<Oferta>(listaOfertas);
+        boolean mostrar = false;
         if (!listaOfertas.isEmpty()) {
             for (Oferta oferta : listaOfertas) {
-                //todo falta no ver tus propias ofertas
-                if(oferta.getUsuarioVendedor().getNick() != usuario.getNick()) {
+                if(oferta.getUsuarioVendedor().getNick().equals(usuario.getNick())) {
                     System.out.println("Oferta numero " + i + ")");
                     oferta.mostrarOferta();
-                    i++;
+                    mostrar = true;
                 }
+                i++;
             }
-            System.out.println("----------------------------------");
-            System.out.println("Seleccione el numero de la oferta que quiere comprar o presione 0 para salir");
-            int option;
-            do{
-                option = sc.nextInt();
-            } while(option > listaOfertas.size() || option < 0 );
-            if (option != 0) {
-                boolean oroDisponible = comprarOferta(listaOfertas.get(option - 1));
-                if (!oroDisponible) {
-                    System.out.println("No hay oro disponible");
+            if (mostrar){
+                System.out.println("----------------------------------");
+                System.out.println("Seleccione el numero de la oferta que quiere comprar o presione 0 para salir");
+                int option;
+                do{
+                    option = sc.nextInt();
+                } while(option > listaOfertas.size() || option < 0 );
+                if (option != 0) {
+                    boolean oroDisponible = comprarOferta(listaOfertas.get(option - 1));
+                    if (!oroDisponible) {
+                        System.out.println("No hay oro disponible");
+                    }
                 }
+            } else{
+                System.out.println("No hay ofertas disponibles");
             }
         } else {
             System.out.println("No hay ofertas disponibles");
@@ -938,20 +943,25 @@ public class Sistema implements Serializable {
                     i++;
                 }
             }
-            int opcion = sc.nextInt();
-            if (opcion < listaEquipo.size() && 0 < opcion) {
-                Equipo e = listaEquipo.get(opcion);
-                if (e instanceof Arma) {
-                    ((Jugador) usuario).getPersonaje().removeListaArmas((Arma) e);
-                } else {
-                    ((Jugador) usuario).getPersonaje().removeListaArmaduras((Armadura) e);
+            int opcion;
+            do{
+                opcion = sc.nextInt();
+            } while(opcion > listaEquipo.size() || opcion < 1);
+            Equipo e = listaEquipo.get(opcion-1);
+            if (e instanceof Arma) {
+                ((Jugador) usuario).getPersonaje().removeListaArmas((Arma) e);
+                if (((Jugador) usuario).getPersonaje().getArmasActivas().contains((e))) {
+                    ((Jugador) usuario).getPersonaje().removeArmasActivas((Arma) e);
                 }
+            } else {
+                ((Jugador) usuario).getPersonaje().removeListaArmaduras((Armadura) e);
             }
+
         }
     }
 
     private void elegirArmasActivas(Scanner sc) {
-        if(!((Jugador) usuario).getPersonaje().getListaArmas().isEmpty()) {
+        if(!(((Jugador) usuario).getPersonaje().getListaArmas().isEmpty())) {
             ((Jugador) usuario).getPersonaje().getArmasActivas().clear();
             System.out.println("Elija una o dos armas activas o pulse 0 para salir");
             System.out.println();
@@ -979,12 +989,12 @@ public class Sistema implements Serializable {
                     }
                 } else{
                     if(p.getListaArmas().size() == 1) {
-                        ((Jugador) usuario).getPersonaje().getArmasActivas().add(((Jugador) usuario).getPersonaje().getListaArmas().get(opcion - 1));
+                        ((Jugador) usuario).getPersonaje().addArmasActivas(((Jugador) usuario).getPersonaje().getListaArmas().get(opcion - 1));
                         System.out.println("No tienes mas armas para poder ponerlas como armas activas");
-                        i = 2;
+
                         opcion = 0;
                     }else{
-                        ((Jugador) usuario).getPersonaje().getArmasActivas().add(((Jugador) usuario).getPersonaje().getListaArmas().get(opcion - 1));
+                        ((Jugador) usuario).getPersonaje().addArmasActivas((((Jugador) usuario).getPersonaje().getListaArmas().get(opcion - 1)));
                         i +=1;
                         System.out.println("Si quieres salir pulsa 0, sino, pulse 1");
                         opcion = sc.nextInt();
