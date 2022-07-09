@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.Scanner;
 
 public class Inicio {
     private Sistema sistema;
@@ -16,7 +17,8 @@ public class Inicio {
         }
         else{
             sistema = deserializarSistema();
-            sistema.menuInicio();
+            Scanner sc = new Scanner(System.in);
+            sistema.menuInicio(sc);
         }
     }
 

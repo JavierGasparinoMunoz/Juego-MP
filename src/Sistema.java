@@ -17,17 +17,18 @@ public class Sistema implements Serializable {
         if (listaOfertas == null){
             listaOfertas = new ArrayList<>();
         }
+        Scanner sc = new Scanner(System.in);
         inicializarArmaduras();
         inicializarArmas();
-        menuInicio();
+        menuInicio(sc);
     }
 
-    private void consultarOferta() {
-        Scanner sc = new Scanner(System.in);
+    private void consultarOferta(Scanner sc) {
+        //Scanner sc = new Scanner(System.in);
         int i = 1;
         if (!listaOfertas.isEmpty()) {
             for (Oferta oferta : listaOfertas) {
-                //todo falta no ver tus propias ofertas tal vez
+                //todo falta no ver tus propias ofertas
                 if(oferta.getUsuarioVendedor().getNick() != usuario.getNick()) {
                     System.out.println("Oferta numero " + i + ")");
                     oferta.mostrarOferta();
@@ -80,9 +81,8 @@ public class Sistema implements Serializable {
         }
     }
 
-    public void menuInicio() throws IOException {
-        Scanner sc = new Scanner(System.in);
-        usuario = null;
+    public void menuInicio(Scanner sc) throws IOException {
+        //Scanner sc = new Scanner(System.in);
         System.out.println("----------------------------------");
         System.out.println("   Bienvenido al Menu de Inicio   ");
         System.out.println("----------------------------------");
@@ -91,33 +91,41 @@ public class Sistema implements Serializable {
         System.out.println("2 - Iniciar sesion                ");
         System.out.println("3 - Terminar ejecucion");
         System.out.println("----------------------------------");
-        opcionMI = sc.nextInt();
-
+        do{
+            opcionMI = sc.nextInt();
+            if(opcionMI < 1 || opcionMI > 3){
+                System.out.println("Introduce una opcion correcta");
+            }
+        } while(opcionMI < 1 || opcionMI > 3);
         switch (opcionMI) {
             case 1:
-                registrarCuenta();
+                usuario = null;
+                registrarCuenta(sc);
                 break;
             case 2:
-                iniciarSesion();
+                usuario = null;
+                iniciarSesion(sc);
                 break;
             case 3:
-                System.exit(0);
-                break;
-            default:
-                System.out.println("Introduce una opcion correcta");
-                menuInicio();
+                System.out.println("Saliendo...");
+                //System.exit(0);
                 break;
         }
     }
 
-    private void registrarCuenta() throws IOException {
-        Scanner sc = new Scanner(System.in);
+    private void registrarCuenta(Scanner sc) throws IOException {
+        //Scanner sc = new Scanner(System.in);
         System.out.println("Como quieres registrate:");
         System.out.println("1. Jugador");
         System.out.println("2. Operador");
         System.out.println("3. Volver al menú de inicio");
-        int opcion = sc.nextInt();
-
+        int opcion;
+        do {
+            opcion = sc.nextInt();
+            if (opcion < 1 || opcion >3){
+                System.out.println("Introduce una opcion correcta");
+            }
+        }while(opcion < 1 || opcion > 3);
         switch (opcion) {
             case 1:
                 System.out.println("Introduce el nombre");
@@ -134,7 +142,7 @@ public class Sistema implements Serializable {
                     System.out.println("La contraseña debe ser entre 8 y 12, vuelva a intentarlo");
                     contraseña = sc.next();
                 }
-                registrarPersonaje();
+                registrarPersonaje(sc);
                 Personaje personaje = p;
 
                 String numeroRegistro = calcularNumRegistro();
@@ -142,11 +150,11 @@ public class Sistema implements Serializable {
                 usuario = player;
                 int opcionEquipo;
                 do {
-                    añadirEquipo();
+                    añadirEquipo(sc);
                     System.out.println("Si quieres añadir mas equipo pulsa 1, sino, pulsa 0");
                     opcionEquipo = sc.nextInt();
                 }while(opcionEquipo != 0);
-                elegirArmasActivas();
+                elegirArmasActivas(sc);
                 break;
             case 2:
                 System.out.println("Introduzca el codigo secreto o introduzca 1 para cancelar");
@@ -157,7 +165,7 @@ public class Sistema implements Serializable {
                 }
                 switch (codigo) {
                     case 1:
-                        registrarCuenta();
+                        registrarCuenta(sc);
                         break;
                     case 1234:
                         System.out.println("Introduce el nombre");
@@ -176,16 +184,13 @@ public class Sistema implements Serializable {
                 }
                 break;
             case 3:
-                menuInicio();
-                break;
-            default:
-                System.out.println("Introduce una opcion correcta");
-                registrarCuenta();
+                menuInicio(sc);
                 break;
         }
-
-        crearUsuario();
-        menuPrincipal();
+        if (opcion != 3){
+            crearUsuario();
+            menuPrincipal(sc);
+        }
     }
 
     public void crearUsuario() throws IOException {
@@ -199,18 +204,16 @@ public class Sistema implements Serializable {
         }
     }
 
-    private void menuPrincipal() throws IOException {
+    private void menuPrincipal(Scanner sc) throws IOException {
         if (usuario instanceof Jugador) {
-            menuJugador();
+            menuJugador(sc);
         } else {
-            menuOperador();
+            menuOperador(sc);
         }
         serializarSistema();
-        menuPrincipal();
     }
 
-    private void menuOperador() throws IOException {
-        Scanner sc = new Scanner(System.in);
+    private void menuOperador(Scanner sc) throws IOException {
         System.out.println("-----------------------------------------------------");
         System.out.println("Bienvenido al menu principal " + usuario.getNick());
         System.out.println("Elige una de las siguientes opciones");
@@ -220,33 +223,34 @@ public class Sistema implements Serializable {
         System.out.println("4. Darse de baja");
         System.out.println("5. Salir");
         System.out.println("-----------------------------------------------------");
-        opcionMOP = sc.nextInt();
+        do{
+            opcionMOP = sc.nextInt();
+        } while(opcionMOP < 1 || opcionMOP > 5);
+
         switch (opcionMOP) {
             case 1:
-                validarOferta();
+                validarOferta(sc);
                 break;
             case 2:
-                menuUsuario();
+                menuUsuario(sc);
                 break;
             case 3:
                 consultarVentas();
                 break;
             case 4:
-                darseDeBaja();
+                darseDeBaja(sc);
                 break;
             case 5:
-                salir();
-                break;
-            default:
-                System.out.println("Introduce una opcion correcta");
-                menuOperador();
+                salir(sc);
                 break;
         }
-
+        if (opcionMOP != 5 && opcionMOP != 4){
+            menuPrincipal(sc);
+        }
     }
 
-    private void menuJugador() throws IOException {
-        Scanner sc = new Scanner(System.in);
+    private void menuJugador(Scanner sc) throws IOException {
+        //Scanner sc = new Scanner(System.in);
         System.out.println("-----------------------------------------------------");
         System.out.println("Bienvenido al menu principal " + usuario.getNick());
         System.out.println("Elige una de las siguientes opciones");
@@ -256,27 +260,33 @@ public class Sistema implements Serializable {
         System.out.println("4. Mostrar Notificaciones");
         System.out.println("5. Salir");
         System.out.println("-----------------------------------------------------");
-        opcionMI = sc.nextInt();
+        do{
+            opcionMI = sc.nextInt();
+            if(opcionMI > 5 || opcionMI < 1){
+                System.out.println("Introduce una opcion correcta");
+            }
+        }while(opcionMI > 5 || opcionMI < 1);
+
         switch (opcionMI) {
             case 1:
-                menuAvanzadoPersonaje();
+                menuAvanzadoPersonaje(sc);
                 break;
             case 2:
-                menuAvanzadoOfertas();
+                menuAvanzadoOfertas(sc);
                 break;
             case 3:
-                darseDeBaja();
+                darseDeBaja(sc);
                 break;
             case 4:
                 mostrarNotificaciones();
                 break;
             case 5:
-                salir();
+                salir(sc);
                 break;
-            default:
-                System.out.println("Introduce una opcion correcta");
-                menuJugador();
-                break;
+
+        }
+        if (opcionMI != 5 && opcionMI != 3){
+            menuPrincipal(sc);
         }
     }
 
@@ -285,8 +295,8 @@ public class Sistema implements Serializable {
         ((Jugador) usuario).vaciarListaNotificaciones();
     }
 
-    private void menuAvanzadoPersonaje() throws IOException {
-        Scanner sc = new Scanner(System.in);
+    private void menuAvanzadoPersonaje(Scanner sc) throws IOException {
+        //Scanner sc = new Scanner(System.in);
         System.out.println("-----------------------------------------------------");
         System.out.println("Bienvenido al menu avanzado para personajes " + usuario.getNick());
         System.out.println("Elige una de las siguientes opciones");
@@ -294,34 +304,27 @@ public class Sistema implements Serializable {
         System.out.println("2. Modificar oro");
         System.out.println("3. Consultar información del personaje");
         System.out.println("4. Volver al menu principal");
-        System.out.println("5. Salir");
         System.out.println("-----------------------------------------------------");
-        opcionMP2 = sc.nextInt();
+        do{
+            opcionMP2 = sc.nextInt();
+            if (opcionMP2 > 4 || opcionMP2 < 1) {
+                System.out.println("Introduce una opcion correcta");
+            }
+        }while(opcionMP2 > 4 || opcionMP2 < 1);
         switch (opcionMP2) {
             case 1:
-                modificarEquipo();
-
+                modificarEquipo(sc);
                 break;
             case 2:
-                modificarOro();
+                modificarOro(sc);
                 break;
             case 3:
-                consultarInformacionPersonaje();
+                consultarInformacionPersonaje(sc);
                 break;
-            case 4:
-                menuPrincipal();
-                break;
-            case 5:
-                salir();
-                break;
-            default:
-                System.out.println("Introduce una opcion correcta");
-                menuAvanzadoPersonaje();
         }
     }
 
-    private void menuAvanzadoOfertas() throws IOException {
-        Scanner sc = new Scanner(System.in);
+    private void menuAvanzadoOfertas(Scanner sc) throws IOException {
         System.out.println("Bienvenido al menu Avanzado de Ofertas " + usuario.getNick());
         System.out.println("¿Que operacion desea realizar?");
         System.out.println("--------------------------------------");
@@ -331,37 +334,35 @@ public class Sistema implements Serializable {
         System.out.println("4. Desuscribirse a una oferta");
         System.out.println("5. Volver al menu principal");
         System.out.println("--------------------------------------");
-        opcionMOF = sc.nextInt();
+        do{
+            opcionMOF = sc.nextInt();
+            if (opcionMOF > 5 || opcionMOF < 1){
+                System.out.println("Introduce una opcion correcta");
+            }
+        }while(opcionMOF > 5 || opcionMOF < 1);
         switch (opcionMOF) {
             case 1:
-                crearOferta();
+                crearOferta(sc);
                 break;
             case 2:
-                consultarOferta();
+                consultarOferta(sc);
                 break;
             case 3:
-                suscribirseOferta();
+                suscribirseOferta(sc);
                 break;
             case 4:
-                desuscribirse();
-                break;
-            case 5:
-                menuPrincipal();
-                break;
-            default:
-                System.out.println("Introduce una opcion correcta");
-                menuAvanzadoOfertas();
+                desuscribirse(sc);
                 break;
         }
     }
 
-    public void darseDeBaja() throws IOException {
+    public void darseDeBaja(Scanner sc) throws IOException {
         whiteList.remove(usuario);
         System.out.println("Se ha dado de baja correctamente");
-        menuInicio();
+        menuInicio(sc);
     }
 
-    public void consultarInformacionPersonaje() throws IOException {
+    public void consultarInformacionPersonaje(Scanner sc) throws IOException {
         System.out.println("Cantidad de oro del Personaje: " + p.getCantidadOro() + " monedas de oro");
         System.out.println("Armas del Personaje:");
         int i = 0;
@@ -407,16 +408,15 @@ public class Sistema implements Serializable {
         }else {
             System.out.println("Este personaje no tiene Esbirros");
         }
-        menuJugador();
     }
 
-    public void salir() throws IOException {
-        //Este método sale de la sesión ()
-        menuInicio();
+    public void salir(Scanner sc) throws IOException {
+        //Este método sale de la sesión
+        menuInicio(sc);
     }
 
-    private Personaje crearPersonajeBase() {
-        Scanner sc = new Scanner(System.in);
+    private Personaje crearPersonajeBase(Scanner sc) {
+        //Scanner sc = new Scanner(System.in);
         System.out.println("Introduce el nombre del personaje");
         String nombre = sc.next();
         System.out.println("Introduzca la cantidad de oro del personaje");
@@ -432,8 +432,8 @@ public class Sistema implements Serializable {
         return p;
     }
 
-    public void crearEsbirro() {
-        Scanner sc = new Scanner(System.in);
+    public void crearEsbirro(Scanner sc) {
+        //Scanner sc = new Scanner(System.in);
         System.out.println("Elige el tipo de esbirro que quieres crear");
         System.out.println("1 - Humano");
         System.out.println("2 - Ghoul");
@@ -447,7 +447,7 @@ public class Sistema implements Serializable {
             case 1:
                 if (p instanceof Vampiro) {
                     System.out.println("Los vampiros no pueden tener humanos, introduzca otro tipo de esbirro");
-                    crearEsbirro();
+                    crearEsbirro(sc);
                 } else {
                     System.out.println("Introduce el tipo de lealtad (ALTA,NORMAL o BAJA)");
                     String lealtad = sc.next().toUpperCase();
@@ -486,14 +486,14 @@ public class Sistema implements Serializable {
                 break;
             default:
                 System.out.println("Introduce una opcion correcta");
-                crearEsbirro();
+                crearEsbirro(sc);
                 break;
         }
     }
 
-    private void suscribirseOferta() {
+    private void suscribirseOferta(Scanner sc) {
         String filtro = "";
-        Scanner sc = new Scanner(System.in);
+        //Scanner sc = new Scanner(System.in);
         System.out.println("Elige el tipo de oferta al que te quieres suscribir");
         System.out.println("1 - Por tipo de equipo/esbirros");
         System.out.println("2 - Por categoría");
@@ -749,11 +749,11 @@ public class Sistema implements Serializable {
 
 
 
-    public void desuscribirse() {
+    public void desuscribirse(Scanner sc) {
         if (((Jugador) usuario).getListaNotificadores().isEmpty()) {
             System.out.println("No tienes ninguna suscripción!");
         } else {
-            Scanner sc = new Scanner(System.in);
+            //Scanner sc = new Scanner(System.in);
             int opcion;
             System.out.println("Elija un filtro del que te quieres desuscribir:");
             int i = 0;
@@ -770,9 +770,9 @@ public class Sistema implements Serializable {
 
     }
 
-    public Personaje registrarPersonaje() {
-        Scanner sc = new Scanner(System.in);
-        p = crearPersonajeBase();
+    public Personaje registrarPersonaje(Scanner sc) {
+        //Scanner sc = new Scanner(System.in);
+        p = crearPersonajeBase(sc);
         System.out.println("Elige un rol");
         System.out.println("1. Cazador");
         System.out.println("2. Vampiro");
@@ -781,49 +781,52 @@ public class Sistema implements Serializable {
         switch (opcionRol) {
             case 1:
                 CrearCazador cazador = new CrearCazador();
-                p = cazador.crearPersonaje(p.getNombre(), p.getListaArmas(), p.getArmasActivas(), p.getListaArmaduras(), p.getListaEsbirros(), p.getCantidadOro());
+                p = cazador.crearPersonaje(p.getNombre(), p.getListaArmas(), p.getArmasActivas(), p.getListaArmaduras(), p.getListaEsbirros(), p.getCantidadOro(), sc);
                 break;
             case 2:
                 CrearVampiro vampiro = new CrearVampiro();
-                p = vampiro.crearPersonaje(p.getNombre(), p.getListaArmas(), p.getArmasActivas(), p.getListaArmaduras(), p.getListaEsbirros(), p.getCantidadOro());
+                p = vampiro.crearPersonaje(p.getNombre(), p.getListaArmas(), p.getArmasActivas(), p.getListaArmaduras(), p.getListaEsbirros(), p.getCantidadOro(), sc);
                 break;
             case 3:
                 CrearLicantropo licantropo = new CrearLicantropo();
-                p = licantropo.crearPersonaje(p.getNombre(), p.getListaArmas(), p.getArmasActivas(), p.getListaArmaduras(), p.getListaEsbirros(), p.getCantidadOro());
+                p = licantropo.crearPersonaje(p.getNombre(), p.getListaArmas(), p.getArmasActivas(), p.getListaArmaduras(), p.getListaEsbirros(), p.getCantidadOro(), sc);
                 break;
             default:
                 System.out.println("Introduce una opcion correcta");
-                registrarPersonaje();
+                registrarPersonaje(sc);
                 break;
         }
-        crearEsbirro();
+        crearEsbirro(sc);
         return p;
     }
 
 
-    public void iniciarSesion() throws IOException {
-        try (Scanner sc = new Scanner(System.in)) {
+    public void iniciarSesion(Scanner sc) throws IOException {
+
             System.out.println("Nombre de usuario");
-            String nick = sc.nextLine();
+            String nick = sc.next();
             System.out.println("Contraseña");
-            String contraseña = sc.nextLine();
+            String contraseña = sc.next();
 
             if (comprobarSesion(nick, contraseña) && !encontrarBaneado(nick)) {
-                usuario = atribuirUsuario(nick,contraseña);
-                menuPrincipal();
+                usuario = atribuirUsuario(nick,contraseña, sc);
+                if (usuario != null)
+                    menuPrincipal(sc);
+                else{
+                    menuInicio(sc);
+                }
             } else if (!comprobarSesion(nick, contraseña)) {
-                System.out.println("Inicio de sesión erroneo vuelva a intentarlo");
+                System.out.println("Inicio de sesion erroneo vuelva a intentarlo");
                 System.out.println();
-                menuInicio();
+                menuInicio(sc);
             } else {
                 System.out.println("Su usuario esta baneado");
                 System.out.println();
-                menuInicio();
+                menuInicio(sc);
             }
-        }
     }
 
-    private Usuario atribuirUsuario(String nick, String contraseña) throws IOException {
+    private Usuario atribuirUsuario(String nick, String contraseña, Scanner sc) throws IOException {
         if (whiteList != null) {
             int i = 0;
             boolean registrado = false;
@@ -838,41 +841,39 @@ public class Sistema implements Serializable {
             return whiteList.get(i-1);
         } else {
             System.out.println("Error");
-            menuInicio();
         }
         return usuario;
     }
 
-    public void modificarEquipo() throws IOException {
-        Scanner sc = new Scanner(System.in);
+    public void modificarEquipo(Scanner sc) throws IOException {
+        //Scanner sc = new Scanner(System.in);
         System.out.println("Seleccione una opcion");
         System.out.println("1. Añadir Equipo");
         System.out.println("2. Eliminar Equipo");
         System.out.println("3. Elegir Armas Activas");
-        System.out.println("0. Salir");
-        int opcion = sc.nextInt();
+        System.out.println("4. Volver al menu principal");
+        int opcion;
+        do {
+            opcion = sc.nextInt();
+            if(opcion < 1 || opcion > 4){
+                System.out.println("Introduzca una opcion valida");
+            }
+        } while(opcion < 1 || opcion > 4);
         switch (opcion) {
-            case 0:
-                menuAvanzadoPersonaje();
-                break;
             case 1:
-                añadirEquipo();
+                añadirEquipo(sc);
                 break;
             case 2:
-                eliminarEquipo();
+                eliminarEquipo(sc);
                 break;
             case 3:
-                elegirArmasActivas();
-                break;
-            default:
-                System.out.println("Inreoduce una opcion valida");
-                modificarEquipo();
+                elegirArmasActivas(sc);
                 break;
         }
     }
 
-    private void añadirEquipo() {
-        Scanner sc = new Scanner(System.in);
+    private void añadirEquipo(Scanner sc) {
+        //Scanner sc = new Scanner(System.in);
         ArrayList<Equipo> listaEquipo = new ArrayList<>();
         System.out.println("Seleccione el equipo que desea añadir");
         System.out.println("Armaduras:");
@@ -916,8 +917,8 @@ public class Sistema implements Serializable {
         }
     }
 
-    private void eliminarEquipo() {
-        Scanner sc = new Scanner(System.in);
+    private void eliminarEquipo(Scanner sc) {
+        //Scanner sc = new Scanner(System.in);
         ArrayList<Equipo> listaEquipo = new ArrayList<>();
         int i;
         if (((Jugador) usuario).getPersonaje().getListaArmas().isEmpty() && ((Jugador) usuario).getPersonaje().getListaArmaduras().isEmpty()) {
@@ -957,11 +958,11 @@ public class Sistema implements Serializable {
         }
     }
 
-    private void elegirArmasActivas() {
+    private void elegirArmasActivas(Scanner sc) {
         if(!((Jugador) usuario).getPersonaje().getListaArmas().isEmpty()) {
-            Scanner sc = new Scanner(System.in);
+            //Scanner sc = new Scanner(System.in);
             ((Jugador) usuario).getPersonaje().getArmasActivas().clear();
-            System.out.println("Elija una o dos armas");
+            System.out.println("Elija una o dos armas activas");
             System.out.println();
             int i = 0;
             int opcion;
@@ -977,9 +978,13 @@ public class Sistema implements Serializable {
                 }
                 System.out.println();
                 opcion = sc.nextInt();
-                opcion -= 1;
-                ((Jugador) usuario).getPersonaje().getArmasActivas().add(((Jugador) usuario).getPersonaje().getListaArmas().get(opcion));
-                i+=1;
+                if(opcion <=0 || opcion > ((Jugador) usuario).getPersonaje().getListaArmas().size()){
+                    System.out.println("Ese numero no es valido, porfavor escoja un numero valido para poder elegir el arma");
+                    System.out.println();
+                } else{
+                    ((Jugador) usuario).getPersonaje().getArmasActivas().add(((Jugador) usuario).getPersonaje().getListaArmas().get(opcion-1));
+                    i+=1;
+                }
                 System.out.println("Si quieres salir pulsa 0, sino, pulse 1");
                 opcion = sc.nextInt();
             } while(i<2 && opcion != 0);
@@ -1078,12 +1083,12 @@ public class Sistema implements Serializable {
         }
     }
 
-    public void modificarOro() {
+    public void modificarOro(Scanner sc) {
         int cantidadOro = ((Jugador) usuario).getPersonaje().getCantidadOro();
         System.out.println("1) Sumar oro");
         System.out.println("2) Restar oro");
         int opcion;
-        Scanner sc = new Scanner(System.in);
+        //Scanner sc = new Scanner(System.in);
         do {
             opcion = sc.nextInt();
         } while (opcion < 1 || opcion > 2);
@@ -1113,39 +1118,32 @@ public class Sistema implements Serializable {
         System.out.println("Nuevo saldo: " + ((Jugador) usuario).getPersonaje().getCantidadOro());
     }
 
-    private void menuUsuario() throws IOException {
-        Scanner sc = new Scanner(System.in);
+    private void menuUsuario(Scanner sc) throws IOException {
+        //Scanner sc = new Scanner(System.in);
         System.out.println("-----------------------------------------------------");
         System.out.println("Bienvenido al menu de gestion de usuarios " + usuario.getNick());
         System.out.println("Elige una de las siguientes opciones");
         System.out.println("1. Banear usuario");
         System.out.println("2. Desbanear usuario");
         System.out.println("3. Volver al menu del operador");
-        System.out.println("4. Salir");
         System.out.println("-----------------------------------------------------");
-        opcionMU = sc.nextInt();
+        do{
+            opcionMU = sc.nextInt();
+            if(opcionMU < 1 || opcionMU > 3){
+                System.out.println("Introduce una opcion correcta");
+            }
+        } while(opcionMU < 1 || opcionMU > 3);
         switch (opcionMU) {
             case 1:
-                banearUsuario();
+                banearUsuario(sc);
                 break;
             case 2:
-                desbanearUsuario();
-                break;
-            case 3:
-                menuOperador();
-                break;
-            case 4:
-                salir();
-                break;
-            default:
-                System.out.println("Introduce una opcion correcta");
-                menuUsuario();
+                desbanearUsuario(sc);
                 break;
         }
-
     }
 
-    private void banearUsuario() {
+    private void banearUsuario(Scanner sc) {
         if (!whiteList.isEmpty()) {
             System.out.println("¿Qué usuario quieres banear?");
             int i = 0;
@@ -1153,7 +1151,7 @@ public class Sistema implements Serializable {
                 System.out.println(i + ") " + ((Jugador) user).getNick());
                 i += 1;
             }
-            Scanner sc = new Scanner(System.in);
+            //Scanner sc = new Scanner(System.in);
             int opcion = -1;
             i -= 1;
             while (opcion < 0 || opcion > i) {
@@ -1168,7 +1166,7 @@ public class Sistema implements Serializable {
         }
     }
 
-    private void desbanearUsuario() {
+    private void desbanearUsuario(Scanner sc) {
         if (!blackList.isEmpty()) {
             System.out.println("¿Qué usuario quieres banear?");
             int i = 0;
@@ -1177,7 +1175,7 @@ public class Sistema implements Serializable {
                 i += 1;
             }
             i -= 1;
-            Scanner sc = new Scanner(System.in);
+            //Scanner sc = new Scanner(System.in);
             int opcion = -1;
             while (opcion < 0 || opcion > i) {
                 opcion = sc.nextInt();
@@ -1204,8 +1202,8 @@ public class Sistema implements Serializable {
         }
     }
 
-    public void crearOferta() {
-        Scanner sc = new Scanner(System.in);
+    public void crearOferta(Scanner sc) {
+        //Scanner sc = new Scanner(System.in);
         ArrayList<Equipo> listaEquipo = new ArrayList<>();
         ArrayList<Esbirro> listaEsbirros = new ArrayList<>();
         int opcion = -1;
@@ -1277,7 +1275,7 @@ public class Sistema implements Serializable {
                         while (opcion2 > i || opcion2 < 0) {
                             opcion2 = sc.nextInt();
                         }
-                        listaEquipo.add(((Jugador) usuario).getPersonaje().getListaArmaduras().get(opcion2));
+                        listaEsbirros.add(((Jugador) usuario).getPersonaje().getListaEsbirros().get(opcion2));
                         contador += 1;
                     }
                     break;
@@ -1308,12 +1306,12 @@ public class Sistema implements Serializable {
 
     }
 
-    public void validarOferta() {
+    public void validarOferta(Scanner sc) {
         if (listaOfertasNoValidadas.isEmpty()) {
             System.out.println("No hay ofertas para validar.");
         } else {
             int opcion;
-            Scanner sc = new Scanner(System.in);
+            //Scanner sc = new Scanner(System.in);
             do {
                 System.out.println("1) Validar ofertas");
                 System.out.println("2) Salir");
