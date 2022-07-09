@@ -962,7 +962,7 @@ public class Sistema implements Serializable {
         if(!((Jugador) usuario).getPersonaje().getListaArmas().isEmpty()) {
             //Scanner sc = new Scanner(System.in);
             ((Jugador) usuario).getPersonaje().getArmasActivas().clear();
-            System.out.println("Elija una o dos armas activas");
+            System.out.println("Elija una o dos armas activas o pulse 0 para salir");
             System.out.println();
             int i = 0;
             int opcion;
@@ -979,14 +979,26 @@ public class Sistema implements Serializable {
                 System.out.println();
                 opcion = sc.nextInt();
                 if(opcion <=0 || opcion > ((Jugador) usuario).getPersonaje().getListaArmas().size()){
-                    System.out.println("Ese numero no es valido, porfavor escoja un numero valido para poder elegir el arma");
-                    System.out.println();
+                    if(opcion == 0){
+                        System.out.println("Saliendo del menu elegir armas...");
+                    }else {
+                        System.out.println("Ese numero no es valido, porfavor escoja un numero valido para poder elegir el arma");
+                        System.out.println();
+                        opcion = 1;
+                    }
                 } else{
-                    ((Jugador) usuario).getPersonaje().getArmasActivas().add(((Jugador) usuario).getPersonaje().getListaArmas().get(opcion-1));
-                    i+=1;
+                    if(p.getListaArmas().size() == 1) {
+                        ((Jugador) usuario).getPersonaje().getArmasActivas().add(((Jugador) usuario).getPersonaje().getListaArmas().get(opcion - 1));
+                        System.out.println("No tienes mas armas para poder ponerlas como armas activas");
+                        i = 2;
+                        opcion = 0;
+                    }else{
+                        ((Jugador) usuario).getPersonaje().getArmasActivas().add(((Jugador) usuario).getPersonaje().getListaArmas().get(opcion - 1));
+                        i +=1;
+                        System.out.println("Si quieres salir pulsa 0, sino, pulse 1");
+                        opcion = sc.nextInt();
+                    }
                 }
-                System.out.println("Si quieres salir pulsa 0, sino, pulse 1");
-                opcion = sc.nextInt();
             } while(i<2 && opcion != 0);
             if(i >= 2){
                 System.out.println("Lo sentimos, no puede añadir mas de 2 armas activas");
@@ -994,6 +1006,7 @@ public class Sistema implements Serializable {
         }else{
             System.out.println("Este personaje no tiene armas, añada armas al personaje para poder añadirlas a las armas activas");
         }
+
     }
 
     public void inicializarArmas() {
