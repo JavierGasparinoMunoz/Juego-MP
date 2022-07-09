@@ -1156,12 +1156,16 @@ public class Sistema implements Serializable {
         }
     }
 
+    public ArrayList<Usuario> getBlackList() {
+        return blackList;
+    }
+
     private void banearUsuario(Scanner sc) {
         if (!whiteList.isEmpty()) {
             System.out.println("¿Qué usuario quieres banear?");
             int i = 0;
             for (Usuario user : whiteList) {
-                System.out.println(i + ") " + ((Jugador) user).getNick());
+                System.out.println(i + ") " + user.getNick());
                 i += 1;
             }
             //Scanner sc = new Scanner(System.in);
@@ -1171,7 +1175,7 @@ public class Sistema implements Serializable {
                 opcion = sc.nextInt();
             }
 
-            Usuario user = blackList.get(opcion);
+            Usuario user = whiteList.get(opcion);
             whiteList.remove(user);
             blackList.add(user);
         } else {
@@ -1181,7 +1185,7 @@ public class Sistema implements Serializable {
 
     private void desbanearUsuario(Scanner sc) {
         if (!blackList.isEmpty()) {
-            System.out.println("¿Qué usuario quieres banear?");
+            System.out.println("¿Qué usuario quieres desbanear?");
             int i = 0;
             for (Usuario user : blackList) {
                 System.out.println(i + ") " + ((Jugador) user).getNick());
@@ -1459,6 +1463,10 @@ public class Sistema implements Serializable {
         return numero;
     }
 
+    public ArrayList<Oferta> getListaOfertas() {
+        return listaOfertas;
+    }
+
     private void notificarOferta(Oferta oferta) {
         Jugador jugador = (Jugador) oferta.getUsuarioVendedor();
 
@@ -1517,6 +1525,5 @@ public class Sistema implements Serializable {
             }
         }
     }
-
 }
 
