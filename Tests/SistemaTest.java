@@ -7,12 +7,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.testng.Assert.assertEquals;
 
 class modificarOroTest {
 
     @Test
     void modificarOroTest() throws IOException, ClassNotFoundException {
+        //todo falta restar un valor mayor que 500 como 700 y sumarle 1 y que valga 1
         int cantidadOroInicial = 500;
         int oroSumado = 100;
         String data = "1" +
@@ -95,7 +95,8 @@ class crearOferta {
 class modificarEquipoTest {
     @Test
     void modificarEquipoTest() throws IOException, ClassNotFoundException {
-        int numEquipo = 15; //Es un arma
+        int numEquipo1 = 15; //Es un arma
+        int numEquipo2 = 14;
         String data = "1" +
                 "\n1" + //registrar jugador
                 "\nTester" + //nombre usuario
@@ -109,7 +110,7 @@ class modificarEquipoTest {
                 "\nHumano" + //nombre de esbirro
                 "\n1" + //salud de esbirro
                 "\nALTA" + //lealtad (en este caso)
-                "\n" + numEquipo +//numero de arma a elegir
+                "\n" + numEquipo1 +//numero de arma a elegir
                 "\n0" + //no quiero más armas
                 "\n1" + //Seleccionas arma activa y como no tengo más me envía al menú
                 "\n1" + //Gestion avanzada del personaje
@@ -117,17 +118,28 @@ class modificarEquipoTest {
                 "\n2" + //eliminarEquipo()
                 "\n1" + //eliminar arma 1 (Debe eliminar esta arma de armas activas también)
                 "\n1" + //Gestion avanzada del personaje
-                "\n3" + //elegirArmasActivas() (Debe mandarme de nuevo al menú)
+                "\n1" + //modificarEquipo()
+                "\n3" + //elegirArmasActivas() (Debe mandarme de nuevo al menú porque no tengo armas en el inventario)
                 "\n1" + //Gestion avanzada del personaje
                 "\n1" + //modificarEquipo()
-                "\n1" +
-        "\n1" + //modificarEquipo()
-                "\n3";
-
-
+                "\n1" +  //añadirEquipo()
+                "\n" + numEquipo1 + //Equipar la misma arma del principio
+                "\n1" + //Gestion avanzada del personaje
+                "\n1" + //modificarEquipo()
+                "\n1" +  //añadirEquipo()
+                "\n" + numEquipo2 + //Equipar otra arma
+                "\n1" + //Gestion avanzada del personaje
+                "\n1" + //modificarEquipo()
+                "\n3" + //elegirArmasActivas()
+                "\n1" + //mi primer arma activa
+                "\n1" + //selecciono que quiero añadir una segunda arma activa
+                "\n2" + ///mi segunda arma activa
+                "\n1" + //intentar añadir una tercera arma activa (No te permite)
+                "\n5" +//salir
+                "\n3"; //terminar ejecución del programa
         System.setIn(new ByteArrayInputStream(data.getBytes()));
         Sistema sistema = new Sistema();
-
+        //assertEquals(((Jugador) sistema.getUsuario()).getPersonaje().getArmasActivas().containsAll(sistema.getConjuntoArmas().get(((Jugador) sistema.getUsuario()).getPersonaje().getArmasActivas().get())));
     }
 }
 
@@ -223,6 +235,35 @@ class validarOfertaTest {
             assertEquals(1, sistema.getWhiteList().size(), "Hay un error en el codigo");
             assertEquals(1, sistema.getBlackList().size(), "Hay un error en el codigo");
         }
+}
+
+class crearDemonioTest{
+    @Test
+    void crearDemonioTest(){
+        Demonio demonio1 = new Demonio("Demonio1", 3, "Ha pactado con x");
+        Demonio demonio2 = new Demonio("Demonio2", 3, "Ha pactado con y");
+        boolean sonDiferentes = true;
+        if (demonio1.getConjuntoEsbirros().isEmpty() && demonio2.getConjuntoEsbirros().isEmpty()){
+            System.out.println("Ambos demonios tienen los conjuntos de esbirros vacíos, vuelve a ejecutar el test");
+            //sonDiferentes = true;
+        } else if ((demonio1.getConjuntoEsbirros().size()) != demonio2.getConjuntoEsbirros().size()){
+            System.out.println("Los conjuntos de esbirros tienen longitud diferente");
+            //sonDiferentes = true;
+        } else  {
+            for (Esbirro esbirro1 : demonio1.getConjuntoEsbirros()) {
+                for (Esbirro esbirro2 : demonio2.getConjuntoEsbirros()) {
+                    if (esbirro1.getNombre().equals(esbirro2.getNombre())) { //el nombre es random
+                        sonDiferentes = false;
+                        System.out.println("Los conjuntos de esbirros tienen exactamente los mismos esbirros con el mismo nombre, por lo que es probable que no se estén generando aleatoriamente los esbirros de los demonios");
+                    }
+                }
+            }
+            if (sonDiferentes){
+                System.out.println("Los conjuntos de esbirros no son vacíos, tienen la misma longitud y sus esbirros son diferentes");
+            }
+        }
+        assert(sonDiferentes);
+;    }
 }
 class desbanearUsuarioTest {
     @Test

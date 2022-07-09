@@ -1,4 +1,5 @@
 import java.io.*;
+import java.net.PortUnreachableException;
 import java.util.*;
 
 public class Sistema implements Serializable {
@@ -1524,6 +1525,25 @@ public class Sistema implements Serializable {
                 notificador.notificar();
             }
         }
+    }
+    //MÉTODOS PARA TESTING
+
+
+
+    public ArrayList<Notificador> getListaNotificadores() {
+        return listaNotificadores;
+    }
+
+    public ArrayList<VentaLog> getListaLogs() {
+        return listaLogs;
+    }
+
+    public ArrayList<Arma> getConjuntoArmas() {
+        return conjuntoArmas;
+    }
+
+    public ArrayList<Armadura> getConjuntoArmaduras() {
+        return conjuntoArmaduras;
     }
 }
 
