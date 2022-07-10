@@ -689,9 +689,9 @@ class buscarComprarOfertaTest {
         }
     }
 
-    class registroAleatorioTest{
+    class numRegistroAleatorioTest{
         @Test
-        public void registroAleatorioTest() throws IOException {
+        public void numRegistroAleatorioTest() throws IOException {
             String data =
                     "\n1" +//registrar
                             "\n1" +// jugador
