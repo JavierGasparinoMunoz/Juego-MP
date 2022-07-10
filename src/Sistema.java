@@ -28,7 +28,7 @@ public class Sistema implements Serializable {
         boolean mostrar = false;
         if (!listaOfertas.isEmpty()) {
             for (Oferta oferta : listaOfertas) {
-                if(oferta.getUsuarioVendedor().getNick().equals(usuario.getNick())) {
+                if(!oferta.getUsuarioVendedor().getNick().equals(usuario.getNick())) {
                     System.out.println("Oferta numero " + i + ")");
                     oferta.mostrarOferta();
                     mostrar = true;
@@ -49,7 +49,7 @@ public class Sistema implements Serializable {
                     }
                 }
             } else{
-                System.out.println("No hay ofertas disponibles");
+                System.out.println("No hay ofertas ajenas disponibles");
             }
         } else {
             System.out.println("No hay ofertas disponibles");
@@ -79,6 +79,7 @@ public class Sistema implements Serializable {
             VentaLog ventaLog = oferta.generarVentaLog(usuario.getNombre());
             listaLogs.add(ventaLog);
             ((Jugador) oferta.getUsuarioVendedor()).getPersonaje().setCantidadOro(cantidadOro + oferta.getPrecio());
+            listaOfertas.remove(oferta);
             return true;
         } else {
             return false;
