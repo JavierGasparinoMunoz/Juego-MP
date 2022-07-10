@@ -1526,9 +1526,8 @@ public class Sistema implements Serializable {
             }
         }
     }
+
     //MÉTODOS PARA TESTING
-
-
 
     public ArrayList<Notificador> getListaNotificadores() {
         return listaNotificadores;

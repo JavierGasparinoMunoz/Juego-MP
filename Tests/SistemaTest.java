@@ -12,8 +12,9 @@ class modificarOroTest {
 
     @Test
     void modificarOroTest() throws IOException, ClassNotFoundException {
-        //todo falta restar un valor mayor que 500 como 700 y sumarle 1 y que valga 1
+        // Resta un valor mayor que 500, (700) y le suma 100 oro. Se espera que finalmente el jugador tenga 100 monedas de oro.
         int cantidadOroInicial = 500;
+        int oroRestado = 700;
         int oroSumado = 100;
         String data = "1" +
                 "\n1" + //registrar jugador
@@ -34,13 +35,18 @@ class modificarOroTest {
                 "\n0"+ //No quieres mas armas activas y entras al menú
                 "\n1"+ //Gestion avanzada del personaje
                 "\n2"+ //modificarOro()
+                "\n2"+ //restar oro
+                "\n" + oroRestado    + //Ahora debería tener 0 oro.
+                "\n1"+ //Gestion avanzada del personaje
+                "\n2"+ //modificarOro()
                 "\n1"+ //sumar oro
+                "\n-1" + //Un número fuera del rango [0,1000] no debe aceptarse.
                 "\n" + oroSumado +
                 "\n5" +//Salir
                 "\n3";
         System.setIn(new ByteArrayInputStream(data.getBytes()));
         Sistema sistema = new Sistema();
-        assertEquals(cantidadOroInicial + oroSumado, ((Jugador)sistema.getUsuario()).getPersonaje().getCantidadOro(), "Hay un error en el codigo");
+        assertEquals(0 + oroSumado, ((Jugador)sistema.getUsuario()).getPersonaje().getCantidadOro(), "Hay un error en el codigo");
     }
 }
 
@@ -139,7 +145,13 @@ class modificarEquipoTest {
                 "\n3"; //terminar ejecución del programa
         System.setIn(new ByteArrayInputStream(data.getBytes()));
         Sistema sistema = new Sistema();
-        //assertEquals(((Jugador) sistema.getUsuario()).getPersonaje().getArmasActivas().containsAll(sistema.getConjuntoArmas().get(((Jugador) sistema.getUsuario()).getPersonaje().getArmasActivas().get())));
+        Arma arma1 = sistema.getConjuntoArmas().get(numEquipo1-5); //10, arma1 = B.F. sword
+        Arma arma2 = sistema.getConjuntoArmas().get(numEquipo2-5);//9, arma2 = Bumerán
+        boolean solucion = false;
+        if (((Jugador) sistema.getUsuario()).getPersonaje().getArmasActivas().contains(arma1) && ((Jugador) sistema.getUsuario()).getPersonaje().getArmasActivas().contains(arma2)){
+            solucion = true;
+        }
+        assert(solucion);
     }
 }
 
