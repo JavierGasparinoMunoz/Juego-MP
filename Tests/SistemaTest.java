@@ -345,7 +345,7 @@ class darseDeBajaTest {
 
 }
 
-class buscarComprarOfertaTest{
+class buscarComprarOfertaTest {
     @Test
     public void buscarComprarOfertaTest() throws IOException {
         String data =
@@ -353,26 +353,26 @@ class buscarComprarOfertaTest{
                         "1" + //entrar al menu para registrarse
                         "\n" +
                         "1" + //elegir registrarse como jugador
-                        "\nTester"+ // nombre
-                        "\nTester1"+ //nick
-                        "\n123412344"+ //contraseña
-                        "\nPersonaje"+ // nombre del personaje
+                        "\nTester" + // nombre
+                        "\nTester1" + //nick
+                        "\n123412344" + //contraseña
+                        "\nPersonaje" + // nombre del personaje
                         "\n200" + //cantidad oro
-                        "\n1"+  //Rol de Personaje(cazador)
-                        "\n1"+ //puntos de voluntad
-                        "\n1"+ // elegir el tipo de esbirro
-                        "\nHumano"+ //nombre del esbirro
-                        "\n1"+ //cantidad de salud del esbirro
-                        "\nALTA"+ // elegir la lealtad
-                        "\n12"+ // elegir el arma/armadura para el personaje
+                        "\n1" +  //Rol de Personaje(cazador)
+                        "\n1" + //puntos de voluntad
+                        "\n1" + // elegir el tipo de esbirro
+                        "\nHumano" + //nombre del esbirro
+                        "\n1" + //cantidad de salud del esbirro
+                        "\nALTA" + // elegir la lealtad
+                        "\n12" + // elegir el arma/armadura para el personaje
                         "\n0" + // salir de la eleccion de arma/armadura
                         "\n1" + //Seleccionas arma activa
-                        "\n0"+ //entras al menú
-                        "\n2"+ //seleccion del menu avanzado de ofertas
-                        "\n1"+ // seleccion de crear oferta
+                        "\n0" + //entras al menú
+                        "\n2" + //seleccion del menu avanzado de ofertas
+                        "\n1" + // seleccion de crear oferta
                         "\n1" + // seleccion del tipo de equipo a ofertar(arma)
                         "\n0" + // seleccion del arma que se quiere ofertar
-                        "\n100"+ //precio de la oferta
+                        "\n100" + //precio de la oferta
                         "\n5" + // vuelta al menu avanzado de oferta
                         "\n5" + // vuelta al menu principal
                         "\n5" + // vuelta al menu inicio
@@ -383,28 +383,28 @@ class buscarComprarOfertaTest{
                         "\nTester1OP" +//nick
                         "\n12341234" +//contraseña
                         "\n1" + //menu validar oferta
-                        "\n1"+ //validar oferta
-                        "\n1"+ // elegir oferta
+                        "\n1" + //validar oferta
+                        "\n1" + // elegir oferta
                         "\n0" + //eleccion de la oferta
                         "\n0" + //aceptar validacion
                         "\n5" +//salir al menu inicio
                         "\n1" +
                         "\n1" + //elegir registrarse como jugador
-                        "\nTester"+ // nombre
-                        "\nT"+ //nick
-                        "\n123412344"+ //contraseña
-                        "\nPersonaje"+ // nombre del personaje
+                        "\nTester" + // nombre
+                        "\nT" + //nick
+                        "\n123412344" + //contraseña
+                        "\nPersonaje" + // nombre del personaje
                         "\n500" + //cantidad oro
-                        "\n1"+  //Rol de Personaje(cazador)
-                        "\n1"+ //puntos de voluntad
-                        "\n1"+ // elegir el tipo de esbirro
-                        "\nHumano"+ //nombre del esbirro
-                        "\n1"+ //cantidad de salud del esbirro
-                        "\nALTA"+ // elegir la lealtad
-                        "\n12"+ // elegir el arma/armadura para el personaje
+                        "\n1" +  //Rol de Personaje(cazador)
+                        "\n1" + //puntos de voluntad
+                        "\n1" + // elegir el tipo de esbirro
+                        "\nHumano" + //nombre del esbirro
+                        "\n1" + //cantidad de salud del esbirro
+                        "\nALTA" + // elegir la lealtad
+                        "\n12" + // elegir el arma/armadura para el personaje
                         "\n0" + // salir de la eleccion de arma/armadura
                         "\n1" + //Seleccionas arma activa
-                        "\n0"+ //entras al menú
+                        "\n0" + //entras al menú
                         "\n2" + //entras al menu avanzado de ofertas
                         "\n2" + //entras en buscar y comprar ofertas
                         "\n1" + //seleccionas una oferta
@@ -415,4 +415,127 @@ class buscarComprarOfertaTest{
         assertEquals(0, sistema.getListaOfertas().size(), "Hay un error en el codigo");
     }
 }
+
+    class darseDeBajaJugador{
+        @Test
+        public void darseDeBajaJugador() throws IOException {
+            String data =
+                    "\n1" +//registrar
+                            "\n1" +// jugador
+                            "\nTester" +//nombre
+                            "\nTester1" +//nick
+                            "\n12345678" +//contraseña
+                            "\nPersonaje" +//nombre del personaje
+                            "\n200" +//cantidad de oro
+                            "\n1"+//rol personaje
+                            "\n1"+//puntos de voluntad
+                            "\n1"+//tipo de esbirro
+                            "\nEsbirro"+//nombre del esbirro
+                            "\n1" +//salud del esbirro
+                            "\nALTA" +//tipo de lealtad
+                            "\n19"+//seleccione equipo a añadir
+                            "\n0"+//no se añaden mas
+                            "\n1"+//elegir arma activa
+                            "\n3"+//darse de baja
+                            "\n3"; //terminar ejecucion
+
+            System.setIn(new ByteArrayInputStream(data.getBytes()));
+            Sistema sistema = new Sistema();
+            assertEquals(0, sistema.getWhiteList().size(), "Hay un error en el codigo");
+        }
+    }
+
+    class registroAleatorioTest{
+        @Test
+        public void registroAleatorioTest() throws IOException {
+            String data =
+                    "\n1" +//registrar
+                            "\n1" +// jugador
+                            "\nTester" +//nombre
+                            "\nTester1" +//nick
+                            "\n12345678" +//contraseña
+                            "\nPersonaje" +//nombre del personaje
+                            "\n200" +//cantidad de oro
+                            "\n1"+//rol personaje
+                            "\n1"+//puntos de voluntad
+                            "\n1"+//tipo de esbirro
+                            "\nEsbirro"+//nombre del esbirro
+                            "\n1" +//salud del esbirro
+                            "\nALTA" +//tipo de lealtad
+                            "\n19"+//seleccione equipo a añadir
+                            "\n0"+//no se añaden mas
+                            "\n1"+//elegir arma activa
+                            "\n5"+//volver al menu de inicio
+                            "\n1"+//registro
+                            "\n1" +// jugador
+                            "\nTester" +//nombre
+                            "\nTester2" +//nick
+                            "\n12345678" +//contraseña
+                            "\nPersonaje" +//nombre del personaje
+                            "\n300" +//cantidad de oro
+                            "\n1"+//rol personaje
+                            "\n1"+//puntos de voluntad
+                            "\n1"+//tipo de esbirro
+                            "\nEsbirro"+//nombre del esbirro
+                            "\n1" +//salud del esbirro
+                            "\nALTA" +//tipo de lealtad
+                            "\n19"+//seleccione equipo a añadir
+                            "\n0"+//no se añaden mas
+                            "\n1"+//elegir arma activa
+                            "\n5"+//volver al menu de inicio
+                            "\n3"; //terminar ejecucion
+
+            System.setIn(new ByteArrayInputStream(data.getBytes()));
+            Sistema sistema = new Sistema();
+            assertEquals(false, ((Jugador) sistema.getWhiteList().get(0)).getNumRegistro().equals(((Jugador) sistema.getWhiteList().get(1)).getNumRegistro()), "Hay un error en el codigo");
+
+        }
+    }
+
+    class nickNoRegistrado{
+        @Test
+        public void nickNoRegistrado() throws IOException {
+            String data =
+                    "\n1" +//registrar
+                            "\n1" +// jugador
+                            "\nTester" +//nombre
+                            "\nTester1" +//nick
+                            "\n12345678" +//contraseña
+                            "\nPersonaje" +//nombre del personaje
+                            "\n200" +//cantidad de oro
+                            "\n1"+//rol personaje
+                            "\n1"+//puntos de voluntad
+                            "\n1"+//tipo de esbirro
+                            "\nEsbirro"+//nombre del esbirro
+                            "\n1" +//salud del esbirro
+                            "\nALTA" +//tipo de lealtad
+                            "\n19"+//seleccione equipo a añadir
+                            "\n0"+//no se añaden mas
+                            "\n1"+//elegir arma activa
+                            "\n5"+//volver al menu de inicio
+                            "\n1"+//registro
+                            "\n1" +// jugador
+                            "\nTester" +//nombre
+                            "\nTester1" +//nick igual
+                            "\nTester2"+//nick distinto
+                            "\n12345678" +//contraseña
+                            "\nPersonaje" +//nombre del personaje
+                            "\n300" +//cantidad de oro
+                            "\n1"+//rol personaje
+                            "\n1"+//puntos de voluntad
+                            "\n1"+//tipo de esbirro
+                            "\nEsbirro"+//nombre del esbirro
+                            "\n1" +//salud del esbirro
+                            "\nALTA" +//tipo de lealtad
+                            "\n19"+//seleccione equipo a añadir
+                            "\n0"+//no se añaden mas
+                            "\n1"+//elegir arma activa
+                            "\n5"+//volver al menu de inicio
+                            "\n3"; //terminar ejecucion
+
+            System.setIn(new ByteArrayInputStream(data.getBytes()));
+            Sistema sistema = new Sistema();
+            assertEquals(false, ((Jugador) sistema.getWhiteList().get(0)).getNick().equals(((Jugador) sistema.getWhiteList().get(1)).getNick()), "Hay un error en el codigo");
+        }
+    }
 
