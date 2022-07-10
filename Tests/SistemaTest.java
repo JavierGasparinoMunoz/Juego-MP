@@ -733,5 +733,34 @@ class buscarComprarOfertaTest {
             assertEquals(false, ((Jugador) sistema.getWhiteList().get(0)).getNick().equals(((Jugador) sistema.getWhiteList().get(1)).getNick()), "Hay un error en el codigo");
         }
     }
+    class contraseñaTest{
+        @Test
+        public void contraseñaTest () throws IOException {
+                String data =
+                        "\n1" +//registrar
+                                "\n1" +// jugador
+                                "\nTester" +//nombre
+                                "\nTester1" +//nick
+                                "\n1234567" +//contraseña de 7 digitos, es decir, menos de 8 caracteres
+                                "\n1234567890123" + //contraseña de 13 digitos, es decir, mas de 12 caracteres
+                                "\n123456789" + //contraseña de 9 digitos, es decir, entre 8 y 12 caracteres
+                                "\nPersonaje" +//nombre del personaje
+                                "\n200" +//cantidad de oro
+                                "\n1"+//rol personaje
+                                "\n1"+//puntos de voluntad
+                                "\n1"+//tipo de esbirro
+                                "\nEsbirro"+//nombre del esbirro
+                                "\n1" +//salud del esbirro
+                                "\nALTA" +//tipo de lealtad
+                                "\n19"+//seleccione equipo a añadir
+                                "\n0"+//no se añaden mas
+                                "\n1"+//elegir arma activa
+                                "\n5"+//volver al menu de inicio
+                                "\n3";
+                System.setIn(new ByteArrayInputStream(data.getBytes()));
+                Sistema sistema = new Sistema();
+        }
+
+    }
 
 
