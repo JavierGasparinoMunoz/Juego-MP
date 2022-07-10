@@ -1146,7 +1146,7 @@ public class Sistema implements Serializable {
         System.out.println("Nuevo saldo: " + ((Jugador) usuario).getPersonaje().getCantidadOro());
     }
 
-    private void menuUsuario(Scanner sc){
+    public void menuUsuario(Scanner sc){
         int opcionMU;
         System.out.println("-----------------------------------------------------");
         System.out.println("Bienvenido al menu de gestion de usuarios " + usuario.getNick());
