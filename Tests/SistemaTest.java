@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class modificarOroTest {
 
     @Test
-    void modificarOroTest() throws IOException, ClassNotFoundException {
+    public void modificarOroTest() throws IOException, ClassNotFoundException {
         // Resta un valor mayor que 500, (700) y le suma 100 oro. Se espera que finalmente el jugador tenga 100 monedas de oro.
         int cantidadOroInicial = 500;
         int oroRestado = 700;
@@ -41,6 +41,7 @@ class modificarOroTest {
                 "\n2"+ //modificarOro()
                 "\n1"+ //sumar oro
                 "\n-1" + //Un número fuera del rango [0,1000] no debe aceptarse.
+                "\n1001" + //Un número fuera del rango [0,1000] no debe aceptarse.
                 "\n" + oroSumado +
                 "\n5" +//Salir
                 "\n3";
@@ -52,7 +53,7 @@ class modificarOroTest {
 
 class MenuAvanzadoOfertasTest{
     @Test
-    void particionEquivalenteMenuOfertasTest() throws IOException {
+    public void particionEquivalenteMenuOfertasTest() throws IOException {
         int numEquipo = 15; //Es un arma
         String data = "1" +
                 "\n1" + //registrar jugador
@@ -86,7 +87,7 @@ class MenuAvanzadoOfertasTest{
 
 class crearPersonajeTest {
     @Test
-    void crearCazadorConGhoul() throws IOException { // hay que borrar los daatos para ejecutar este test
+    public void crearCazadorConGhoul() throws IOException { // hay que borrar los daatos para ejecutar este test
         int numEquipo = 15; //Es un arma
         String data =
                 "1" + //registrarse
@@ -114,7 +115,7 @@ class crearPersonajeTest {
     }
 
     @Test
-    void crearLicantropoConHumano() throws IOException { // hay que borrar los daatos para ejecutar este test
+    public void crearLicantropoConHumano() throws IOException { // hay que borrar los daatos para ejecutar este test
         int numEquipo = 15; //Es un arma
         String data =
                 "1" + //registrarse
@@ -142,7 +143,7 @@ class crearPersonajeTest {
     }
 
     @Test
-    void crearVampiroConDemonio() throws IOException { // hay que borrar los daatos para ejecutar este test
+    public void crearVampiroConDemonio() throws IOException { // hay que borrar los daatos para ejecutar este test
         int numEquipo = 15; //Es un arma
         String data =
                 "\n1" +
@@ -174,7 +175,7 @@ class crearPersonajeTest {
 
 class crearNotificacionTest{
     @Test
-    void crearNotificacionTest() throws IOException {
+    public void crearNotificacionTest() throws IOException {
         int numEquipo = 18; //Es un arma
         String data = "1" +
                 "\n1" + //registrar jugador
@@ -247,7 +248,7 @@ class crearNotificacionTest{
 
 class crearOfertaTest {
     @Test
-    void crearOfertaTest() throws IOException { // hay que borrar los daatos para ejecutar este test
+    public void crearOfertaTest() throws IOException {
         int numEquipo = 15; //Es un arma
         String data = "1" +
                 "\n1" + //registrar jugador
@@ -294,7 +295,7 @@ class crearOfertaTest {
 }
 class modificarEquipoTest {
     @Test
-    void modificarEquipoTest() throws IOException, ClassNotFoundException {
+    public void modificarEquipoTest() throws IOException, ClassNotFoundException {
         int numEquipo1 = 15; //Es un arma
         int numEquipo2 = 14;
         String data = "1" +
@@ -322,8 +323,11 @@ class modificarEquipoTest {
                 "\n3" + //elegirArmasActivas() (Debe mandarme de nuevo al menú porque no tengo armas en el inventario)
                 "\n1" + //Gestion avanzada del personaje
                 "\n1" + //modificarEquipo()
+                "\n2" + //eliminarEquipo() //intento eliminar un equipo cuando no tengo equipo para eliminar
+                "\n1" + //Gestion avanzada del personaje
+                "\n1" + //modificarEquipo()
                 "\n1" +  //añadirEquipo()
-                "\n" + numEquipo1 + //Equipar la misma arma del principio
+                "\n" + numEquipo1 + //equipar la misma arma del principio
                 "\n1" + //Gestion avanzada del personaje
                 "\n1" + //modificarEquipo()
                 "\n1" +  //añadirEquipo()
@@ -445,7 +449,7 @@ class validarOfertaTest {
 
 class crearDemonioTest{
     @Test
-    void crearDemonioTest(){
+    public void crearDemonioTest(){
         Demonio demonio1 = new Demonio("Demonio1", 3, "Ha pactado con x");
         Demonio demonio2 = new Demonio("Demonio2", 3, "Ha pactado con y");
         boolean sonDiferentes = true;
@@ -732,6 +736,7 @@ class buscarComprarOfertaTest {
             Sistema sistema = new Sistema();
             assertEquals(false, ((Jugador) sistema.getWhiteList().get(0)).getNick().equals(((Jugador) sistema.getWhiteList().get(1)).getNick()), "Hay un error en el codigo");
         }
+
     }
     class contraseñaTest{
         @Test
