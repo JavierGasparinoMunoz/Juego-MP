@@ -608,6 +608,7 @@ class buscarComprarOfertaTest {
         Sistema sistema = new Sistema();
         assertEquals(0, sistema.getListaOfertas().size(), "Hay un error en el codigo");
         assertEquals(1, sistema.getListaLogs().size(), "Hay un error en el codigo con el Log");
+
     }
 }
 
