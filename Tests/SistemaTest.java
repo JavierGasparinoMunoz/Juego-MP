@@ -607,6 +607,7 @@ class buscarComprarOfertaTest {
         System.setIn(new ByteArrayInputStream(data.getBytes()));
         Sistema sistema = new Sistema();
         assertEquals(0, sistema.getListaOfertas().size(), "Hay un error en el codigo");
+        assertEquals(1, sistema.getListaLogs().size(), "Hay un error en el codigo con el Log");
     }
 }
 
@@ -732,4 +733,5 @@ class buscarComprarOfertaTest {
             assertEquals(false, ((Jugador) sistema.getWhiteList().get(0)).getNick().equals(((Jugador) sistema.getWhiteList().get(1)).getNick()), "Hay un error en el codigo");
         }
     }
+
 
