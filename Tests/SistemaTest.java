@@ -566,9 +566,9 @@ class desbanearUsuarioTest {
 
 
 }
-class darseDeBajaTest {
+class darseDeBajaOperadorTest {
     @Test
-    public void darseDeBajaTest() throws IOException, ClassNotFoundException {
+    public void darseDeBajaOperadorTest() throws IOException, ClassNotFoundException {
 
         String data =
                         "\n1" +//registrar
