@@ -50,9 +50,204 @@ class modificarOroTest {
     }
 }
 
-class crearOferta {
+class MenuAvanzadoOfertasTest{
     @Test
-    void crearEquipoTest() throws IOException {
+    void particionEquivalenteMenuOfertasTest() throws IOException {
+        int numEquipo = 15; //Es un arma
+        String data = "1" +
+                "\n1" + //registrar jugador
+                "\nTester" + //nombre usuario
+                "\nTester1" + //nick
+                "\n123412344" + //contraseña
+                "\nPersonaje" + //nombre personaje
+                "\n500" + //cantidad oro
+                "\n1" +  //Rol de Personaje
+                "\n1" + //puntos de voluntad
+                "\n1" + //tipo de esbirro
+                "\nHumano" + //nombre de esbirro
+                "\n1" + //salud de esbirro
+                "\nALTA" + //lealtad (en este caso)
+                "\n" + numEquipo +//numero de arma a elegir
+                "\n0" + //no quiero más armas
+                "\n1" + //Seleccionas arma activa y como no tengo más me envía al menú
+                "\n2" + //Gestion avanzada de las ofertas (valor esperado numero de 1 a 5)
+                "\na" + //entrada invalida (letra/string)
+                "\n0" + //entrada invalida (numero por debajo del rango de valores valido)
+                "\n7" + //entrada invalida (numero por encima del rango de valores valido)
+                "\n1" + //entrada valida (numero en el intervalo 1-5)
+                "\n4" +//Cancelar
+                "\n5" +//Salir
+                "\n3"; //Terminar ejecucion
+
+        System.setIn(new ByteArrayInputStream(data.getBytes()));
+        Sistema sistema = new Sistema();
+    }
+}
+
+class crearPersonajeTest {
+    @Test
+    void crearCazadorConGhoul() throws IOException { // hay que borrar los daatos para ejecutar este test
+        int numEquipo = 15; //Es un arma
+        String data =
+                "1" + //registrarse
+                        "\n1" + //registrar jugador
+                        "\nTester" + //nombre usuario
+                        "\nTester2" + //nick
+                        "\n123412344" + //contraseña
+                        "\nPersonaje" + //nombre personaje
+                        "\n500" + //cantidad oro
+                        "\n1" +  //Rol de Personaje
+                        "\n1" + //puntos de sangre
+                        "\n2" + //tipo de esbirro
+                        "\nGhoul" + //nombre de esbirro
+                        "\n1" + //salud de esbirro
+                        "\n1" + //dependencia
+                        "\n" + numEquipo +//numero de arma a elegir
+                        "\n0" + //no quiero más armas
+                        "\n1" + //Seleccionas arma activa y como no tengo más me envía al menú
+                        "\n5" +  //Log out
+                        "\n3"; //Terminar ejecucion
+        System.setIn(new ByteArrayInputStream(data.getBytes()));
+        Sistema sistema = new Sistema();
+        assertInstanceOf(Cazador.class, ((Jugador)sistema.getUsuario()).getPersonaje());
+        assertInstanceOf(Ghoul.class, ((Jugador)sistema.getUsuario()).getPersonaje().getListaEsbirros().get(0));
+    }
+
+    @Test
+    void crearLicantropoConHumano() throws IOException { // hay que borrar los daatos para ejecutar este test
+        int numEquipo = 15; //Es un arma
+        String data =
+                "1" + //registrarse
+                        "\n1" + //registrar jugador
+                        "\nTester" + //nombre usuario
+                        "\nTester1" + //nick
+                        "\n123412344" + //contraseña
+                        "\nPersonaje" + //nombre personaje
+                        "\n500" + //cantidad oro
+                        "\n3" +  //Rol de Personaje
+                        "\n1" + //puntos de voluntad
+                        "\n1" + //tipo de esbirro
+                        "\nHumano" + //nombre de esbirro
+                        "\n1" + //salud de esbirro
+                        "\nALTA" + //lealtad (en este caso)
+                        "\n" + numEquipo +//numero de arma a elegir
+                        "\n0" + //no quiero más armas
+                        "\n1" + //Seleccionas arma activa y como no tengo más me envía al menú
+                        "\n5" + //Log out
+                        "\n3"; //Terminar ejecucion
+        System.setIn(new ByteArrayInputStream(data.getBytes()));
+        Sistema sistema = new Sistema();
+        assertInstanceOf(Licantropo.class, ((Jugador)sistema.getUsuario()).getPersonaje());
+        assertInstanceOf(Humano.class, ((Jugador)sistema.getUsuario()).getPersonaje().getListaEsbirros().get(0));
+    }
+
+    @Test
+    void crearVampiroConDemonio() throws IOException { // hay que borrar los daatos para ejecutar este test
+        int numEquipo = 15; //Es un arma
+        String data =
+                "\n1" +
+                        "\n1" + //registrar jugador
+                        "\nTester" + //nombre usuario
+                        "\nTester1" + //nick
+                        "\n123412344" + //contraseña
+                        "\nPersonaje" + //nombre personaje
+                        "\n500" + //cantidad oro
+                        "\n2" +  //Rol de Personaje
+                        "\n1" + //puntos de sangre
+                        "\n19" + //edad
+                        "\n3" + //tipo de esbirro
+                        "\nDemonio" + //nombre de esbirro
+                        "\n1" + //salud de esbirro
+                        "\nALTA" + //pacto
+                        "\n" + numEquipo +//numero de arma a elegir
+                        "\n0" + //no quiero más armas
+                        "\n1" + //Seleccionas arma activa y como no tengo más me envía al menú
+                        "\n5" + //Log out
+                        "\n3"; //Terminar ejecucion
+        System.setIn(new ByteArrayInputStream(data.getBytes()));
+        Sistema sistema = new Sistema();
+        assertInstanceOf(Vampiro.class, ((Jugador)sistema.getUsuario()).getPersonaje());
+        assertInstanceOf(Demonio.class, ((Jugador)sistema.getUsuario()).getPersonaje().getListaEsbirros().get(0));
+
+    }
+}
+
+class crearNotificacionTest{
+    @Test
+    void crearNotificacionTest() throws IOException {
+        int numEquipo = 18; //Es un arma
+        String data = "1" +
+                "\n1" + //registrar jugador
+                "\nTester1" + //nombre usuario
+                "\nPrimerTester" + //nick
+                "\n123412344" + //contraseña
+                "\nPersonaje" + //nombre personaje
+                "\n500" + //cantidad oro
+                "\n1" +  //Rol de Personaje
+                "\n1" + //puntos de voluntad
+                "\n1" + //tipo de esbirro
+                "\nHumano" + //nombre de esbirro
+                "\n1" + //salud de esbirro
+                "\nALTA" + //lealtad (en este caso)
+                "\n" + numEquipo +//numero de arma a elegir
+                "\n0" + //no quiero más armas
+                "\n1" + //Seleccionas arma activa y como no tengo más me envía al menú
+                "\n2" + //Gestion avanzada de las ofertas
+                "\n1" + //crear una oferta
+                "\n1" + //Armas()
+                "\n0" + //añadir arma 1 (Debe eliminar esta arma de armas activas también)
+                "\n5" + //Finalizar Oferta
+                "\n33" + //Introduzca un precio valido
+                "\n5" +//Salir
+                "\n1" + //registrarse
+                "\n1" + //registrar jugador
+                "\nTester2" + //nombre usuario
+                "\nSegundoTester" + //nick
+                "\n123412344" + //contraseña
+                "\nPersonaje" + //nombre personaje
+                "\n500" + //cantidad oro
+                "\n1" +  //Rol de Personaje
+                "\n1" + //puntos de voluntad
+                "\n1" + //tipo de esbirro
+                "\nHumano" + //nombre de esbirro
+                "\n1" + //salud de esbirro
+                "\nALTA" + //lealtad (en este caso)
+                "\n" + numEquipo +//numero de arma a elegir
+                "\n0" + //no quiero más armas
+                "\n1" + //Seleccionas arma activa y como no tengo más me envía al menú
+                "\n2" + //Gestion avanzada de las ofertas
+                "\n3" + //Suscribirse a una oferta
+                "\n2" + //Por categoria
+                "\n2" + //Raro
+                "\n5" +//Salir
+                "\n1" + //registrarse
+                "\n2" + //registrar operador
+                "\n1234" + //codigo de operador
+                "\nOperador" + //nick
+                "\nOperador1" + //nick
+                "\n123412344" + //contraseña
+                "\n1" + //validar ofertas
+                "\n1" + //validar ofertas
+                "\n0" + //seleccionar primera oferta
+                "\n0" + //validar primera oferta
+                "\n5" +//Salir
+                "\n2" +//Iniciar sesion
+                "\nSegundoTester" + //nick
+                "\n123412344" + //contraseña
+                "\n5" + //Salir
+                "\n3";
+
+        System.setIn(new ByteArrayInputStream(data.getBytes()));
+        Sistema sistema = new Sistema();
+        assertNotEquals(((Jugador)sistema.getUsuario()).getListaNotificaciones().size(), 0);
+    }
+}
+
+
+
+class crearOfertaTest {
+    @Test
+    void crearOfertaTest() throws IOException { // hay que borrar los daatos para ejecutar este test
         int numEquipo = 15; //Es un arma
         String data = "1" +
                 "\n1" + //registrar jugador
@@ -81,7 +276,6 @@ class crearOferta {
 
         System.setIn(new ByteArrayInputStream(data.getBytes()));
         Sistema sistema = new Sistema();
-
         assertEquals(sistema.getListaOfertasNoValidadas().size(), 1);
         ArrayList<Equipo> listaArmas = new ArrayList<>();
         ArrayList<String> materiales5 = new ArrayList<>(Arrays.asList("Plata", "Acero"));

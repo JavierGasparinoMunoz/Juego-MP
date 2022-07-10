@@ -35,7 +35,9 @@ public class Notificador implements Observado, Serializable {
     @Override
     public void notificar() {
         for (Jugador jugador: escuchadores){
-            if (jugador.getNick().equals(oferta.getUsuarioVendedor().getNick())){
+            String nick1 = jugador.getNick();
+            String nick2 = oferta.getUsuarioVendedor().getNick();
+            if (!nick1.equals(nick2)){
                 String notificacion = "Hay una nueva oferta de las siguientes caracteristicas: \n";
                 notificacion = notificacion.concat(filtro + "\n");
                 jugador.actualizar(notificacion);

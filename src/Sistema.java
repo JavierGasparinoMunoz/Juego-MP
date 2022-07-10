@@ -332,8 +332,8 @@ public class Sistema implements Serializable {
         }
     }
 
-    private void menuAvanzadoOfertas(Scanner sc){
-        int opcionMOF;
+    private void menuAvanzadoOfertas(Scanner sc) {
+        int opcionMOF = -1;
         System.out.println("Bienvenido al menu Avanzado de Ofertas " + usuario.getNick());
         System.out.println("¿Que operacion desea realizar?");
         System.out.println("--------------------------------------");
@@ -343,26 +343,32 @@ public class Sistema implements Serializable {
         System.out.println("4. Desuscribirse a una oferta");
         System.out.println("5. Volver al menu principal");
         System.out.println("--------------------------------------");
-        do{
-            opcionMOF = sc.nextInt();
-            if (opcionMOF > 5 || opcionMOF < 1){
-                System.out.println("Introduce una opcion correcta");
+        do {
+            try {
+                System.out.println("Escribe una de las opciones");
+                opcionMOF = sc.nextInt();
+                switch (opcionMOF) {
+                    case 1:
+                        crearOferta(sc);
+                        break;
+                    case 2:
+                        consultarOferta(sc);
+                        break;
+                    case 3:
+                        suscribirseOferta(sc);
+                        break;
+                    case 4:
+                        desuscribirse(sc);
+                        break;
+                    default:
+                        System.out.println("Solo números entre 1 y 4");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Debes insertar un número");
+                sc.next();
             }
-        }while(opcionMOF > 5 || opcionMOF < 1);
-        switch (opcionMOF) {
-            case 1:
-                crearOferta(sc);
-                break;
-            case 2:
-                consultarOferta(sc);
-                break;
-            case 3:
-                suscribirseOferta(sc);
-                break;
-            case 4:
-                desuscribirse(sc);
-                break;
-        }
+        }while (opcionMOF > 5 || opcionMOF < 1) ;
+        
     }
 
     private void darseDeBaja(Scanner sc) throws IOException {
