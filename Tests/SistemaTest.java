@@ -389,7 +389,6 @@ class validarOfertaTest {
                     "\n12341234" +//contraseña
                     "\n1" + //menu validar oferta
                     "\n1"+ //validar oferta
-                    "\n1"+ // elegir oferta
                     "\n0" + //eleccion de la oferta
                     "\n0" + //aceptar validacion
                     "\n5" +//salir al menu inicio
@@ -397,6 +396,51 @@ class validarOfertaTest {
         System.setIn(new ByteArrayInputStream(data.getBytes()));
         Sistema sistema = new Sistema();
         assertEquals(1, sistema.getListaOfertas().size(), "Hay un error en el codigo");
+
+        String data2 =
+                "\n" +
+                        "1" + //entrar al menu para registrarse
+                        "\n" +
+                        "1" + //elegir registrarse como jugador
+                        "\nTester"+ // nombre
+                        "\nTester1"+ //nick
+                        "\n123412344"+ //contraseña
+                        "\nPersonaje"+ // nombre del personaje
+                        "\n200" + //cantidad oro
+                        "\n1"+  //Rol de Personaje(cazador)
+                        "\n1"+ //puntos de voluntad
+                        "\n1"+ // elegir el tipo de esbirro
+                        "\nHumano"+ //nombre del esbirro
+                        "\n1"+ //cantidad de salud del esbirro
+                        "\nALTA"+ // elegir la lealtad
+                        "\n12"+ // elegir el arma/armadura para el personaje
+                        "\n0" + // salir de la eleccion de arma/armadura
+                        "\n1" + //Seleccionas arma activa
+                        "\n0"+ //entras al menú
+                        "\n2"+ //seleccion del menu avanzado de ofertas
+                        "\n1"+ // seleccion de crear oferta
+                        "\n1" + // seleccion del tipo de equipo a ofertar(arma)
+                        "\n0" + // seleccion del arma que se quiere ofertar
+                        "\n100"+ //precio de la oferta
+                        "\n5" + // vuelta al menu avanzado de oferta
+                        "\n5" + // vuelta al menu principal
+                        "\n5" + // vuelta al menu inicio
+                        "\n1" +//registrar
+                        "\n2" +// op
+                        "\n1234" +//codigo secreto
+                        "\nTester" +//nombre
+                        "\nTester1OP" +//nick
+                        "\n12341234" +//contraseña
+                        "\n1" + //menu validar oferta
+                        "\n1"+ //validar oferta
+                        "\n0" + //eleccion de la oferta
+                        "\n1" + //negacion de la validacion
+                        "\n5" +//salir al menu inicio
+                        "\n3";//acabar programa
+        System.setIn(new ByteArrayInputStream(data2.getBytes()));
+        Sistema sistema2 = new Sistema();
+        assertEquals(0, sistema2.getListaOfertas().size(), "Hay un error en el codigo");
+        assertEquals(0, sistema2.getListaOfertasNoValidadas().size(), "Hay un error en el codigo");
     }
 }
 
