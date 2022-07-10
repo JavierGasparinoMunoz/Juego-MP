@@ -687,9 +687,9 @@ class buscarComprarOfertaTest {
         }
     }
 
-    class nickNoRegistrado{
+    class nickNoRegistradoTest{
         @Test
-        public void nickNoRegistrado() throws IOException {
+        public void nickNoRegistradoTest() throws IOException {
             String data =
                     "\n1" +//registrar
                             "\n1" +// jugador
