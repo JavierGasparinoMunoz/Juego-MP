@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class modificarOroTest {
 
     @Test
-    void modificarOroTest() throws IOException, ClassNotFoundException {
+    public void modificarOroTest() throws IOException, ClassNotFoundException {
         // Resta un valor mayor que 500, (700) y le suma 100 oro. Se espera que finalmente el jugador tenga 100 monedas de oro.
         int cantidadOroInicial = 500;
         int oroRestado = 700;
@@ -41,6 +41,7 @@ class modificarOroTest {
                 "\n2"+ //modificarOro()
                 "\n1"+ //sumar oro
                 "\n-1" + //Un número fuera del rango [0,1000] no debe aceptarse.
+                "\n1001" + //Un número fuera del rango [0,1000] no debe aceptarse.
                 "\n" + oroSumado +
                 "\n5" +//Salir
                 "\n3";
@@ -52,7 +53,7 @@ class modificarOroTest {
 
 class MenuAvanzadoOfertasTest{
     @Test
-    void particionEquivalenteMenuOfertasTest() throws IOException {
+    public void particionEquivalenteMenuOfertasTest() throws IOException {
         int numEquipo = 15; //Es un arma
         String data = "1" +
                 "\n1" + //registrar jugador
@@ -86,7 +87,7 @@ class MenuAvanzadoOfertasTest{
 
 class crearPersonajeTest {
     @Test
-    void crearCazadorConGhoul() throws IOException { // hay que borrar los daatos para ejecutar este test
+    public void crearCazadorConGhoul() throws IOException { // hay que borrar los daatos para ejecutar este test
         int numEquipo = 15; //Es un arma
         String data =
                 "1" + //registrarse
@@ -114,7 +115,7 @@ class crearPersonajeTest {
     }
 
     @Test
-    void crearLicantropoConHumano() throws IOException { // hay que borrar los daatos para ejecutar este test
+    public void crearLicantropoConHumano() throws IOException { // hay que borrar los daatos para ejecutar este test
         int numEquipo = 15; //Es un arma
         String data =
                 "1" + //registrarse
@@ -142,7 +143,7 @@ class crearPersonajeTest {
     }
 
     @Test
-    void crearVampiroConDemonio() throws IOException { // hay que borrar los daatos para ejecutar este test
+    public void crearVampiroConDemonio() throws IOException { // hay que borrar los daatos para ejecutar este test
         int numEquipo = 15; //Es un arma
         String data =
                 "\n1" +
@@ -174,7 +175,7 @@ class crearPersonajeTest {
 
 class crearNotificacionTest{
     @Test
-    void crearNotificacionTest() throws IOException {
+    public void crearNotificacionTest() throws IOException {
         int numEquipo = 18; //Es un arma
         String data = "1" +
                 "\n1" + //registrar jugador
@@ -247,7 +248,7 @@ class crearNotificacionTest{
 
 class crearOfertaTest {
     @Test
-    void crearOfertaTest() throws IOException { // hay que borrar los daatos para ejecutar este test
+    public void crearOfertaTest() throws IOException {
         int numEquipo = 15; //Es un arma
         String data = "1" +
                 "\n1" + //registrar jugador
@@ -294,7 +295,7 @@ class crearOfertaTest {
 }
 class modificarEquipoTest {
     @Test
-    void modificarEquipoTest() throws IOException, ClassNotFoundException {
+    public void modificarEquipoTest() throws IOException, ClassNotFoundException {
         int numEquipo1 = 15; //Es un arma
         int numEquipo2 = 14;
         String data = "1" +
@@ -322,8 +323,11 @@ class modificarEquipoTest {
                 "\n3" + //elegirArmasActivas() (Debe mandarme de nuevo al menú porque no tengo armas en el inventario)
                 "\n1" + //Gestion avanzada del personaje
                 "\n1" + //modificarEquipo()
+                "\n2" + //eliminarEquipo() //intento eliminar un equipo cuando no tengo equipo para eliminar
+                "\n1" + //Gestion avanzada del personaje
+                "\n1" + //modificarEquipo()
                 "\n1" +  //añadirEquipo()
-                "\n" + numEquipo1 + //Equipar la misma arma del principio
+                "\n" + numEquipo1 + //equipar la misma arma del principio
                 "\n1" + //Gestion avanzada del personaje
                 "\n1" + //modificarEquipo()
                 "\n1" +  //añadirEquipo()
@@ -389,7 +393,6 @@ class validarOfertaTest {
                     "\n12341234" +//contraseña
                     "\n1" + //menu validar oferta
                     "\n1"+ //validar oferta
-                    "\n1"+ // elegir oferta
                     "\n0" + //eleccion de la oferta
                     "\n0" + //aceptar validacion
                     "\n5" +//salir al menu inicio
@@ -397,6 +400,51 @@ class validarOfertaTest {
         System.setIn(new ByteArrayInputStream(data.getBytes()));
         Sistema sistema = new Sistema();
         assertEquals(1, sistema.getListaOfertas().size(), "Hay un error en el codigo");
+
+        String data2 =
+                "\n" +
+                        "1" + //entrar al menu para registrarse
+                        "\n" +
+                        "1" + //elegir registrarse como jugador
+                        "\nTester"+ // nombre
+                        "\nTester1"+ //nick
+                        "\n123412344"+ //contraseña
+                        "\nPersonaje"+ // nombre del personaje
+                        "\n200" + //cantidad oro
+                        "\n1"+  //Rol de Personaje(cazador)
+                        "\n1"+ //puntos de voluntad
+                        "\n1"+ // elegir el tipo de esbirro
+                        "\nHumano"+ //nombre del esbirro
+                        "\n1"+ //cantidad de salud del esbirro
+                        "\nALTA"+ // elegir la lealtad
+                        "\n12"+ // elegir el arma/armadura para el personaje
+                        "\n0" + // salir de la eleccion de arma/armadura
+                        "\n1" + //Seleccionas arma activa
+                        "\n0"+ //entras al menú
+                        "\n2"+ //seleccion del menu avanzado de ofertas
+                        "\n1"+ // seleccion de crear oferta
+                        "\n1" + // seleccion del tipo de equipo a ofertar(arma)
+                        "\n0" + // seleccion del arma que se quiere ofertar
+                        "\n100"+ //precio de la oferta
+                        "\n5" + // vuelta al menu avanzado de oferta
+                        "\n5" + // vuelta al menu principal
+                        "\n5" + // vuelta al menu inicio
+                        "\n1" +//registrar
+                        "\n2" +// op
+                        "\n1234" +//codigo secreto
+                        "\nTester" +//nombre
+                        "\nTester1OP" +//nick
+                        "\n12341234" +//contraseña
+                        "\n1" + //menu validar oferta
+                        "\n1"+ //validar oferta
+                        "\n0" + //eleccion de la oferta
+                        "\n1" + //negacion de la validacion
+                        "\n5" +//salir al menu inicio
+                        "\n3";//acabar programa
+        System.setIn(new ByteArrayInputStream(data2.getBytes()));
+        Sistema sistema2 = new Sistema();
+        assertEquals(0, sistema2.getListaOfertas().size(), "Hay un error en el codigo");
+        assertEquals(0, sistema2.getListaOfertasNoValidadas().size(), "Hay un error en el codigo");
     }
 }
 
@@ -445,7 +493,7 @@ class validarOfertaTest {
 
 class crearDemonioTest{
     @Test
-    void crearDemonioTest(){
+    public void crearDemonioTest(){
         Demonio demonio1 = new Demonio("Demonio1", 3, "Ha pactado con x");
         Demonio demonio2 = new Demonio("Demonio2", 3, "Ha pactado con y");
         boolean sonDiferentes = true;
@@ -733,6 +781,36 @@ class buscarComprarOfertaTest {
             Sistema sistema = new Sistema();
             assertEquals(false, ((Jugador) sistema.getWhiteList().get(0)).getNick().equals(((Jugador) sistema.getWhiteList().get(1)).getNick()), "Hay un error en el codigo");
         }
+
+    }
+    class contraseñaTest{
+        @Test
+        public void contraseñaTest () throws IOException {
+                String data =
+                        "\n1" +//registrar
+                                "\n1" +// jugador
+                                "\nTester" +//nombre
+                                "\nTester1" +//nick
+                                "\n1234567" +//contraseña de 7 digitos, es decir, menos de 8 caracteres
+                                "\n1234567890123" + //contraseña de 13 digitos, es decir, mas de 12 caracteres
+                                "\n123456789" + //contraseña de 9 digitos, es decir, entre 8 y 12 caracteres
+                                "\nPersonaje" +//nombre del personaje
+                                "\n200" +//cantidad de oro
+                                "\n1"+//rol personaje
+                                "\n1"+//puntos de voluntad
+                                "\n1"+//tipo de esbirro
+                                "\nEsbirro"+//nombre del esbirro
+                                "\n1" +//salud del esbirro
+                                "\nALTA" +//tipo de lealtad
+                                "\n19"+//seleccione equipo a añadir
+                                "\n0"+//no se añaden mas
+                                "\n1"+//elegir arma activa
+                                "\n5"+//volver al menu de inicio
+                                "\n3";
+                System.setIn(new ByteArrayInputStream(data.getBytes()));
+                Sistema sistema = new Sistema();
+        }
+
     }
 
 
