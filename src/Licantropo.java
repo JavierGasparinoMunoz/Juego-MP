@@ -16,10 +16,6 @@ public class Licantropo extends Personaje implements Serializable {
             super.addListaEsbirros(esbirro);
     }
 
-    @Override
-    public void eliminarEsbirro() {
-    }
-
     public int getPuntosRabia() {
         return puntosRabia;
     }

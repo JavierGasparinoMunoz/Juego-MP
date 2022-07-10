@@ -22,7 +22,7 @@ public class Sistema implements Serializable {
         menuInicio(sc);
     }
 
-    private void consultarOferta(Scanner sc) {
+    public void consultarOferta(Scanner sc) {
         int i = 1;
         ArrayList <Oferta> copiaListaOfertas = new ArrayList<Oferta>(listaOfertas);
         boolean mostrar = false;
@@ -197,7 +197,7 @@ public class Sistema implements Serializable {
         }
     }
 
-    public void crearUsuario() throws IOException {
+    private void crearUsuario() throws IOException {
         if (whiteList != null) {
             whiteList.add(usuario);
             serializarSistema();
@@ -208,7 +208,7 @@ public class Sistema implements Serializable {
         }
     }
 
-    private void menuPrincipal(Scanner sc) throws IOException {
+    public void menuPrincipal(Scanner sc) throws IOException {
         if (usuario instanceof Jugador) {
             menuJugador(sc);
         } else {
@@ -295,7 +295,7 @@ public class Sistema implements Serializable {
         }
     }
 
-    private void mostrarNotificaciones() {
+    public void mostrarNotificaciones() {
         ((Jugador) usuario).mostrarNotificaciones();
         ((Jugador) usuario).vaciarListaNotificaciones();
     }
@@ -362,7 +362,7 @@ public class Sistema implements Serializable {
         }
     }
 
-    public void darseDeBaja(Scanner sc) throws IOException {
+    private void darseDeBaja(Scanner sc) throws IOException {
         whiteList.remove(usuario);
         System.out.println("Se ha dado de baja correctamente");
         menuInicio(sc);
@@ -416,7 +416,7 @@ public class Sistema implements Serializable {
         }
     }
 
-    public void salir(Scanner sc) throws IOException {
+    private void salir(Scanner sc) throws IOException {
         //Este método sale de la sesión
         menuInicio(sc);
     }
@@ -495,7 +495,7 @@ public class Sistema implements Serializable {
         }
     }
 
-    private void suscribirseOferta(Scanner sc) {
+    public void suscribirseOferta(Scanner sc) {
         String filtro = "";
         System.out.println("Elige el tipo de oferta al que te quieres suscribir");
         System.out.println("1 - Por tipo de equipo/esbirros");
@@ -772,7 +772,7 @@ public class Sistema implements Serializable {
 
     }
 
-    public Personaje registrarPersonaje(Scanner sc) {
+    private Personaje registrarPersonaje(Scanner sc) {
         int opcionRol;
         p = crearPersonajeBase(sc);
         System.out.println("Elige un rol");
@@ -1016,7 +1016,7 @@ public class Sistema implements Serializable {
         return listaOfertasNoValidadas;
     }
 
-    public void inicializarArmas() {
+    private void inicializarArmas() {
         //armas ofensivas
         ArrayList<String> materiales1 = new ArrayList<>(Arrays.asList("Cobre", "Hierro", "Madera"));
         ArrayList<String> materiales2 = new ArrayList<>(Arrays.asList("Acero", "Hierro"));
@@ -1047,7 +1047,7 @@ public class Sistema implements Serializable {
 
     }
 
-    public void inicializarArmaduras() {
+    private void inicializarArmaduras() {
         //armadura
         ArrayList<String> materiales1 = new ArrayList<>(Arrays.asList("Algodon"));
         ArrayList<String> materiales2 = new ArrayList<>(Arrays.asList("Cuero"));
@@ -1419,7 +1419,7 @@ public class Sistema implements Serializable {
         }
     }
 
-    public Boolean encontrarNumReg(String numReg) {
+    private Boolean encontrarNumReg(String numReg) {
         if (whiteList != null) {
             int i = 0;
             boolean encontrado = false;
@@ -1443,7 +1443,7 @@ public class Sistema implements Serializable {
         }
     }
 
-    public String calcularNumRegistro() {
+    private String calcularNumRegistro() {
         Random rd = new Random();
         String numero;
         do {

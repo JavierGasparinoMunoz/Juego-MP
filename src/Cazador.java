@@ -13,10 +13,6 @@ public class Cazador extends Personaje implements Serializable {
     @Override
     public void añadirEsbirro(Esbirro esbirro) {super.addListaEsbirros(esbirro); }
 
-    @Override
-    public void eliminarEsbirro() {
-    }
-
     public int getPuntosVoluntad() {
         return puntosVoluntad;
     }

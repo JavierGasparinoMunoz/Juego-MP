@@ -78,9 +78,5 @@ public abstract class Personaje implements Serializable {
 
     public abstract void añadirEsbirro(Esbirro esbirro);
 
-    public void eliminarEsbirro() { //HAY QUE IMPLEMENTARLO AQUI
-
-    }
-
     protected void addListaEsbirros(Esbirro esbirro) {listaEsbirros.add(esbirro); }
 }

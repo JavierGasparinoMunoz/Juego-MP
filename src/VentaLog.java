@@ -9,9 +9,6 @@ public class VentaLog implements Serializable {
     private int precio;
     private ArrayList<Equipo> listaEquipo = new ArrayList<>();
     private ArrayList<Esbirro> listaEsbirros = new ArrayList<>();
-    public VentaLog(){
-
-    }
 
     public VentaLog(Date fecha, String usuarioVendedor, String usuarioComprador, ArrayList<Equipo> listaEquipo, ArrayList<Esbirro> listaEsbirros, int precio) {
         this.fecha = fecha;
