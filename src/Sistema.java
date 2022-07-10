@@ -265,6 +265,9 @@ public class Sistema implements Serializable {
         System.out.println("4. Mostrar Notificaciones");
         System.out.println("5. Salir");
         System.out.println("-----------------------------------------------------");
+        if (!((Jugador) usuario).getListaNotificaciones().isEmpty()){
+            System.out.println("*¡Tienes nuevas notificaciones!*");
+        }
         do{
             opcionMJ = sc.nextInt();
             if(opcionMJ > 5 || opcionMJ < 1){
